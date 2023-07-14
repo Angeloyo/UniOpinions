@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Professor;
 use App\Entity\Subject;
 use App\Entity\University;
 use App\Entity\Degree;
@@ -51,6 +52,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Universities', 'fa fa-building-columns', University::class);
         yield MenuItem::linkToCrud('Degrees', 'fa fa-book', Degree::class);
         yield MenuItem::linkToCrud('Subjects', 'fa fa-calculator', Subject::class);
+        yield MenuItem::linkToCrud('Professors', 'fa fa-user-tie', Professor::class);
         // yield MenuItem::linkToCrud('The Label', 'fas fa-list', EntityClass::class);
     }
 
