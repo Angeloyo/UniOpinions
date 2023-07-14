@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Subject;
 use App\Entity\University;
 use App\Entity\Degree;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
@@ -49,6 +50,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
         yield MenuItem::linkToCrud('Universities', 'fa fa-building-columns', University::class);
         yield MenuItem::linkToCrud('Degrees', 'fa fa-book', Degree::class);
+        yield MenuItem::linkToCrud('Subjects', 'fa fa-calculator', Subject::class);
         // yield MenuItem::linkToCrud('The Label', 'fas fa-list', EntityClass::class);
     }
 
