@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20230713150148 extends AbstractMigration
+final class Version20230714094728 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -36,7 +36,7 @@ final class Version20230713150148 extends AbstractMigration
         $this->addSql('CREATE TABLE professor_subject (professor_id INT NOT NULL, subject_id INT NOT NULL, PRIMARY KEY(professor_id, subject_id))');
         $this->addSql('CREATE INDEX IDX_A4E1512E7D2D84D5 ON professor_subject (professor_id)');
         $this->addSql('CREATE INDEX IDX_A4E1512E23EDC87 ON professor_subject (subject_id)');
-        $this->addSql('CREATE TABLE subject (id INT NOT NULL, degree_id INT NOT NULL, name VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE subject (id INT NOT NULL, degree_id INT NOT NULL, name VARCHAR(255) NOT NULL, year SMALLINT DEFAULT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_FBCE3E7AB35C5756 ON subject (degree_id)');
         $this->addSql('CREATE TABLE university (id INT NOT NULL, name VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE TABLE "user" (id INT NOT NULL, email VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
