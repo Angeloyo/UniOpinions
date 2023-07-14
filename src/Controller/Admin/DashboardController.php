@@ -6,6 +6,7 @@ use App\Entity\Professor;
 use App\Entity\Subject;
 use App\Entity\University;
 use App\Entity\Degree;
+use App\Entity\Opinion;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
@@ -53,6 +54,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Degrees', 'fa fa-book', Degree::class);
         yield MenuItem::linkToCrud('Subjects', 'fa fa-calculator', Subject::class);
         yield MenuItem::linkToCrud('Professors', 'fa fa-user-tie', Professor::class);
+        yield MenuItem::linkToCrud('Opinions', 'fa fa-comment', Opinion::class);
         // yield MenuItem::linkToCrud('The Label', 'fas fa-list', EntityClass::class);
     }
 
