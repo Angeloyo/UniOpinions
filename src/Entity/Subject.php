@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\SubjectRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: SubjectRepository::class)]
@@ -27,6 +28,9 @@ class Subject
 
     #[ORM\OneToMany(mappedBy: 'subject', targetEntity: Opinion::class)]
     private Collection $opinions;
+
+    #[ORM\Column(type: Types::SMALLINT, nullable: true)]
+    private ?int $year = null;
 
     public function __construct()
     {
@@ -116,6 +120,18 @@ class Subject
                 $opinion->setSubject(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getYear(): ?int
+    {
+        return $this->year;
+    }
+
+    public function setYear(?int $year): static
+    {
+        $this->year = $year;
 
         return $this;
     }
