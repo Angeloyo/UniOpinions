@@ -4,17 +4,18 @@
 
 {% block main %}
 
-<h2 class="text-black dark:text-white text-xl">
+<h2 class="text-black dark:text-white text-xl mb-7">
     <a href="http://localhost:8000/universities">Universidades</a> 
 </h2>
 
-<ul class="text-center text-3xl dark:text-white text-black mt-11">
+<ul class="text-center text-xl  dark:text-white text-black mx-5 md:mx-[19%]">
     {% for university in universities %}
         <li class="">
-            <a href="{{ path('app_university', { universitySlug: university.getSlug }) }}">
-                <button class="rounded-2xl p-5 my-4 bg-slate-200 dark:bg-slate-800 flex flex-row mx-auto">
-                    {{ university.getName() }}
-                </button>
+            <a href="{{ path('app_university', { universitySlug: university.getSlug }) }}" 
+            
+            class="rounded-2xl p-3 my-4 bg-slate-200 dark:bg-slate-800 flex flex-row 
+                mx-auto hover:bg-slate-300 dark:hover:bg-slate-900 justify-center">
+                {{ university.getName() }}
             </a>
         </li>
     {% endfor %}

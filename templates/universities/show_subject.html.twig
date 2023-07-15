@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block main %}
+    <h2 class="text-black dark:text-white text-xl">
+    <a href="http://localhost:8000/universities">Universidades > </a>
+    <a href="http://localhost:8000/{{ university.getSlug() }}"> {{ university.getName() }}</a>
+    <a href="http://localhost:8000/{{ university.getSlug() }}/{{ degree.getSlug() }}"> > {{ degree.name }}</a>
+    <a href="http://localhost:8000/{{ university.getSlug() }}/{{ degree.getSlug() }}/{{ subject.getSlug() }}"> > {{ subject.name }}</a>
+    </h2>
+
+    <h1 class="text-black dark:text-white text-3xl sm:text-5xl text-center mt-7">{{ subject.getName() }}</h1>
+
+    
+{% endblock %}

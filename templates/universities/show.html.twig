@@ -2,19 +2,20 @@
 
 {% block main %}
     <h2 class="text-black dark:text-white text-xl">
-    <a href="http://localhost:8000/universities">Universidades ></a> 
-    {{ university.getName() }} > Grados</h2>
+    <a href="http://localhost:8000/universities">Universidades ></a>
+    <a href="http://localhost:8000/{{ university.getSlug() }}">{{ university.getName() }}</a> 
+    </h2>
 
-    <ul class="text-center text-3xl dark:text-white text-black mt-11">
+    <h1 class="text-black dark:text-white text-3xl sm:text-5xl text-center mt-7">Grados</h1>
+
+    <ul class="text-center sm:text-left text-xl dark:text-white text-black mt-7 mx-5 md:mx-[19%]">
         {% for degree in degrees %}
-            {# <a href="{{ path('app_university', { universitySlug: university.getSlug }) }}">
-                {{ university.getName() }}
-            </a> #}
             <li>
-                <a href="#">
-                    <button class="rounded-2xl p-5 my-4 bg-slate-200 dark:bg-slate-800 flex flex-row mx-auto">
-                        {{ degree.getName() }}
-                    </button>
+                <a href="{{ path('app_degree', {'universitySlug': university.slug, 'degreeSlug': degree.slug}) }}" 
+                
+                class="rounded-2xl p-3 my-4 bg-slate-200 dark:bg-slate-800 flex flex-row 
+                    hover:bg-slate-300 dark:hover:bg-slate-900 justify-center">
+                    {{ degree.getName() }}
                 </a>
             </li>
             

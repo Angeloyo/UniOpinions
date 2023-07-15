@@ -13,7 +13,7 @@
             {{ encore_entry_script_tags('app') }}
         {% endblock %}
     </head>
-    <body class="bg-slate-50 dark:bg-slate-700">
+    <body class="bg-slate-50 dark:bg-slate-700 min-h-[100vh] flex flex-col">
         <header class="bg-slate-200 dark:bg-slate-800 drop-shadow-lg ">
             <nav class="flex flex-row items-center justify-between  text-black md:h-16">
                 <a href="http://localhost:8000/">
@@ -33,11 +33,11 @@
                 </button>
             </nav>
         </header>
-        <main class="min-h-[44.9vh] m-11">
+        <main class=" m-11">
             {% block main %}{% endblock %}
         </main>
 
-        <footer id="footer" class="bg-slate-300 mt-32 dark:bg-slate-800 ">
+        <footer id="footer" class="bg-slate-300 mt-auto dark:bg-slate-800 ">
             <div class="flex justify-center dark:text-white ">
                 
                 <div class="m-7">
