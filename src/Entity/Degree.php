@@ -94,7 +94,8 @@ class Degree
 
     public function __toString(): string
     {
-        return $this->name;
+        // return $this->name;
+        return sprintf('%s (%s)', $this->name, $this->getUniversity()->getName());
     }
 
     public function getSlug(): ?string

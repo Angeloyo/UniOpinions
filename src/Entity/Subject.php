@@ -141,7 +141,8 @@ class Subject
 
     public function __toString(): string
     {
-        return $this->name;
+        // return $this->name;
+        return sprintf('%s, %s, %s)', $this->name, $this->getDegree()->getName(),  $this->getDegree()->getUniversity()->getName());
     }
 
     public function getSlug(): ?string
