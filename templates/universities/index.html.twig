@@ -1,20 +1,23 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello UniversitiesController!{% endblock %}
+{% block title %}UniOpinions | Universities{% endblock %}
 
-{% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+{% block main %}
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+<h2 class="text-black dark:text-white text-xl">
+    <a href="http://localhost:8000/universities">Universidades</a> 
+</h2>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/Users/angelsanchezguerrero/Documentos2/UNIOPINIONS/repoetc/uniopinions/src/Controller/UniversitiesController.php'|file_link(0) }}">src/Controller/UniversitiesController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/Users/angelsanchezguerrero/Documentos2/UNIOPINIONS/repoetc/uniopinions/templates/universities/index.html.twig'|file_link(0) }}">templates/universities/index.html.twig</a></code></li>
-    </ul>
-</div>
+<ul class="text-center text-3xl dark:text-white text-black mt-11">
+    {% for university in universities %}
+        <li class="">
+            <a href="{{ path('app_university', { universitySlug: university.getSlug }) }}">
+                <button class="rounded-2xl p-5 my-4 bg-slate-200 dark:bg-slate-800 flex flex-row mx-auto">
+                    {{ university.getName() }}
+                </button>
+            </a>
+        </li>
+    {% endfor %}
+</ul>
+    
 {% endblock %}

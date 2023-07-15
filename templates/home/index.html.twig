@@ -2,19 +2,28 @@
 
 {% block title %}Hello HomeController!{% endblock %}
 
-{% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+{% block main %}
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+<div class="text-center text-2xl text-black dark:text-white mx-36">
+    <p class="" >UniOpinions es una plataforma de código abierto que permite opinar sobre asignaturas y profesores de la universidad.</p>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/Users/angelsanchezguerrero/Documentos2/UNIOPINIONS/repoetc/uniopinions/src/Controller/HomeController.php'|file_link(0) }}">src/Controller/HomeController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/Users/angelsanchezguerrero/Documentos2/UNIOPINIONS/repoetc/uniopinions/templates/home/index.html.twig'|file_link(0) }}">templates/home/index.html.twig</a></code></li>
-    </ul>
+    <p class="text-xl mt-7">La web está estructurada según la universidad, grado universitario, asignaturas, y por último profesores.</p>
 </div>
+
+<div class="text-3xl flex items-center justify-center my-11">
+    
+
+    <a href="#">
+        <button class="rounded-md bg-slate-200 p-7 mx-5">
+            Sobre el proyecto
+        </button>
+    </a>
+
+    <a href="http://localhost:8000/universities">
+        <button class="rounded-md bg-slate-200 p-7 mx-5">
+            Ver universidades
+        </button>
+    </a>
+</div>
+
 {% endblock %}

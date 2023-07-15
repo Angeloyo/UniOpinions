@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block main %}
+    <h2 class="text-black dark:text-white text-xl">
+    <a href="http://localhost:8000/universities">Universidades ></a> 
+    {{ university.getName() }} > Grados</h2>
+
+    <ul class="text-center text-3xl dark:text-white text-black mt-11">
+        {% for degree in degrees %}
+            {# <a href="{{ path('app_university', { universitySlug: university.getSlug }) }}">
+                {{ university.getName() }}
+            </a> #}
+            <li>
+                <a href="#">
+                    <button class="rounded-2xl p-5 my-4 bg-slate-200 dark:bg-slate-800 flex flex-row mx-auto">
+                        {{ degree.getName() }}
+                    </button>
+                </a>
+            </li>
+            
+        {% endfor %}
+    </ul>
+{% endblock %}
