@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20230714094728 extends AbstractMigration
+final class Version20230715114943 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -26,7 +26,7 @@ final class Version20230714094728 extends AbstractMigration
         $this->addSql('CREATE SEQUENCE subject_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE SEQUENCE university_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE SEQUENCE "user_id_seq" INCREMENT BY 1 MINVALUE 1 START 1');
-        $this->addSql('CREATE TABLE degree (id INT NOT NULL, university_id INT NOT NULL, name VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE degree (id INT NOT NULL, university_id INT NOT NULL, name VARCHAR(255) NOT NULL, slug VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_A7A36D63309D1878 ON degree (university_id)');
         $this->addSql('CREATE TABLE opinion (id INT NOT NULL, subject_id INT DEFAULT NULL, professor_id INT DEFAULT NULL, owner_id INT NOT NULL, comment TEXT DEFAULT NULL, score JSON DEFAULT NULL, keywords JSON DEFAULT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_AB02B02723EDC87 ON opinion (subject_id)');
@@ -36,10 +36,11 @@ final class Version20230714094728 extends AbstractMigration
         $this->addSql('CREATE TABLE professor_subject (professor_id INT NOT NULL, subject_id INT NOT NULL, PRIMARY KEY(professor_id, subject_id))');
         $this->addSql('CREATE INDEX IDX_A4E1512E7D2D84D5 ON professor_subject (professor_id)');
         $this->addSql('CREATE INDEX IDX_A4E1512E23EDC87 ON professor_subject (subject_id)');
-        $this->addSql('CREATE TABLE subject (id INT NOT NULL, degree_id INT NOT NULL, name VARCHAR(255) NOT NULL, year SMALLINT DEFAULT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE subject (id INT NOT NULL, degree_id INT NOT NULL, name VARCHAR(255) NOT NULL, year SMALLINT DEFAULT NULL, slug VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_FBCE3E7AB35C5756 ON subject (degree_id)');
-        $this->addSql('CREATE TABLE university (id INT NOT NULL, name VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
-        $this->addSql('CREATE TABLE "user" (id INT NOT NULL, email VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE university (id INT NOT NULL, name VARCHAR(255) NOT NULL, slug VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE "user" (id INT NOT NULL, email VARCHAR(180) NOT NULL, roles JSON NOT NULL, password VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE UNIQUE INDEX UNIQ_8D93D649E7927C74 ON "user" (email)');
         $this->addSql('CREATE TABLE messenger_messages (id BIGSERIAL NOT NULL, body TEXT NOT NULL, headers TEXT NOT NULL, queue_name VARCHAR(190) NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, available_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, delivered_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_75EA56E0FB7336F0 ON messenger_messages (queue_name)');
         $this->addSql('CREATE INDEX IDX_75EA56E0E3BD61CE ON messenger_messages (available_at)');

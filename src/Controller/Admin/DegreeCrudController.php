@@ -38,6 +38,7 @@ class DegreeCrudController extends AbstractCrudController
         $fields = [
             IdField::new('id')->onlyOnDetail(),
             TextField::new('name'),
+            TextField::new('slug')->onlyOnDetail(),
             AssociationField::new('university'),
         ];
 

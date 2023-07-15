@@ -23,6 +23,7 @@ class SubjectCrudController extends AbstractCrudController
             IdField::new('id')->onlyOnDetail(),
             // IdField::new('id'),
             TextField::new('name'),
+            TextField::new('slug')->onlyOnDetail(),
             AssociationField::new('degree'),
             IntegerField::new('year'),
             CollectionField::new('professors')
@@ -30,7 +31,6 @@ class SubjectCrudController extends AbstractCrudController
                 // ->setTemplatePath('admin/listdegrees.html.twig')
             CollectionField::new('opinions')
                 ->onlyOnDetail()
-
         ];
     }
 }

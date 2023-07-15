@@ -22,6 +22,7 @@ class ProfessorCrudController extends AbstractCrudController
         return [
             IdField::new('id')->onlyOnDetail(),
             TextField::new('name'),
+            TextField::new('slug')->onlyOnDetail(),
             AssociationField::new('subject')
                 // ->onlyOnDetail(),
                 ->setTemplatePath('admin/listsubjects.html.twig'),

@@ -32,6 +32,9 @@ class Subject
     #[ORM\Column(type: Types::SMALLINT, nullable: true)]
     private ?int $year = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $slug = null;
+
     public function __construct()
     {
         $this->professors = new ArrayCollection();
@@ -139,5 +142,17 @@ class Subject
     public function __toString(): string
     {
         return $this->name;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): static
+    {
+        $this->slug = $slug;
+
+        return $this;
     }
 }

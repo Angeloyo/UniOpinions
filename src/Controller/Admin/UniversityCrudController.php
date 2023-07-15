@@ -34,6 +34,7 @@ class UniversityCrudController extends AbstractCrudController
             IdField::new('id')->onlyOnDetail(),
             // IdField::new('id'),
             TextField::new('name'),
+            TextField::new('slug')->onlyOnDetail(),
             CollectionField::new('degrees')
                 ->onlyOnDetail()
                 // ->setTemplatePath('custom_template.html.twig')

@@ -21,6 +21,9 @@ class University
     #[ORM\OneToMany(mappedBy: 'university', targetEntity: Degree::class, orphanRemoval: true)]
     private Collection $degrees;
 
+    #[ORM\Column(length: 255)]
+    private ?string $slug = null;
+
     public function __construct()
     {
         $this->degrees = new ArrayCollection();
@@ -76,6 +79,18 @@ class University
     public function __toString(): string
     {
         return $this->name;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): static
+    {
+        $this->slug = $slug;
+
+        return $this;
     }
 
 }

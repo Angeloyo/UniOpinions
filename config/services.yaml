@@ -6,6 +6,7 @@
 parameters:
 
 services:
+    
     # default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
@@ -19,6 +20,12 @@ services:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
             - '../src/Kernel.php'
+            # - '../src/EventListener/'
+
+    App\EventListener\SlugListener:
+            tags:
+                - { name: doctrine.event_listener, event: prePersist }
+                - { name: doctrine.event_listener, event: preUpdate }
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
