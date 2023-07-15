@@ -2,6 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+    font-family: 'Belleza';
+    src: url('../fonts/Belleza-Regular.woff2') format('woff2'),
+         url('../fonts/Belleza-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
 body {
-    background-color: lightgray;
+    /* background-color: lightgray; */
+    font-family: 'Belleza', sans-serif;
+}
+
+.display-none{
+    @apply hidden;
 }
