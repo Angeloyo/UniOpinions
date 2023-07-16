@@ -23,7 +23,7 @@ class UniversitiesController extends AbstractController
     {
         $universities = $this->entityManager->getRepository(University::class)->findAll();
 
-        return $this->render('universities/index.html.twig', [
+        return $this->render('universities.html.twig', [
             'universities' => $universities,
         ]);
     }
@@ -41,7 +41,7 @@ class UniversitiesController extends AbstractController
             throw $this->createNotFoundException('La universidad especificada no existe');
         }
 
-        return $this->render('universities/show.html.twig', [
+        return $this->render('show_university.html.twig', [
             'university' => $university,
             'degrees' => $degrees,
         ]);

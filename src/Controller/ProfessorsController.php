@@ -9,8 +9,9 @@ use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\University;
 use App\Entity\Degree;
 use App\Entity\Subject;
+use App\Entity\Professor;
 
-class SubjectsController extends AbstractController
+class ProfessorsController extends AbstractController
 {
     private $entityManager;
 
@@ -19,8 +20,8 @@ class SubjectsController extends AbstractController
         $this->entityManager = $entityManager;
     }
 
-    #[Route('/{universitySlug}/{degreeSlug}/{subjectSlug}', name: 'app_subject')]
-    public function showSubject(string $universitySlug, string $degreeSlug, string $subjectSlug): Response
+    #[Route('/{universitySlug}/{degreeSlug}/{subjectSlug}/{professorSlug}', name: 'app_professor')]
+    public function showProfessor(string $universitySlug, string $degreeSlug, string $subjectSlug, string $professorSlug): Response
     {
         $university = $this->entityManager->getRepository(University::class)
             ->findOneBy(['slug' => $universitySlug]);
@@ -43,17 +44,21 @@ class SubjectsController extends AbstractController
             throw $this->createNotFoundException('La asignatura especificada no existe en el grado especificado');
         }
 
-        $opinions = $subject->getOpinions();
-        $professors = $subject->getProfessors();
+        $professor = $this->entityManager->getRepository(Professor::class)
+            ->findOneBy(['slug' => $professorSlug]);
 
-        // Hacer lo que necesites con la asignatura...
+        if (!$professor) {
+            throw $this->createNotFoundException('El profesor especificado no existe en la asignatura especificada');
+        }
 
-        return $this->render('show_subject.html.twig', [
+        $opinions = $professor->getOpinions();
+
+        return $this->render('show_professor.html.twig', [
             'university' => $university,
             'degree' => $degree,
             'subject' => $subject,
+            'professor' => $professor,
             'opinions' => $opinions,
-            'professors' => $professors,
         ]);
     }
 }

@@ -45,7 +45,7 @@ class DegreesController extends AbstractController
             $subjectsByYear[$year][] = $subject;
         }
 
-        return $this->render('universities/show_degree.html.twig', [
+        return $this->render('show_degree.html.twig', [
             'university' => $university,
             'degree' => $degree,
             // 'subjects' => $subjects,
