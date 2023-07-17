@@ -5,6 +5,8 @@ namespace App\Repository;
 use App\Entity\Opinion;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use App\Entity\Professor;
+use App\Entity\Subject;
 
 /**
  * @extends ServiceEntityRepository<Opinion>
@@ -21,28 +23,23 @@ class OpinionRepository extends ServiceEntityRepository
         parent::__construct($registry, Opinion::class);
     }
 
-//    /**
-//     * @return Opinion[] Returns an array of Opinion objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('o')
-//            ->andWhere('o.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('o.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?Opinion
-//    {
-//        return $this->createQueryBuilder('o')
-//            ->andWhere('o.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    public function findAcceptedByProfessor(Professor $professor)
+    {
+        return $this->createQueryBuilder('o')
+            ->where('o.professor = :professor')
+            ->andWhere('o.accepted = true')
+            ->setParameter('professor', $professor)
+            ->getQuery()
+            ->getResult();
+    }
+    
+    public function findAcceptedBySubject(Subject $subject)
+    {
+        return $this->createQueryBuilder('o')
+            ->where('o.subject = :subject')
+            ->andWhere('o.accepted = true')
+            ->setParameter('subject', $subject)
+            ->getQuery()
+            ->getResult();
+    }
 }

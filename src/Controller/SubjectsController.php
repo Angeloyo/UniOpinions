@@ -8,6 +8,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\UniversityRepository;
 use App\Repository\DegreeRepository;
 use App\Repository\SubjectRepository;
+use App\Repository\OpinionRepository;
 
 class SubjectsController extends AbstractController
 {
@@ -15,17 +16,19 @@ class SubjectsController extends AbstractController
     private $universityRepository;
     private $degreeRepository;
     private $subjectRepository;
-    private $professorRepository;
+    private $opinionRepository;
 
     public function __construct(
         UniversityRepository $universityRepository,
         DegreeRepository $degreeRepository,
         SubjectRepository $subjectRepository,
+        OpinionRepository $opinionRepository
         )
     {
         $this->universityRepository = $universityRepository;
         $this->degreeRepository = $degreeRepository;
         $this->subjectRepository = $subjectRepository;
+        $this->opinionRepository = $opinionRepository;
     }
 
     #[Route('/{universitySlug}/{degreeSlug}/{subjectSlug}', name: 'app_subject')]
@@ -39,14 +42,14 @@ class SubjectsController extends AbstractController
         $university = $this->universityRepository->findOneBySlug($universitySlug);
         $degree = $this->degreeRepository->findOneBySlugAndUniversity($degreeSlug, $university);
         $subject = $this->subjectRepository->findOneBySlugAndDegree($subjectSlug, $degree);
-        $opinions = $subject->getOpinions();
         $professors = $subject->getProfessors();
+        $acceptedOpinions = $this->opinionRepository->findAcceptedBySubject($subject);
 
         return $this->render('show_subject.html.twig', [
             'university' => $university,
             'degree' => $degree,
             'subject' => $subject,
-            'opinions' => $opinions,
+            'opinions' => $acceptedOpinions,
             'professors' => $professors,
         ]);
     }
