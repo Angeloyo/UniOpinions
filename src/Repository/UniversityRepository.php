@@ -5,6 +5,8 @@ namespace App\Repository;
 use App\Entity\University;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\EntityNotFoundException;
+
 
 /**
  * @extends ServiceEntityRepository<University>
@@ -21,28 +23,14 @@ class UniversityRepository extends ServiceEntityRepository
         parent::__construct($registry, University::class);
     }
 
-//    /**
-//     * @return University[] Returns an array of University objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('u')
-//            ->andWhere('u.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('u.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function findOneBySlug(string $slug): ?University
+    {
+        $university = $this->findOneBy(['slug' => $slug]);
 
-//    public function findOneBySomeField($value): ?University
-//    {
-//        return $this->createQueryBuilder('u')
-//            ->andWhere('u.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+        if (!$university) {
+            throw new EntityNotFoundException('La universidad '.$slug.' no existe');
+        }
+
+        return $university;
+    }
 }

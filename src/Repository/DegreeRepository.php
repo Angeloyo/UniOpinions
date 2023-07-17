@@ -5,6 +5,8 @@ namespace App\Repository;
 use App\Entity\Degree;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\EntityNotFoundException;
+use App\Entity\University;
 
 /**
  * @extends ServiceEntityRepository<Degree>
@@ -21,28 +23,14 @@ class DegreeRepository extends ServiceEntityRepository
         parent::__construct($registry, Degree::class);
     }
 
-//    /**
-//     * @return Degree[] Returns an array of Degree objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('d')
-//            ->andWhere('d.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('d.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function findOneBySlugAndUniversity(string $slug, University $university): ?Degree
+    {
+        $degree = $this->findOneBy(['slug' => $slug, 'university' => $university]);
 
-//    public function findOneBySomeField($value): ?Degree
-//    {
-//        return $this->createQueryBuilder('d')
-//            ->andWhere('d.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+        if (!$degree) {
+            throw new EntityNotFoundException('El grado '.$slug.' no existe en la universidad especificada');
+        }
+
+        return $degree;
+    }
 }

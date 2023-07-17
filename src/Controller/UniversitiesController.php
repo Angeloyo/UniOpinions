@@ -5,23 +5,28 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Doctrine\ORM\EntityManagerInterface;
-use App\Entity\University;
-use App\Entity\Degree;
+use App\Repository\UniversityRepository;
+use App\Repository\DegreeRepository;
 
 class UniversitiesController extends AbstractController
 {
-    private $entityManager;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    private $universityRepository;
+    private $degreeRepository;
+
+    public function __construct(
+        UniversityRepository $universityRepository,
+        DegreeRepository $degreeRepository,
+        )
     {
-        $this->entityManager = $entityManager;
+        $this->universityRepository = $universityRepository;
+        $this->degreeRepository = $degreeRepository;
     }
-
+    
     #[Route('/universities', name: 'app_universities')]
     public function index(): Response
     {
-        $universities = $this->entityManager->getRepository(University::class)->findAll();
+        $universities = $this->universityRepository->findAll();
 
         return $this->render('universities.html.twig', [
             'universities' => $universities,
@@ -31,15 +36,9 @@ class UniversitiesController extends AbstractController
     #[Route('/{universitySlug}', name: 'app_university')]
     public function show(string $universitySlug): Response
     {
-        $university = $this->entityManager->getRepository(University::class)
-            ->findOneBy(['slug' => $universitySlug]);
+        $university = $this->universityRepository->findOneBySlug($universitySlug);
 
-        $degrees = $this->entityManager->getRepository(Degree::class)
-            ->findBy(['university' => $university]);
-
-        if (!$university) {
-            throw $this->createNotFoundException('La universidad especificada no existe');
-        }
+        $degrees = $this->degreeRepository->findBy(['university' => $university]);
 
         return $this->render('show_university.html.twig', [
             'university' => $university,

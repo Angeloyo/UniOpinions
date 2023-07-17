@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Professor;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\EntityNotFoundException;
 
 /**
  * @extends ServiceEntityRepository<Professor>
@@ -21,28 +22,14 @@ class ProfessorRepository extends ServiceEntityRepository
         parent::__construct($registry, Professor::class);
     }
 
-//    /**
-//     * @return Professor[] Returns an array of Professor objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('p.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function findOneBySlug(string $slug): ?Professor
+    {
+        $professor = $this->findOneBy(['slug' => $slug]);
 
-//    public function findOneBySomeField($value): ?Professor
-//    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+        if (!$professor) {
+            throw new EntityNotFoundException('El profesor '.$slug.' no existe.');
+        }
+
+        return $professor;
+    }
 }

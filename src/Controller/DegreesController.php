@@ -5,34 +5,32 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Doctrine\ORM\EntityManagerInterface;
-use App\Entity\University;
-use App\Entity\Degree;
-
+use App\Repository\UniversityRepository;
+use App\Repository\DegreeRepository;
 
 class DegreesController extends AbstractController
 {
-    private $entityManager;
+    private $universityRepository;
+    private $degreeRepository;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(
+        UniversityRepository $universityRepository,
+        DegreeRepository $degreeRepository,
+        )
     {
-        $this->entityManager = $entityManager;
+        $this->universityRepository = $universityRepository;
+        $this->degreeRepository = $degreeRepository;
     }
 
     #[Route('/{universitySlug}/{degreeSlug}', name: 'app_degree')]
-    public function showDegree(string $universitySlug, string $degreeSlug): Response
+    public function showDegree(
+        string $universitySlug, 
+        string $degreeSlug,
+        ): Response
     {
-        $university = $this->entityManager->getRepository(University::class)
-        ->findOneBy(['slug' => $universitySlug]);
 
-        if (!$university) {
-            throw $this->createNotFoundException('La Universidad especificada no existe');
-        }
-
-        $degree = $this->entityManager->getRepository(Degree::class)->findOneBy(['slug' => $degreeSlug, 'university' => $university]);
-        if (!$degree) {
-            throw $this->createNotFoundException('El Grado especificado no existe en la universidad especificada');
-        }
+        $university = $this->universityRepository->findOneBySlug($universitySlug);
+        $degree = $this->degreeRepository->findOneBySlugAndUniversity($degreeSlug, $university);
 
         // Agrupa las asignaturas por año
         $subjects = $degree->getSubjects()->toArray();

@@ -5,48 +5,42 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Doctrine\ORM\EntityManagerInterface;
-use App\Entity\University;
-use App\Entity\Degree;
-use App\Entity\Subject;
+use App\Repository\UniversityRepository;
+use App\Repository\DegreeRepository;
+use App\Repository\SubjectRepository;
 
 class SubjectsController extends AbstractController
 {
-    private $entityManager;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    private $universityRepository;
+    private $degreeRepository;
+    private $subjectRepository;
+    private $professorRepository;
+
+    public function __construct(
+        UniversityRepository $universityRepository,
+        DegreeRepository $degreeRepository,
+        SubjectRepository $subjectRepository,
+        )
     {
-        $this->entityManager = $entityManager;
+        $this->universityRepository = $universityRepository;
+        $this->degreeRepository = $degreeRepository;
+        $this->subjectRepository = $subjectRepository;
     }
 
     #[Route('/{universitySlug}/{degreeSlug}/{subjectSlug}', name: 'app_subject')]
-    public function showSubject(string $universitySlug, string $degreeSlug, string $subjectSlug): Response
+    public function showSubject(
+        string $universitySlug, 
+        string $degreeSlug, 
+        string $subjectSlug,
+        ): Response
     {
-        $university = $this->entityManager->getRepository(University::class)
-            ->findOneBy(['slug' => $universitySlug]);
 
-        if (!$university) {
-            throw $this->createNotFoundException('La Universidad especificada no existe');
-        }
-
-        $degree = $this->entityManager->getRepository(Degree::class)
-            ->findOneBy(['slug' => $degreeSlug, 'university' => $university]);
-
-        if (!$degree) {
-            throw $this->createNotFoundException('El Grado especificado no existe en la universidad especificada');
-        }
-
-        $subject = $this->entityManager->getRepository(Subject::class)
-            ->findOneBy(['slug' => $subjectSlug, 'degree' => $degree]);
-
-        if (!$subject) {
-            throw $this->createNotFoundException('La asignatura especificada no existe en el grado especificado');
-        }
-
+        $university = $this->universityRepository->findOneBySlug($universitySlug);
+        $degree = $this->degreeRepository->findOneBySlugAndUniversity($degreeSlug, $university);
+        $subject = $this->subjectRepository->findOneBySlugAndDegree($subjectSlug, $degree);
         $opinions = $subject->getOpinions();
         $professors = $subject->getProfessors();
-
-        // Hacer lo que necesites con la asignatura...
 
         return $this->render('show_subject.html.twig', [
             'university' => $university,
