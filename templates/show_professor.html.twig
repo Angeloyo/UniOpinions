@@ -2,28 +2,28 @@
 
 {% block main %}
     <h2 class="text-black dark:text-white text-xl">
-        <a href="http://localhost:8000/universities">Universidades</a>
+        <a href="/universities">Universidades</a>
         <span class="mx-1">></span>
-        <a href="http://localhost:8000/{{ university.getSlug() }}"> {{ university.getName() }}</a>
+        <a href="/{{ university.getSlug() }}"> {{ university.getName() }}</a>
         <span class="mx-1">></span>
-        <a href="http://localhost:8000/{{ university.getSlug() }}/{{ degree.getSlug() }}"> {{ degree.name }}</a>
+        <a href="/{{ university.getSlug() }}/{{ degree.getSlug() }}"> {{ degree.name }}</a>
         <span class="mx-1">></span>
-        <a href="http://localhost:8000/{{ university.getSlug() }}/{{ degree.getSlug() }}/{{ subject.getSlug() }}"> {{ subject.name }}</a>
+        <a href="/{{ university.getSlug() }}/{{ degree.getSlug() }}/{{ subject.getSlug() }}"> {{ subject.name }}</a>
         <span class="mx-1">></span>
-        <a href="http://localhost:8000/{{ university.getSlug() }}/{{ degree.getSlug() }}/{{ subject.getSlug() }}/{{ professor.getSlug() }}"> {{ professor.name }}</a>
+        <a href="/{{ university.getSlug() }}/{{ degree.getSlug() }}/{{ subject.getSlug() }}/{{ professor.getSlug() }}"> {{ professor.name }}</a>
     </h2>
 
     <h1 class="text-black dark:text-white text-3xl sm:text-5xl text-center mt-10">{{ professor.getName() }}</h1>
 
     {# comentarios  #}
     <div class="m-11 ">
-        <h2 class="text-black dark:text-white text-2xl sm:text-4xl text-center mt-7">
+        <h2 class="text-black dark:text-white text-2xl sm:text-4xl text-center my-7">
             Comentarios
         </h1>
         <ul class="text-center text-xl  dark:text-white text-black ">
             {% for opinion in opinions %}
                 <li class="rounded-2xl p-3 my-4 bg-slate-200 dark:bg-slate-800 flex flex-row
-                    justify-center">
+                    justify-center mx-56">
 
                     <style>
                         .icon-fill { fill: currentColor; }
