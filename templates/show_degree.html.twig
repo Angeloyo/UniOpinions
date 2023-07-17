@@ -17,12 +17,10 @@
     {% set yearTranslations = {1: 'Primer año', 2: 'Segundo año', 3: 'Tercer año', 4: 'Cuarto año'} %}
 
         {% for year, subjects in subjects %}
-            {# <a href="{{ path('app_university', { universitySlug: university.getSlug }) }}">
-                {{ university.getName() }}
-            </a> #}
-            <h2 class="text-black dark:text-white text-2xl mx-5 md:mx-[19%] ">{{ yearTranslations[year]|default('desconocido') }}:</h2>
 
-            <ul class="text-center sm:text-left text-xl dark:text-white text-black mt-5 mx-5 md:mx-[19%] ">
+            <h2 class="text-black dark:text-white text-2xl mx-0 sm:mx-[19%] ">{{ yearTranslations[year]|default('desconocido') }}:</h2>
+
+            <ul class="text-center sm:text-left text-xl dark:text-white text-black mt-5 mx-0 sm:mx-[19%] ">
 
             {% for subject in subjects %}
                 <li>

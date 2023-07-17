@@ -8,7 +8,7 @@
     <a href="/universities">Universidades</a> 
 </h2>
 
-<ul class="text-center text-xl  dark:text-white text-black mx-5 md:mx-[19%]">
+<ul class="text-center text-xl  dark:text-white text-black mx-0 sm:mx-[19%]">
     {% for university in universities %}
         <li class="">
             <a href="{{ path('app_university', { universitySlug: university.getSlug }) }}" 

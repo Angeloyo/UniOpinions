@@ -15,9 +15,9 @@
     <h1 class="text-black dark:text-white text-3xl sm:text-5xl text-center mt-10">{{ subject.getName() }}</h1>
 
     {# comentarios y profesores #}
-    <div class=" flex">
+    <div class=" flex sm:flex-row flex-col-reverse">
         {# comentarios #}
-        <div class="w-1/2 m-11 ">
+        <div class="sm:w-1/2 sm:m-11 m-0">
             <h2 class="text-black dark:text-white text-2xl sm:text-4xl text-center mt-7">
                 Comentarios
             </h1>
@@ -49,16 +49,16 @@
         </div>
 
         {# profesores #}
-        <div class="m-11 w-1/2">
+        <div class="sm:m-11 m-0 sm:w-1/2">
             <h2 class="text-black dark:text-white text-2xl sm:text-4xl text-center mt-7 ">
                 Profesores
             </h1>
-            <ul class="text-center text-xl  dark:text-white text-black mx-20">
+            <ul class="text-center text-xl  dark:text-white text-black  mx-0 ">
                 {% for professor in professors %}
                     <li class="">
                         <a href="{{ path('app_professor', { universitySlug: university.getSlug(), degreeSlug: degree.getSlug(), subjectSlug: subject.getSlug(), professorSlug: professor.getSlug() }) }}" 
                         class="rounded-2xl p-3 my-4 bg-slate-200 dark:bg-slate-800 flex flex-row 
-                            mx-auto hover:bg-slate-300 dark:hover:bg-slate-900 justify-center">
+                            mx-auto sm:hover:bg-slate-300 sm:dark:hover:bg-slate-900 justify-center">
                             {{ professor.getName() }}
                         </a>
                     </li>

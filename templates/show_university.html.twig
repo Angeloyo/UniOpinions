@@ -10,7 +10,7 @@
 
     <h1 class="text-black dark:text-white text-3xl sm:text-5xl text-center mt-7">Grados</h1>
 
-    <ul class="text-center sm:text-left text-xl dark:text-white text-black mt-7 mx-5 md:mx-[19%]">
+    <ul class="text-center sm:text-left text-xl dark:text-white text-black mt-7 mx-0 sm:mx-[19%]">
         {% for degree in degrees %}
             <li>
                 <a href="{{ path('app_degree', {'universitySlug': university.slug, 'degreeSlug': degree.slug}) }}" 
