@@ -33,6 +33,14 @@ class Opinion
     #[ORM\JoinColumn(nullable: false)]
     private ?User $owner = null;
 
+    #[ORM\Column]
+    // private ?bool $reviewed = null;
+    private ?bool $reviewed = false;
+
+    #[ORM\Column]
+    // private ?bool $accepted = null;
+    private ?bool $accepted = false;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -106,6 +114,30 @@ class Opinion
     public function setOwner(?User $owner): static
     {
         $this->owner = $owner;
+
+        return $this;
+    }
+
+    public function isReviewed(): ?bool
+    {
+        return $this->reviewed;
+    }
+
+    public function setReviewed(bool $reviewed): static
+    {
+        $this->reviewed = $reviewed;
+
+        return $this;
+    }
+
+    public function isAccepted(): ?bool
+    {
+        return $this->accepted;
+    }
+
+    public function setAccepted(bool $accepted): static
+    {
+        $this->accepted = $accepted;
 
         return $this;
     }
