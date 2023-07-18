@@ -49,11 +49,25 @@
                     <h3 class="text-xl">Legal</h3>
                     <a target="_blank" href="./terms-and-conditions.html">Terms & Conditions</a>
                     <a target="_blank" href="./privacy-policy.html">Privacy Policy</a>
-                    <a target="_blank" href="./eula.html">Licenses (EULA)</a>
+                    <div class="flex flex-row">
+                        <a href="#" id="toggleButton" class="z-10">Attributions</a>
+                        <div id="attributionsLink" class="invisible absolute z-0">
+                            <a target="_blank" class="ml-20" href="https://www.freepik.es/vector-gratis/medidor-satisfaccion-emoji-pequeno_44156211.htm#query=emojis%20rating&position=0&from_view=search&track=ais" target="_blank">
+                                -> Emoticonos por juicy_fish en Freepik
+                            </a> 
+                        </div>
+                    </div>
                 </div>
             </div>
         </footer>
         
-        
+        <script>
+        document.getElementById('toggleButton').addEventListener('click', function(event) {
+            event.preventDefault();
+            var link = document.getElementById('attributionsLink');
+            link.classList.toggle('invisible');
+        });
+         </script>
+
     </body>
 </html>
