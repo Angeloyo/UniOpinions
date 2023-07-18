@@ -18,7 +18,7 @@
                 <tr class="text-white">
                     <td >{{ opinion.id }}</td>
                     <td >{{ opinion.comment }}</td>
-                    <td>
+                    <td class="text-right">
                         <a href="{{ path('admin_accept_opinion', {id: opinion.id}) }}" class="btn btn-success">Aceptar</a>
                         <a href="{{ path('admin_reject_opinion', {id: opinion.id}) }}" class="btn btn-danger">Rechazar</a>
                     </td>
