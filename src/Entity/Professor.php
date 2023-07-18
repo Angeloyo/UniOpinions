@@ -21,7 +21,7 @@ class Professor
     #[ORM\ManyToMany(targetEntity: Subject::class, inversedBy: 'professors')]
     private Collection $subject;
 
-    #[ORM\OneToMany(mappedBy: 'professor', targetEntity: Opinion::class)]
+    #[ORM\OneToMany(mappedBy: 'professor', targetEntity: Opinion::class, orphanRemoval: true)]
     private Collection $opinions;
 
     #[ORM\Column(length: 255)]
@@ -149,5 +149,6 @@ class Professor
     public function decrementScoreCount(int $score): void
     {
         $this->scoreCount[$score]--;
+        // $this->scoreCount[$score] = max(0, $this->scoreCount[$score] - 1);
     }
 }
