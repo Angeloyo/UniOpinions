@@ -1,0 +1,43 @@
+{# templates/login/index.html.twig #}
+{% extends 'base.html.twig' %}
+
+{# ... #}
+
+{% block main %}
+
+    {% if error %}
+        <div class="text-center text-red-500 text-3xl">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
+
+    <h1 class="text-center text-black dark:text-white text-6xl mb-7">Inicio de sesión</h1>
+
+    <form action="{{ path('app_login') }}" method="post"
+    class="text-black dark:text-white flex flex-col justify-center items-center ">
+        <label for="username" class="text-4xl m-3">Email:</label>
+        <input type="text" id="username" name="_username" value="{{ last_username }}"
+        class="bg-slate-200 dark:bg-slate-800 rounded-md h-11 w-[30rem] text-3xl">
+
+        <label for="password" class="text-4xl m-3">Password:</label>
+        <input type="password" id="password" name="_password"
+        class="bg-slate-200 dark:bg-slate-800 rounded-md h-11 w-[30rem] text-3xl">
+
+        {# If you want to control the URL the user is redirected to on success
+        <input type="hidden" name="_target_path" value="/account"> #}
+
+        <button type="submit" class="mt-7 p-7 rounded-full bg-slate-200 dark:bg-slate-800 text-4xl">
+            Iniciar sesión
+        </button>
+
+        <div class="flex flex-row text-3xl m-7">
+            <h2>
+                ¿Todavía no tienes una cuenta? Registrate 
+            </h2>
+            <a href="{{ path('app_register') }}"
+            class="text-blue-500 ml-1">
+                aquí
+            </a>
+        </div>
+        
+    </form>
+
+{% endblock %}
