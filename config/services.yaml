@@ -23,17 +23,16 @@ services:
             # - '../src/EventListener/'
 
     App\EventListener\SlugListener:
-            tags:
-                - { name: doctrine.event_listener, event: prePersist }
-                - { name: doctrine.event_listener, event: preUpdate }
-
-    App\EventListener\OpinionLoadListener:
         tags:
-            - { name: doctrine.event_listener, event: postLoad }
+            - { name: doctrine.event_listener, event: prePersist }
+            - { name: doctrine.event_listener, event: preUpdate }
 
-    App\EventListener\OpinionRemoveListener:
+    App\EventListener\OpinionListener:
         tags:
+            - { name: doctrine.event_listener, event: onFlush }
+            - { name: doctrine.event_listener, event: prePersist }
             - { name: doctrine.event_listener, event: preRemove }
+            # - { name: doctrine.event_listener, event: postLoad }
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
