@@ -27,6 +27,15 @@ class Professor
     #[ORM\Column(length: 255)]
     private ?string $slug = null;
 
+    #[ORM\Column]
+    private array $scoreCount = [
+        '1' => 0,
+        '2' => 0,
+        '3' => 0,
+        '4' => 0,
+        '5' => 0,
+    ];
+
     public function __construct()
     {
         $this->subject = new ArrayCollection();
@@ -118,5 +127,27 @@ class Professor
         $this->slug = $slug;
 
         return $this;
+    }
+
+    public function getScoreCount(): array
+    {
+        return $this->scoreCount;
+    }
+
+    public function setScoreCount(array $scoreCount): static
+    {
+        $this->scoreCount = $scoreCount;
+
+        return $this;
+    }
+
+    public function incrementScoreCount(int $score): void
+    {
+        $this->scoreCount[$score]++;
+    }
+
+    public function decrementScoreCount(int $score): void
+    {
+        $this->scoreCount[$score]--;
     }
 }

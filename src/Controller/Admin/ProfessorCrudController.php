@@ -8,6 +8,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 
 
 class ProfessorCrudController extends AbstractCrudController
@@ -23,6 +24,7 @@ class ProfessorCrudController extends AbstractCrudController
             IdField::new('id')->onlyOnDetail(),
             TextField::new('name'),
             TextField::new('slug')->onlyOnDetail(),
+            ArrayField::new('scoreCount')->onlyOnDetail(),
             AssociationField::new('subject')
                 // ->onlyOnDetail(),
                 ->setTemplatePath('admin/listsubjects.html.twig'),

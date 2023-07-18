@@ -5,10 +5,12 @@ namespace App\Entity;
 use App\Repository\OpinionRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\EntityManagerInterface;
 
 #[ORM\Entity(repositoryClass: OpinionRepository::class)]
 class Opinion
 {
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -16,9 +18,6 @@ class Opinion
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $comment = null;
-
-    #[ORM\Column(nullable: true)]
-    private ?array $score = null;
 
     #[ORM\Column(nullable: true)]
     private ?array $keywords = null;
@@ -41,6 +40,14 @@ class Opinion
     // private ?bool $accepted = null;
     private ?bool $accepted = false;
 
+    #[ORM\Column(type: Types::SMALLINT, nullable: true)]
+    private ?int $givenScore = null;
+
+    /**
+     * @var int|null
+     */
+    private $oldScore = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -54,18 +61,6 @@ class Opinion
     public function setComment(?string $comment): static
     {
         $this->comment = $comment;
-
-        return $this;
-    }
-
-    public function getScore(): ?array
-    {
-        return $this->score;
-    }
-
-    public function setScore(?array $score): static
-    {
-        $this->score = $score;
 
         return $this;
     }
@@ -138,6 +133,30 @@ class Opinion
     public function setAccepted(bool $accepted): static
     {
         $this->accepted = $accepted;
+
+        return $this;
+    }
+
+    public function getGivenScore(): ?int
+    {
+        return $this->givenScore;
+    }
+
+    public function setGivenScore(?int $givenScore): static
+    {
+        $this->givenScore = $givenScore;
+
+        return $this;
+    }
+
+    public function getOldScore(): ?int
+    {
+        return $this->oldScore;
+    }
+
+    public function setOldScore(?int $oldScore): static
+    {
+        $this->oldScore = $oldScore;
 
         return $this;
     }

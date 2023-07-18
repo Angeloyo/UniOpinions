@@ -9,6 +9,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 
 class SubjectCrudController extends AbstractCrudController
 {
@@ -24,6 +25,7 @@ class SubjectCrudController extends AbstractCrudController
             // IdField::new('id'),
             TextField::new('name'),
             TextField::new('slug')->onlyOnDetail(),
+            ArrayField::new('scoreCount')->onlyOnDetail(),
             AssociationField::new('degree'),
             IntegerField::new('year'),
             CollectionField::new('professors')

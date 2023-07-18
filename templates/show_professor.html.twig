@@ -1,25 +1,55 @@
 {% extends 'base.html.twig' %}
 
 {% block main %}
-    <h2 class="text-black dark:text-white text-xl">
-        <a href="/universities">Universidades</a>
-        <span class="mx-1">></span>
-        <a href="/{{ university.getSlug() }}"> {{ university.getName() }}</a>
-        <span class="mx-1">></span>
-        <a href="/{{ university.getSlug() }}/{{ degree.getSlug() }}"> {{ degree.name }}</a>
-        <span class="mx-1">></span>
-        <a href="/{{ university.getSlug() }}/{{ degree.getSlug() }}/{{ subject.getSlug() }}"> {{ subject.name }}</a>
-        <span class="mx-1">></span>
-        <a href="/{{ university.getSlug() }}/{{ degree.getSlug() }}/{{ subject.getSlug() }}/{{ professor.getSlug() }}"> {{ professor.name }}</a>
-    </h2>
+
+    <div class="flex md:flex-row flex-col justify-between items-center">
+        <h2 class="text-black dark:text-white text-xl">
+            <a href="/universities">Universidades</a>
+            <span class="mx-1">></span>
+            <a href="/{{ university.getSlug() }}"> {{ university.getName() }}</a>
+            <span class="mx-1">></span>
+            <a href="/{{ university.getSlug() }}/{{ degree.getSlug() }}"> {{ degree.name }}</a>
+            <span class="mx-1">></span>
+            <a href="/{{ university.getSlug() }}/{{ degree.getSlug() }}/{{ subject.getSlug() }}"> {{ subject.name }}</a>
+            <span class="mx-1">></span>
+            <a href="/{{ university.getSlug() }}/{{ degree.getSlug() }}/{{ subject.getSlug() }}/{{ professor.getSlug() }}"> {{ professor.name }}</a>
+        </h2>
+
+        <button class="text-2xl rounded-3xl p-5 bg-slate-200 dark:bg-slate-800 text-black dark:text-white
+        md:mx-7 md:my-0 my-7">
+        Opina sobre este profesor
+        </button>
+    </div>
+    
 
     <h1 class="text-black dark:text-white text-3xl sm:text-5xl text-center mt-10">{{ professor.getName() }}</h1>
+
+    {# valoraciones del 1 al 5 #}
+    <div class="flex justify-center flex-col items-center text-black dark:text-white">
+
+        <h2 class=" text-2xl sm:text-4xl text-center my-7">
+            Valoración general
+        </h2>
+
+        <div>
+            <img src="/img/faces.png" alt="Faces image"
+            class="w-72">
+
+        </div>
+
+        <div class="text-center flex flex-row text-2xl">
+            {% for score, count in professor.scoreCount %}
+                <p class="mx-6">{{ count }}</p>
+            {% endfor %}
+        </div>
+
+    </div>
 
     {# comentarios  #}
     <div class="sm:m-11 m-0">
         <h2 class="text-black dark:text-white text-2xl sm:text-4xl text-center my-7">
             Comentarios
-        </h1>
+        </h2>
         <ul class="text-center text-xl  dark:text-white text-black ">
             {% for opinion in opinions %}
                 <li class="rounded-2xl p-3 my-4 bg-slate-200 dark:bg-slate-800 flex flex-row
