@@ -8,7 +8,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use Doctrine\ORM\EntityManagerInterface;
 
 class OpinionCrudController extends AbstractCrudController 
@@ -32,10 +32,18 @@ class OpinionCrudController extends AbstractCrudController
             IdField::new('id')->onlyOnDetail(),
             TextField::new('comment'),
             //SCORE
-            IntegerField::new('givenScore'),
+            // ChoiceField::new('givenScore'),
+            ChoiceField::new('givenScore')
+                ->setChoices([
+                    1 => '1',
+                    2 => '2',
+                    3 => '3',
+                    4 => '4',
+                    5 => '5',
+                ]),
             //KEYWORDS
-            BooleanField::new('reviewed'),
-            BooleanField::new('accepted'),
+            BooleanField::new('reviewed')->onlyOnDetail(),
+            BooleanField::new('accepted')->onlyOnDetail(),
             AssociationField::new('subject'),
             AssociationField::new('professor'),
             AssociationField::new('owner')
@@ -44,48 +52,7 @@ class OpinionCrudController extends AbstractCrudController
         ];
     }
 
-    public function persistEntity(EntityManagerInterface $entityManager, $entityInstance): void
-    {
-        if ($entityInstance instanceof Opinion) {
-            $professor = $entityInstance->getProfessor();
-            $subject = $entityInstance->getSubject();
-            $score = $entityInstance->getGivenScore();
-
-            if ($professor) {
-                $professor->incrementScoreCount($score);
-            }
-
-            if ($subject) {
-                $subject->incrementScoreCount($score);
-            }
-        }
-
-        parent::persistEntity($entityManager, $entityInstance);
-    }
-
-    public function updateEntity(EntityManagerInterface $entityManager, $entityInstance): void
-    {
-        if ($entityInstance instanceof Opinion) {
-            $professor = $entityInstance->getProfessor();
-            $subject = $entityInstance->getSubject();
-            $oldScore = $entityInstance->getOldScore();
-            $newScore = $entityInstance->getGivenScore();
-
-            if ($oldScore !== $newScore) {
-                if ($professor) {
-                    $professor->decrementScoreCount($oldScore);
-                    $professor->incrementScoreCount($newScore);
-                }
-
-                if ($subject) {
-                    $subject->decrementScoreCount($oldScore);
-                    $subject->incrementScoreCount($newScore);
-                }
-            }
-        }
-
-        parent::updateEntity($entityManager, $entityInstance);
-    }
+    
 
 
 }
