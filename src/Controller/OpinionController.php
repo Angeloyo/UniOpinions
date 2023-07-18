@@ -10,7 +10,6 @@ use App\Entity\Opinion;
 use App\Entity\User;
 use App\Repository\SubjectRepository;
 use App\Repository\ProfessorRepository;
-use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
 class OpinionController extends AbstractController
@@ -40,17 +39,20 @@ class OpinionController extends AbstractController
         $this->entityManager = $entityManager;
     }
 
-    #[Route('/opinion/new/{type}/{id}', name: 'app_create_opinion')]
+    #[Route('/opinion/new/{type}/{id}/{userId}', name: 'app_create_opinion')]
     public function createOpinion(
         string $type, 
         int $id,
+        int $userId,
         Request $request, 
         ): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         $opinion = new Opinion();
 
         // $testUser = $this->userRepository->find(1);
-        $testUser = $this->entityManager->getRepository(User::class)->find(1);
+        $user = $this->entityManager->getRepository(User::class)->find($userId);
 
         if ($type == 'professor') {
 
@@ -74,7 +76,7 @@ class OpinionController extends AbstractController
             
         }
 
-        $opinion->setOwner($testUser);
+        $opinion->setOwner($user);
     
         $form = $this->createForm(\App\Form\OpinionFormType::class, $opinion);
     
