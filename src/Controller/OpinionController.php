@@ -135,21 +135,11 @@ class OpinionController extends AbstractController
         ]);
     }
 
+    //This is needed in order to force user to login when he wants to create an opinion
+    //and get his id to re route
     #[Route('/opinion/redirect/{type}/{objectId}', name: 'app_redirect_opinion_form')]
     public function redirectToOpinionForm($type, $objectId, Request $request)
     {
-
-        $referer = $request->headers->get('referer');
-        $parsedReferer = parse_url($referer);
-
-        if (isset($parsedReferer['path'])) {
-            $path = $parsedReferer['path'];
-            
-            if ($path != '/login' && $path != '/register') {
-                $session = $request->getSession();
-                $session->set('referer', $referer);
-            }
-        }
 
         $this->denyAccessUnlessGranted('ROLE_USER');
 

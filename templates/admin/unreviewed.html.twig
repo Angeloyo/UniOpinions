@@ -2,20 +2,21 @@
 
 {% block content %}
 
-<div class="text-white m-11">
+{# texto gris porque no se como manejar modo oscuro/claro en el panel admin #}
+<div class="text-gray-500 m-11">
     <h1 class="">Opiniones no revisadas</h1>
 
     <table class="table">
         <thead>
-            <tr class="text-white">
+            <tr class="text-gray-500 ">
                 <th>ID</th>
                 <th>Comentario</th>
-                <th>Acciones</th>
+                <th class="text-right">Acciones</th>
             </tr>
         </thead>
         <tbody>
             {% for opinion in opinions %}
-                <tr class="text-white">
+                <tr class="text-gray-500">
                     <td >{{ opinion.id }}</td>
                     <td >{{ opinion.comment }}</td>
                     <td class="text-right">
