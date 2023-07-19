@@ -32,10 +32,10 @@ class OpinionController extends AbstractController
         $this->entityManager = $entityManager;
     }
 
-    #[Route('/opinion/new/{type}/{id}/{userId}', name: 'app_create_opinion')]
+    #[Route('/opinion/new/{type}/{objectId}/{userId}', name: 'app_create_opinion')]
     public function createOpinion(
         string $type, 
-        int $id,
+        int $objectId,
         int $userId,
         Request $request,
         ): Response
@@ -48,20 +48,48 @@ class OpinionController extends AbstractController
 
         if ($type == 'professor') {
 
-            $professor = $this->professorRepository->find($id);
+            $professor = $this->professorRepository->find($objectId);
             if (!$professor) {
                 throw $this->createNotFoundException('Profesor no encontrado');
             }
+            
+            // $existingOpinion = $professor->getOpinions()->findOneBy([
+            //     'owner' => $userId,
+            // ]);
+            $existingOpinion = $professor->getOpinions()->filter(function($opinion) use ($userId) {
+                return $opinion->getOwner()->getId() == $userId;
+            })->first();
+            if ($existingOpinion) {
+
+                return $this->redirectToRoute('app_edit_opinion', [
+                    'id' => $existingOpinion->getId()
+                ]);
+            }
+
             $opinion->setProfessor($professor);
 
             $object = $professor;
 
         } elseif ($type == 'subject') {
 
-            $subject = $this->subjectRepository->find($id);
+            $subject = $this->subjectRepository->find($objectId);
             if (!$subject) {
                 throw $this->createNotFoundException('Subject not found');
             }
+
+            // $existingOpinion = $subject->getOpinions()->findOneBy([
+            //     'owner' => $userId,
+            // ]);
+            $existingOpinion = $subject->getOpinions()->filter(function($opinion) use ($userId) {
+                return $opinion->getOwner()->getId() == $userId;
+            })->first();
+            if ($existingOpinion) {
+
+                return $this->redirectToRoute('app_edit_opinion', [
+                    'id' => $existingOpinion->getId()
+                ]);
+            }
+
             $opinion->setSubject($subject);
 
             $object = $subject;
@@ -75,6 +103,14 @@ class OpinionController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            // if there is no comment we dont need to review it
+            if($opinion->getComment() == null){
+                $opinion->setAccepted(true);
+                $opinion->setReviewed(true);
+            }
+            //it wont display because the query that brings the
+            // opinions to frontend filters by comment not null
             
             $this->entityManager->persist($opinion);
             $this->entityManager->flush();
@@ -83,7 +119,7 @@ class OpinionController extends AbstractController
 
             $referer = $session->get('referer');
             
-            $session->remove('referer');
+            // $session->remove('referer');
 
             // return $this->redirect($referer);
             if ($referer) {
@@ -99,8 +135,8 @@ class OpinionController extends AbstractController
         ]);
     }
 
-    #[Route('/opinion/redirect/{type}/{id}', name: 'app_redirect_opinion_form')]
-    public function redirectToOpinionForm($type, $id, Request $request)
+    #[Route('/opinion/redirect/{type}/{objectId}', name: 'app_redirect_opinion_form')]
+    public function redirectToOpinionForm($type, $objectId, Request $request)
     {
 
         $referer = $request->headers->get('referer');
@@ -119,7 +155,7 @@ class OpinionController extends AbstractController
 
         return $this->redirectToRoute('app_create_opinion', [
             'type' => $type,
-            'id' => $id,
+            'objectId' => $objectId,
             'userId' => $this->getUser()->getId()
         ]);
     }
