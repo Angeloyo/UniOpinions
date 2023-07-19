@@ -14,13 +14,6 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class OpinionController extends AbstractController
 {
-    // #[Route('/opinion', name: 'app_opinion')]
-    // public function index(): Response
-    // {
-    //     return $this->render('opinion/index.html.twig', [
-    //         'controller_name' => 'OpinionController',
-    //     ]);
-    // }
 
     private $professorRepository;
     private $subjectRepository;
@@ -44,14 +37,13 @@ class OpinionController extends AbstractController
         string $type, 
         int $id,
         int $userId,
-        Request $request, 
+        Request $request,
         ): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
         $opinion = new Opinion();
 
-        // $testUser = $this->userRepository->find(1);
         $user = $this->entityManager->getRepository(User::class)->find($userId);
 
         if ($type == 'professor') {
@@ -79,7 +71,7 @@ class OpinionController extends AbstractController
         $opinion->setOwner($user);
     
         $form = $this->createForm(\App\Form\OpinionFormType::class, $opinion);
-    
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -87,7 +79,13 @@ class OpinionController extends AbstractController
             $this->entityManager->persist($opinion);
             $this->entityManager->flush();
 
-            return $this->redirectToRoute('app_home');
+            $session = $request->getSession();
+
+            $referer = $session->get('referer');
+            
+            $session->remove('referer');
+
+            return $this->redirect($referer);
         }
 
         return $this->render('opinion/new.html.twig', [
@@ -95,4 +93,30 @@ class OpinionController extends AbstractController
             'object' => $object,
         ]);
     }
+
+    #[Route('/opinion/redirect/{type}/{id}', name: 'app_redirect_opinion_form')]
+    public function redirectToOpinionForm($type, $id, Request $request)
+    {
+
+        $referer = $request->headers->get('referer');
+        $parsedReferer = parse_url($referer);
+
+        if (isset($parsedReferer['path'])) {
+            $path = $parsedReferer['path'];
+            
+            if ($path != '/login' && $path != '/register') {
+                $session = $request->getSession();
+                $session->set('referer', $referer);
+            }
+        }
+
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
+        return $this->redirectToRoute('app_create_opinion', [
+            'type' => $type,
+            'id' => $id,
+            'userId' => $this->getUser()->getId()
+        ]);
+    }
+
 }
