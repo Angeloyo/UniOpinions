@@ -4,7 +4,7 @@ namespace App\Form;
 
 use App\Entity\Opinion;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\TextAreaType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -15,7 +15,7 @@ class OpinionFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('comment', TextAreaType::class, ['required' => false])
+            ->add('comment', TextareaType::class, ['required' => false])
             // ->add('keywords')
             // ->add('reviewed')
             // ->add('accepted')
