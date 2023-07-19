@@ -85,7 +85,12 @@ class OpinionController extends AbstractController
             
             $session->remove('referer');
 
-            return $this->redirect($referer);
+            // return $this->redirect($referer);
+            if ($referer) {
+                return $this->redirect($referer);
+            } else {
+                return $this->redirectToRoute('app_home');
+            }
         }
 
         return $this->render('opinion/new.html.twig', [

@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\UniversityRepository;
 use App\Repository\DegreeRepository;
+use Symfony\Component\HttpFoundation\Request;
 
 class DegreesController extends AbstractController
 {
@@ -26,8 +27,14 @@ class DegreesController extends AbstractController
     public function showDegree(
         string $universitySlug, 
         string $degreeSlug,
+        Request $request
         ): Response
     {
+
+        $session = $request->getSession();
+        // $referer = $request->headers->get('referer');
+        $referer = $request->getUri();
+        $session->set('referer', $referer);
 
         $university = $this->universityRepository->findOneBySlug($universitySlug);
         $degree = $this->degreeRepository->findOneBySlugAndUniversity($degreeSlug, $university);

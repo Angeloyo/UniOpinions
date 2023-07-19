@@ -9,6 +9,7 @@ use App\Repository\UniversityRepository;
 use App\Repository\DegreeRepository;
 use App\Repository\SubjectRepository;
 use App\Repository\OpinionRepository;
+use Symfony\Component\HttpFoundation\Request;
 
 class SubjectsController extends AbstractController
 {
@@ -36,6 +37,7 @@ class SubjectsController extends AbstractController
         string $universitySlug, 
         string $degreeSlug, 
         string $subjectSlug,
+        Request $request
         ): Response
     {
 
@@ -44,6 +46,11 @@ class SubjectsController extends AbstractController
         $subject = $this->subjectRepository->findOneBySlugAndDegree($subjectSlug, $degree);
         $professors = $subject->getProfessors();
         $acceptedOpinions = $this->opinionRepository->findAcceptedBySubject($subject);
+
+        $session = $request->getSession();
+        // $referer = $request->headers->get('referer');
+        $referer = $request->getUri();
+        $session->set('referer', $referer);
 
         return $this->render('show_subject.html.twig', [
             'university' => $university,

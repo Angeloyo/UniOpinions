@@ -10,6 +10,7 @@ use App\Repository\DegreeRepository;
 use App\Repository\SubjectRepository;
 use App\Repository\ProfessorRepository;
 use App\Repository\OpinionRepository;
+use Symfony\Component\HttpFoundation\Request;
 
 class ProfessorsController extends AbstractController
 {
@@ -40,6 +41,7 @@ class ProfessorsController extends AbstractController
         string $degreeSlug, 
         string $subjectSlug, 
         string $professorSlug,
+        Request $request
         ): Response
     {
 
@@ -48,6 +50,11 @@ class ProfessorsController extends AbstractController
         $subject = $this->subjectRepository->findOneBySlugAndDegree($subjectSlug, $degree);
         $professor = $this->professorRepository->findOneBySlug($professorSlug);
         $acceptedOpinions = $this->opinionRepository->findAcceptedByProfessor($professor);
+
+        $session = $request->getSession();
+        // $referer = $request->headers->get('referer');
+        $referer = $request->getUri();
+        $session->set('referer', $referer);
 
         return $this->render('show_professor.html.twig', [
             'university' => $university,
