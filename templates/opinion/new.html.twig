@@ -40,6 +40,10 @@
             <div class="mb-7 mt-3">
                 {# {{ form_label(form.comment) }} #}
                 <h2 class="my-5">Comentario: </h2>
+                
+                <h3 class="my-3 text-xl">Aviso: el comentario debe cumplir unas normas y será enviado a revisión antes de publicarse.</h3>
+                {# todo: elaborar las normas y mostrarlas #}
+
                 <div class="text-black dark:text-white">
                     {# {{ form_widget(form.comment) }} #}
                     {{ form_widget(form.comment, {'attr': {'class': '
