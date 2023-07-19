@@ -20,27 +20,34 @@
         {{ form_start(registrationForm,{'attr': {'class': '
             flex flex-col justify-center items-center'}}) }}
 
-            <div class="flex flex-row text-3xl">
-                <h2 class="mx-5">
-                    Email 
-                </h2>
+            <div class="flex justify-start flex-row">
+                <div class="flex flex-col text-3xl justify-center items-end">
+                    <h2 class="mx-5 mb-7">
+                        Email: 
+                    </h2>
 
-                <div class="">
-                    {{ form_widget(registrationForm.email ,{'attr': {'class': '
-                    bg-slate-200 dark:bg-slate-800 rounded-md'}}) }}
+                    <h2 class="mx-5">
+                        Contraseña: 
+                    </h2>
+
+                </div>
+
+                <div class="flex flex-col text-3xl">
+                    
+                    <div class="mb-7">
+                        {{ form_widget(registrationForm.email ,{'attr': {'class': '
+                        bg-slate-200 dark:bg-slate-800 rounded-md h-11 w-[30rem] text-3xl p-3'}}) }}
+                    </div>
+
+                    <div class="">
+                        {{ form_widget(registrationForm.plainPassword ,{'attr': {'class': '
+                        bg-slate-200 dark:bg-slate-800 rounded-md h-11 w-[30rem] text-3xl p-3'}}) }}
+                    </div>
+
+                    
                 </div>
             </div>
-
-            <div class="flex flex-row text-3xl mt-7">
-                <h2 class="mx-5">
-                    Contraseña 
-                </h2>
-
-                <div class="">
-                    {{ form_widget(registrationForm.plainPassword ,{'attr': {'class': '
-                    bg-slate-200 dark:bg-slate-800 rounded-md'}}) }}
-                </div>
-            </div>
+            
             
             <div class="flex flex-row text-3xl mt-7">
                 <h2 class="mx-5">
@@ -59,6 +66,8 @@
             ">
                 Registrate
             </button>
+
+            {{ form_rest(registrationForm) }}
 
         {{ form_end(registrationForm) }}
     </div>
