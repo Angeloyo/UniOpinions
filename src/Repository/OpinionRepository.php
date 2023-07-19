@@ -28,6 +28,7 @@ class OpinionRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('o')
             ->where('o.professor = :professor')
             ->andWhere('o.accepted = true')
+            ->andWhere('o.comment IS NOT NULL')
             ->setParameter('professor', $professor)
             ->getQuery()
             ->getResult();
@@ -38,6 +39,7 @@ class OpinionRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('o')
             ->where('o.subject = :subject')
             ->andWhere('o.accepted = true')
+            ->andWhere('o.comment IS NOT NULL')
             ->setParameter('subject', $subject)
             ->getQuery()
             ->getResult();
