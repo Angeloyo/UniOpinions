@@ -3,7 +3,6 @@
 namespace App\EventListener;
 
 use Doctrine\Persistence\Event\LifecycleEventArgs;
-use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\ORM\Event\OnFlushEventArgs;
 use App\Entity\Opinion;
 
@@ -95,18 +94,30 @@ public function onFlush(OnFlushEventArgs $args)
                     $newScore = $changeset['givenScore'][1];
 
                     if ($professor = $entity->getProfessor()) {
-                        $professor->decrementScoreCount($oldScore);
-                        $professor->incrementScoreCount($newScore);
 
+                        if($oldScore !== null){
+                            $professor->decrementScoreCount($oldScore);
+                        }
+
+                        if($newScore !== null){
+                            $professor->incrementScoreCount($newScore);
+                        }
+                        
+                        // recalculate changes
                         $uow->recomputeSingleEntityChangeSet(
                             $em->getClassMetadata(get_class($professor)),
                             $professor
                         );
-                    }
 
-                    if ($subject = $entity->getSubject()) {
-                        $subject->decrementScoreCount($oldScore);
-                        $subject->incrementScoreCount($newScore);
+                    } elseif ($subject = $entity->getSubject()) {
+
+                        if($oldScore !== null){
+                            $subject->decrementScoreCount($oldScore);
+                        }
+
+                        if($newScore !== null){
+                            $subject->incrementScoreCount($newScore);
+                        }
 
                         $uow->recomputeSingleEntityChangeSet(
                             $em->getClassMetadata(get_class($subject)),
