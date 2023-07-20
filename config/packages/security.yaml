@@ -22,6 +22,7 @@ security:
                 login_path: app_login
                 check_path: app_login
                 default_target_path: after_login
+                enable_csrf: true
 
             logout:
                 path: app_logout
