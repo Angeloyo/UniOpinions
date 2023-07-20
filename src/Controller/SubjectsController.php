@@ -32,7 +32,7 @@ class SubjectsController extends AbstractController
         $this->opinionRepository = $opinionRepository;
     }
 
-    #[Route('/{universitySlug}/{degreeSlug}/{subjectSlug}', name: 'app_subject')]
+    #[Route('/u/{universitySlug}/{degreeSlug}/{subjectSlug}', name: 'app_subject')]
     public function showSubject(
         string $universitySlug, 
         string $degreeSlug, 

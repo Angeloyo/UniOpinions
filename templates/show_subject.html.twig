@@ -6,11 +6,11 @@
         <h2 class="text-black dark:text-white text-xl">
             <a href="/universities">Universidades</a>
             <span class="mx-1">></span>
-            <a href="/{{ university.getSlug() }}"> {{ university.getName() }}</a>
+            <a href="/u/{{ university.getSlug() }}"> {{ university.getName() }}</a>
             <span class="mx-1">></span>
-            <a href="/{{ university.getSlug() }}/{{ degree.getSlug() }}"> {{ degree.name }}</a>
+            <a href="/u/{{ university.getSlug() }}/{{ degree.getSlug() }}"> {{ degree.name }}</a>
             <span class="mx-1">></span>
-            <a href="/{{ university.getSlug() }}/{{ degree.getSlug() }}/{{ subject.getSlug() }}"> {{ subject.name }}</a>
+            <a href="/u/{{ university.getSlug() }}/{{ degree.getSlug() }}/{{ subject.getSlug() }}"> {{ subject.name }}</a>
         </h2>
 
         <a href="{{ path('app_redirect_opinion_form', {

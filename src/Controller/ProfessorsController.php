@@ -35,7 +35,7 @@ class ProfessorsController extends AbstractController
         $this->opinionRepository = $opinionRepository;
     }
 
-    #[Route('/{universitySlug}/{degreeSlug}/{subjectSlug}/{professorSlug}', name: 'app_professor')]
+    #[Route('/u/{universitySlug}/{degreeSlug}/{subjectSlug}/{professorSlug}', name: 'app_professor')]
     public function showProfessor(
         string $universitySlug, 
         string $degreeSlug, 

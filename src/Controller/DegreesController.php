@@ -23,7 +23,7 @@ class DegreesController extends AbstractController
         $this->degreeRepository = $degreeRepository;
     }
 
-    #[Route('/{universitySlug}/{degreeSlug}', name: 'app_degree')]
+    #[Route('/u/{universitySlug}/{degreeSlug}', name: 'app_degree')]
     public function showDegree(
         string $universitySlug, 
         string $degreeSlug,

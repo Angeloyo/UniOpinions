@@ -40,7 +40,7 @@ class UniversitiesController extends AbstractController
         ]);
     }
 
-    #[Route('/{universitySlug}', name: 'app_university')]
+    #[Route('/u/{universitySlug}', name: 'app_university')]
     public function show(string $universitySlug, Request $request): Response
     {
 
