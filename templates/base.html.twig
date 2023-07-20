@@ -18,7 +18,7 @@
             <nav class="flex flex-row items-center justify-between  text-black md:h-20">
                 <a href="/">
                     <div class="m-5">
-                        <h2 class="text-4xl text-black dark:text-white">UniOpinions</h2>
+                        <h2 class="sm:text-4xl text-2xl text-black dark:text-white">UniOpinions</h2>
                     </div>
                 </a>
 
@@ -58,7 +58,7 @@
             </nav>
 
             {% if app.user and app.user.isVerified == false %}
-                <div class="bg-red-400 text-center flex items-center justify-center text-white h-12" 
+                <div class="bg-red-400 text-center flex items-center justify-center text-black sm:h-12 h-20 text-xl" 
                 {# role="alert" #}
                 >
                     <h3>
@@ -68,13 +68,13 @@
             {% endif %}
 
             {% for message in app.flashes('success') %}
-                <div class="bg-green-400 text-center flex items-center justify-center text-black h-12 text-xl">
+                <div class="bg-green-400 text-center flex items-center justify-center text-black sm:h-12 h-20 text-xl">
                     {{ message }}
                 </div>
             {% endfor %}
 
             {% for message in app.flashes('error') %}
-                <div class="bg-red-400 text-center flex items-center justify-center text-black h-12 text-xl">
+                <div class="bg-red-400 text-center flex items-center justify-center text-black sm:h-12 h-20 text-xl">
                     {{ message }}
                 </div>
             {% endfor %}

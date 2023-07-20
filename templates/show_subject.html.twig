@@ -2,7 +2,7 @@
 
 {% block main %}
 
-    <div class="flex md:flex-row flex-col justify-between items-start">
+    <div class="flex md:flex-row flex-col justify-between md:items-start items-center">
         <h2 class="text-black dark:text-white text-xl">
             <a href="/universities">Universidades</a>
             <span class="mx-1">></span>
@@ -18,7 +18,7 @@
             'objectId': subject.id, 
             }) }}">
             <button class="text-2xl rounded-3xl p-5 bg-slate-200 dark:bg-slate-800 text-black dark:text-white
-                md:mx-7 md:my-0 my-7">
+                md:mx-7 md:my-0 my-7 ">
                 Opina sobre esta asignatura
             </button>
         </a>
@@ -49,11 +49,11 @@
     </div>
 
     {# comentarios y profesores #}
-    <div class=" flex sm:flex-row flex-col-reverse">
+    <div class=" flex sm:flex-row flex-col-reverse ">
         {# comentarios #}
-        <div class="sm:w-1/2 sm:m-11 m-0">
+        <div class="sm:w-1/2 sm:m-11 md:m-5 m-0">
             <h2 class="text-black dark:text-white text-2xl sm:text-4xl text-center mt-7">
-                Comentarios
+                Comentarios de la asignatura
             </h1>
             <ul class="text-center text-xl  dark:text-white text-black ">
                 {% for opinion in opinions %}
@@ -72,7 +72,7 @@
                             {# <p class="text-sm">Anónimo</p> #}
                         </div>
 
-                        <div class="flex-grow justify-center m-5">
+                        <div class="flex-grow justify-center md:m-5 m-1">
                             <p class="text-left">
                                 {{ opinion.getComment() }}
                             </p>
@@ -83,7 +83,7 @@
         </div>
 
         {# profesores #}
-        <div class="sm:m-11 m-0 sm:w-1/2">
+        <div class="sm:m-11 md:m-5 m-0 sm:w-1/2">
             <h2 class="text-black dark:text-white text-2xl sm:text-4xl text-center mt-7 ">
                 Profesores
             </h1>

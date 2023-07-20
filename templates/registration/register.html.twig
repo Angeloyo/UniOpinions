@@ -7,7 +7,7 @@
         <div class="text-center text-red-500 text-3xl mb-3" role="alert">{{ flash_error }}</div>
     {% endfor %}
 
-    <h1 class="text-center text-black dark:text-white text-6xl mb-7">
+    <h1 class="text-center text-black dark:text-white text-5xl sm:text-6xl mb-5">
         Formulario de registro
     </h1>
 
@@ -27,7 +27,7 @@
             </div> #}
 
             <div class="flex justify-start flex-row">
-                <div class="flex flex-col text-3xl justify-center items-end">
+                <div class="flex flex-col sm:text-3xl text-2xl justify-center items-end">
                     <h2 class="mx-5 mb-7">
                         Email: 
                     </h2>
@@ -41,12 +41,14 @@
                     
                     <div class="mb-7">
                         {{ form_widget(registrationForm.email ,{'attr': {'class': '
-                        bg-slate-200 dark:bg-slate-800 rounded-md h-11 w-[30rem] text-3xl p-3'}}) }}
+                        bg-slate-200 dark:bg-slate-800 rounded-md sm:h-11 h-5 
+                        w-[12rem] sm:w-[30rem] sm:text-3xl text-xl p-3'}}) }}
                     </div>
 
                     <div class="">
                         {{ form_widget(registrationForm.plainPassword ,{'attr': {'class': '
-                        bg-slate-200 dark:bg-slate-800 rounded-md h-11 w-[30rem] text-3xl p-3'}}) }}
+                        bg-slate-200 dark:bg-slate-800 rounded-md sm:h-11 h-5 
+                        w-[12rem] sm:w-[30rem] sm:text-3xl text-xl p-3'}}) }}
                     </div>
 
                 </div>

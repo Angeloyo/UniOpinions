@@ -31,43 +31,35 @@
     <div class="flex justify-center items-center text-black dark:text-white
     text-4xl flex-col">
 
-        <h1 class="m-5 text-5xl text-center">Nueva opinión sobre {{ object.getName() }}</h1>
+        <h1 class="sm:m-5 m-1 sm:text-5xl text-3xl text-center">Nueva opinión sobre {{ object.getName() }}</h1>
 
         {# {{ form(form) }} #}
         {{ form_start(form) }}
         <div class="text-black dark:text-white">
 
-            <div class="mb-7 mt-3">
+            <div class="mb-7 mt-3 mx-1">
                 {# {{ form_label(form.comment) }} #}
-                <h2 class="my-5">Comentario: </h2>
+                <h2 class="my-5 text-center">Comentario: </h2>
                 
-                <h3 class="my-3 text-xl">Aviso: el comentario debe cumplir unas normas y será enviado a revisión antes de publicarse.</h3>
+                <h3 class="my-3 text-xl text-center">Aviso: el comentario debe cumplir unas normas y será enviado a revisión antes de publicarse.</h3>
                 {# todo: elaborar las normas y mostrarlas #}
 
-                <div class="text-black dark:text-white">
+                <div class="text-black dark:text-white text-xl sm:text-3xl">
                     {# {{ form_widget(form.comment) }} #}
                     {{ form_widget(form.comment, {'attr': {'class': '
                     border-0 dark:bg-slate-800 w-full p-2 border border-gray-300 rounded-xl 
-                    h-80 w-[66rem] bg-slate-200'}}) }}
+                    lg:h-80 h-56 mx-1 lg:w-[60rem] bg-slate-200'}}) }}
 
                 </div>
             </div>
-
-            {# <div class="my-14">
-                <h2 class="my-5">Valoración del 1 al 5:</h2>
-                <div class="flex flex-row space-x-2">
-                    {{ form_widget(form.givenScore, {'attr': {'class': 'mx-3 text-white font-semibold p-2 rounded-md cursor-pointer'}}) }}
-                </div>
-
-            </div> #}
             
             <div class="flex items-center justify-center flex-col ">
                 <h2 class="my-5 ">Valoración general: </h2>
 
-                <div class="flex flex-row space-x-2 bg-slate-200 dark:bg-slate-800 p-5 rounded-xl ">
+                <div class="flex flex-row space-x-2 bg-slate-200 dark:bg-slate-800 sm:p-5 p-2 rounded-xl text-xl sm:text-3xl flex items-center ">
 
                     {% for choice_form in form.givenScore %}
-                        <label for="{{ choice_form.vars.id }}" class="rating-label cursor-pointer p-4 rounded-md">
+                        <label for="{{ choice_form.vars.id }}" class="rating-label cursor-pointer px-1 py-2 sm:p-4 rounded-md">
                             {% if choice_form.vars.value == '' %}
                                 Ninguna
                             {% else %}
@@ -85,19 +77,13 @@
                 <div class="text-center ">
                     {# <h2>Enviar!</h2> #}
                     {# {{ form_widget(form.Enviar, {'attr': {'class': 'btn btn-success'}}) }} #}
-                    {{ form_widget(form.Enviar, {'attr': {'class': 'text-5xl
-                    py-5 px-36 bg-slate-200 dark:bg-slate-800 text-center rounded-full m-11'}}) }}
+                    {{ form_widget(form.Enviar, {'attr': {'class': 'sm:text-5xl text-3xl
+                    py-5 sm:px-36 px-16 bg-slate-200 dark:bg-slate-800 text-center rounded-full m-11'}}) }}
                 </div>
             </div>
 
-
         {{ form_end(form) }}
 
-
     </div>
-
-    
-
-    
 
 {% endblock %}
