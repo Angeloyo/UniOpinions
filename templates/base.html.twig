@@ -56,6 +56,29 @@
                 </div>
                 
             </nav>
+
+            {% if app.user and app.user.isVerified == false %}
+                <div class="bg-red-400 text-center flex items-center justify-center text-white h-12" 
+                {# role="alert" #}
+                >
+                    <h3>
+                        Tu cuenta no esta verificada y no puedes publicar comentarios. Por favor, verificala mediante el enlace que hemos enviado a tu e-mail. 
+                    </h3>
+                </div>
+            {% endif %}
+
+            {% for message in app.flashes('success') %}
+                <div class="bg-green-400 text-center flex items-center justify-center text-black h-12 text-xl">
+                    {{ message }}
+                </div>
+            {% endfor %}
+
+            {% for message in app.flashes('error') %}
+                <div class="bg-red-400 text-center flex items-center justify-center text-black h-12 text-xl">
+                    {{ message }}
+                </div>
+            {% endfor %}
+
         </header>
         <main class="m-7 sm:m-11">
             {% block main %}{% endblock %}
