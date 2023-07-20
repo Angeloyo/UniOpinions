@@ -45,11 +45,15 @@ class OpinionListener
             $score = $entity->getGivenScore();
 
             if ($professor = $entity->getProfessor()) {
-                $professor->incrementScoreCount($score);
+                if($score !== null){
+                    $professor->incrementScoreCount($score);
+                }
             }
 
             if ($subject = $entity->getSubject()) {
-                $subject->incrementScoreCount($score);
+                if($score !== null){
+                    $subject->incrementScoreCount($score);
+                }
             }
         }
 
