@@ -41,10 +41,26 @@ class OpinionController extends AbstractController
         ): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
+        // $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
+        // Avoid publish comments as another user
+        if($this->getUser()->getId() !== $userId){
+            $session = $request->getSession();
+            $referer = $session->get('referer');
+            $this->addFlash('error', 'No puedes publicar comentarios como otro usuario.');
+            return $this->redirect($referer);
+        }
 
         $opinion = new Opinion();
 
         $user = $this->entityManager->getRepository(User::class)->find($userId);
+
+        if (!$user->isVerified()) {
+            $session = $request->getSession();
+            $referer = $session->get('referer');
+            // $this->addFlash('error', 'Tu cuenta no esta verificada y no puedes publicar comentarios. Por favor, verificala mediante el enlace que hemos enviado a tu e-mail.');
+            return $this->redirect($referer);
+        }
 
         if ($type == 'professor') {
 
@@ -116,12 +132,10 @@ class OpinionController extends AbstractController
             $this->entityManager->flush();
 
             $session = $request->getSession();
-
             $referer = $session->get('referer');
-            
             // $session->remove('referer');
-
             // return $this->redirect($referer);
+
             if ($referer) {
                 return $this->redirect($referer);
             } else {
@@ -142,6 +156,13 @@ class OpinionController extends AbstractController
     {
 
         $this->denyAccessUnlessGranted('ROLE_USER');
+        // $this->denyAccessUnlessGranted('IS_AUTHENTIC ATED_FULLY');
+
+        if (!$this->getUser()->isVerified()) {
+            $session = $request->getSession();
+            $referer = $session->get('referer');
+            return $this->redirect($referer);
+        }
 
         return $this->redirectToRoute('app_create_opinion', [
             'type' => $type,
