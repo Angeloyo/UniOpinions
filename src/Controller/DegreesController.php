@@ -50,6 +50,9 @@ class DegreesController extends AbstractController
             $subjectsByYear[$year][] = $subject;
         }
 
+        // Ordena las asignaturas por año en orden ascendente
+        ksort($subjectsByYear);
+
         return $this->render('show_degree.html.twig', [
             'university' => $university,
             'degree' => $degree,
