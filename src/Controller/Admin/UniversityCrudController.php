@@ -7,7 +7,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
-
+use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 
 
 class UniversityCrudController extends AbstractCrudController
@@ -34,6 +34,7 @@ class UniversityCrudController extends AbstractCrudController
             IdField::new('id')->onlyOnDetail(),
             // IdField::new('id'),
             TextField::new('name'),
+            ArrayField::new('aliases'),
             TextField::new('slug')->onlyOnDetail(),
             CollectionField::new('degrees')
                 ->onlyOnDetail()
