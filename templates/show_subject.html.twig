@@ -1,16 +1,19 @@
 {% extends 'base.html.twig' %}
 
+{# {% block title %}{{ subject.name }}{% endblock %} #}
+{% block title %}UniOpinions | {{ subject.name }}{% endblock %}
+
 {% block main %}
 
     <div class="flex md:flex-row flex-col justify-between md:items-start items-center">
         <h2 class="text-black dark:text-white text-xl">
             <a href="/universities">Universidades</a>
             <span class="mx-1">></span>
-            <a href="/u/{{ university.getSlug() }}"> {{ university.getName() }}</a>
+            <a href="/u/{{ university.slug }}"> {{ university.name }}</a>
             <span class="mx-1">></span>
-            <a href="/u/{{ university.getSlug() }}/{{ degree.getSlug() }}"> {{ degree.name }}</a>
+            <a href="/u/{{ university.slug }}/{{ degree.slug }}"> {{ degree.name }}</a>
             <span class="mx-1">></span>
-            <a href="/u/{{ university.getSlug() }}/{{ degree.getSlug() }}/{{ subject.getSlug() }}"> {{ subject.name }}</a>
+            <a href="/u/{{ university.slug }}/{{ degree.slug }}/{{ subject.slug }}"> {{ subject.name }}</a>
         </h2>
 
         <a href="{{ path('app_redirect_specific_opinion', {
@@ -29,7 +32,7 @@
 
     </div>
 
-    <h1 class="text-black dark:text-white text-3xl sm:text-6xl text-center mt-10">{{ subject.getName() }}</h1>
+    <h1 class="text-black dark:text-white text-3xl sm:text-6xl text-center mt-10">{{ subject.name }}</h1>
 
     {# valoraciones del 1 al 5 #}
     <div class="flex justify-center flex-col items-center text-black dark:text-white">

@@ -1,23 +1,26 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}UniOpinions | {{ university.name }}{% endblock %}
+
 {% block main %}
 
     <h2 class="text-black dark:text-white text-xl">
         <a href="/universities">Universidades</a>
         <span class="mx-1">></span>
-        <a href="/u/{{ university.getSlug() }}"> {{ university.getName() }}</a>
+        <a href="/u/{{ university.slug }}"> {{ university.name }}</a>
     </h2>
 
     <h1 class="text-black dark:text-white text-3xl sm:text-5xl text-center mt-7">Grados</h1>
 
     <ul class="text-center sm:text-left text-xl dark:text-white text-black mt-7 mx-0 sm:mx-[19%]">
         {% for degree in degrees %}
+        
             <li>
                 <a href="{{ path('app_degree', {'universitySlug': university.slug, 'degreeSlug': degree.slug}) }}" 
                 
                 class="rounded-2xl p-3 my-4 bg-slate-200 dark:bg-slate-800 flex flex-row 
                     hover:bg-slate-300 dark:hover:bg-slate-900 justify-center">
-                    {{ degree.getName() }}
+                    {{ degree.name }}
                 </a>
             </li>
             
