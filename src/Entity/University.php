@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\UniversityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: UniversityRepository::class)]
@@ -23,6 +24,9 @@ class University
 
     #[ORM\Column(length: 255)]
     private ?string $slug = null;
+
+    #[ORM\Column(type: Types::SIMPLE_ARRAY, nullable: true)]
+    private ?array $aliases = null;
 
     public function __construct()
     {
@@ -89,6 +93,18 @@ class University
     public function setSlug(string $slug): static
     {
         $this->slug = $slug;
+
+        return $this;
+    }
+
+    public function getAliases(): ?array
+    {
+        return $this->aliases;
+    }
+
+    public function setAliases(?array $aliases): static
+    {
+        $this->aliases = $aliases;
 
         return $this;
     }
