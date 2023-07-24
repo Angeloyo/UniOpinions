@@ -13,7 +13,7 @@
             <a href="/u/{{ university.getSlug() }}/{{ degree.getSlug() }}/{{ subject.getSlug() }}"> {{ subject.name }}</a>
         </h2>
 
-        <a href="{{ path('app_redirect_opinion_form', {
+        <a href="{{ path('app_redirect_specific_opinion', {
             'type': 'subject', 
             'objectId': subject.id, 
             }) }}">
