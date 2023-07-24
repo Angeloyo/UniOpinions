@@ -15,16 +15,21 @@
             <a href="/u/{{ university.getSlug() }}/{{ degree.getSlug() }}/{{ subject.getSlug() }}/{{ professor.getSlug() }}"> {{ professor.name }}</a>
         </h2>
 
-        
+                
         <a href="{{ path('app_redirect_opinion_form', {
-        'type': 'professor', 
-        'objectId': professor.id,
-        }) }}">
+                'type': 'professor', 
+                'objectId': professor.id,
+                }) }}">
             <button class="lg:text-2xl text-xl rounded-3xl p-5 bg-slate-200 dark:bg-slate-800 text-black dark:text-white
                 md:mx-7 min-w-[10rem] md:my-0 my-7">
-                Opina sobre este profesor
+                {% if opinionExists %}
+                    Editar opinión sobre este profesor
+                {% else %}
+                    Opina sobre este profesor
+                {% endif %}
             </button>
         </a>
+
 
     </div>
     

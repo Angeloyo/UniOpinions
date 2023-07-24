@@ -7,6 +7,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\Professor;
 use App\Entity\Subject;
+use App\Entity\User;
 
 /**
  * @extends ServiceEntityRepository<Opinion>
@@ -44,4 +45,31 @@ class OpinionRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function existsByUserAndProfessor(User $user, Professor $professor)
+    {
+        $result = $this->createQueryBuilder('o')
+                ->where('o.owner = :owner')
+                ->andWhere('o.professor = :professor')
+                ->setParameter('owner', $user)
+                ->setParameter('professor', $professor)
+                ->getQuery()
+                ->getResult();
+
+        return count($result) > 0;
+    }
+
+    public function existsByUserAndSubject(User $user, Subject $subject)
+    {
+        $result = $this->createQueryBuilder('o')
+                ->where('o.owner = :owner')
+                ->andWhere('o.subject = :subject')
+                ->setParameter('owner', $user)
+                ->setParameter('subject', $subject)
+                ->getQuery()
+                ->getResult();
+
+        return count($result) > 0;
+    }
+
 }

@@ -19,7 +19,11 @@
             }) }}">
             <button class="text-2xl rounded-3xl p-5 bg-slate-200 dark:bg-slate-800 text-black dark:text-white
                 md:mx-7 md:my-0 my-7 ">
-                Opina sobre esta asignatura
+                {% if opinionExists %}
+                    Editar opinión sobre esta asignatura
+                {% else %}
+                    Opina sobre esta asignatura
+                {% endif %}
             </button>
         </a>
 
