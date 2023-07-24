@@ -48,11 +48,18 @@ class EditOpinionController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            // When comment is edited, it needs to be reviewed again
-            if ($originalComment != $opinion->getComment()) {
-                //hacer: avisar al usuario de que el comentario ha sido enviado a revision
-                $opinion->setAccepted(false);
-                $opinion->setReviewed(false);
+            // if there is no comment we dont need to review it
+            if($opinion->getComment() == null){
+                $opinion->setAccepted(true);
+                $opinion->setReviewed(true);
+            }
+            else{
+                // When comment is edited, it needs to be reviewed again
+                if ($originalComment != $opinion->getComment()) {
+                    //hacer: avisar al usuario de que el comentario ha sido enviado a revision
+                    $opinion->setAccepted(false);
+                    $opinion->setReviewed(false);
+                }
             }
 
             $this->entityManager->persist($opinion);
