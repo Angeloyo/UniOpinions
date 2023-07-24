@@ -1,4 +1,4 @@
-{# templates/opinion/new.html.twig #}
+{# templates/opinion/new_specific.html.twig #}
 
 {% extends 'base.html.twig' %}
 
@@ -56,7 +56,7 @@
             <div class="flex items-center justify-center flex-col ">
                 <h2 class="my-5 ">Valoración general: </h2>
 
-                <div class="flex flex-row space-x-2 bg-slate-200 dark:bg-slate-800 sm:p-5 p-2 rounded-xl text-xl sm:text-3xl flex items-center ">
+                <div class="flex flex-row space-x-2 bg-slate-200 dark:bg-slate-800 sm:p-5 p-2 rounded-xl text-xl sm:text-3xl items-center ">
 
                     {% for choice_form in form.givenScore %}
                         <label for="{{ choice_form.vars.id }}" class="rating-label cursor-pointer px-1 py-2 sm:p-4 rounded-md">

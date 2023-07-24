@@ -114,7 +114,7 @@ class OpinionController extends AbstractController
 
         $opinion->setOwner($user);
     
-        $form = $this->createForm(\App\Form\OpinionFormType::class, $opinion);
+        $form = $this->createForm(\App\Form\SpecificOpinionFormType::class, $opinion);
 
         $form->handleRequest($request);
 
@@ -143,7 +143,7 @@ class OpinionController extends AbstractController
             }
         }
 
-        return $this->render('opinion/new.html.twig', [
+        return $this->render('opinion/new_specific.html.twig', [
             'form' => $form,
             'object' => $object,
         ]);
@@ -152,7 +152,7 @@ class OpinionController extends AbstractController
     //This is needed in order to force user to login when he wants to create an opinion
     //and get his id to re route
     #[Route('/opinion/redirect/{type}/{objectId}', name: 'app_redirect_opinion_form')]
-    public function redirectToOpinionForm($type, $objectId, Request $request)
+    public function redirectToSpecificOpinionForm($type, $objectId, Request $request)
     {
 
         $this->denyAccessUnlessGranted('ROLE_USER');

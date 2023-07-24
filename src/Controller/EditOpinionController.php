@@ -39,7 +39,7 @@ class EditOpinionController extends AbstractController
             throw $this->createAccessDeniedException('No tienes permiso para editar esta opinion.');
         }
 
-        $form = $this->createForm(\App\Form\OpinionFormType::class, $opinion);
+        $form = $this->createForm(\App\Form\SpecificOpinionFormType::class, $opinion);
 
         // Get original comment before form handling
         $originalComment = $opinion->getComment();
