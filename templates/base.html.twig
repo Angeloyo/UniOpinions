@@ -2,7 +2,9 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        {# <title>{% block title %}Welcome!{% endblock %}</title> #}
+        
+        <title>{% block title %}{% endblock %}</title>
+
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -22,12 +24,6 @@
                         <h2 class="sm:text-4xl text-2xl text-black dark:text-white">UniOpinions</h2>
                     </div>
                 </a>
-
-                {# <a href="{{ path('app_login')}}">
-                    <button>
-                        Iniciar sesión
-                    </button>
-                </a>                 #}
 
                 <div class="flex flex-row items-center justify-center">
                     {% if app.user %}
@@ -81,11 +77,19 @@
             {% endfor %}
 
         </header>
+
         <main class="m-7 sm:m-11">
             {% block main %}{% endblock %}
         </main>
 
         <footer id="footer" class="bg-slate-300 mt-auto dark:bg-slate-800 text-base">
+
+            {% if app.user %}
+                <div class="text-center mt-5">
+                    <h4>Iniciada sesión como: {{ app.user.email }}</h4>
+                </div>
+            {% endif %}
+
             <div class="flex justify-center dark:text-white ">
                 
                 <div class="m-7">
