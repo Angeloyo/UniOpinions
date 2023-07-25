@@ -7,7 +7,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Opinion;
-use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\ProfessorRepository;
 use App\Repository\SubjectRepository;
@@ -29,37 +28,26 @@ class CreateSpecificOpinionController extends AbstractController
         $this->entityManager = $entityManager;
     }
 
-    #[Route('/opinion/new/{type}/{objectId}/{userId}', name: 'app_create_opinion')]
+    #[Route('/opinion/new-specific/{type}/{objectId}', name: 'app_create_specific_opinion')]
     public function createOpinion(
         string $type, 
         int $objectId,
-        int $userId,
         Request $request,
         ): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
-        // $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-
-        // Avoid publish comments as another user
-        if($this->getUser()->getId() !== $userId){
-            $session = $request->getSession();
-            $referer = $session->get('referer');
-            $this->addFlash('error', 'No puedes publicar comentarios como otro usuario.');
-            return $this->redirect($referer);
-        }
 
         $opinion = new Opinion();
-
-        $user = $this->entityManager->getRepository(User::class)->find($userId);
+        $userId = $this->getUser()->getId();
+        $user = $this->getUser();
 
         if (!$user->isVerified()) {
             $session = $request->getSession();
             $referer = $session->get('referer');
-            // $this->addFlash('error', 'Tu cuenta no esta verificada y no puedes publicar comentarios. Por favor, verificala mediante el enlace que hemos enviado a tu e-mail.');
             return $this->redirect($referer);
         }
 
-        if ($type == 'professor') {
+        if ($type == 'p') {
 
             $professor = $this->professorRepository->find($objectId);
             if (!$professor) {
@@ -69,8 +57,8 @@ class CreateSpecificOpinionController extends AbstractController
             $existingOpinion = $professor->getOpinions()->filter(function($opinion) use ($userId) {
                 return $opinion->getOwner()->getId() == $userId;
             })->first();
-            if ($existingOpinion) {
 
+            if ($existingOpinion) {
                 return $this->redirectToRoute('app_edit_opinion', [
                     'id' => $existingOpinion->getId()
                 ]);
@@ -80,7 +68,7 @@ class CreateSpecificOpinionController extends AbstractController
 
             $object = $professor;
 
-        } elseif ($type == 'subject') {
+        } elseif ($type == 's') {
 
             $subject = $this->subjectRepository->find($objectId);
             if (!$subject) {
@@ -90,8 +78,8 @@ class CreateSpecificOpinionController extends AbstractController
             $existingOpinion = $subject->getOpinions()->filter(function($opinion) use ($userId) {
                 return $opinion->getOwner()->getId() == $userId;
             })->first();
+            
             if ($existingOpinion) {
-
                 return $this->redirectToRoute('app_edit_opinion', [
                     'id' => $existingOpinion->getId()
                 ]);

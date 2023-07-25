@@ -17,7 +17,7 @@
         </h2>
 
         <a href="{{ path('app_redirect_specific_opinion', {
-            'type': 'subject', 
+            'type': 's', 
             'objectId': subject.id, 
             }) }}">
             <button class="text-2xl rounded-3xl p-5 bg-slate-200 dark:bg-slate-800 text-black dark:text-white
@@ -102,8 +102,15 @@
                             mx-auto sm:hover:bg-slate-300 sm:dark:hover:bg-slate-900 justify-center">
                             {{ professor.getName() }}
                         </a>
+                        
                     </li>
                 {% endfor %}
+                {# <a href="{{ path('app_redirect_generic_opinion') }}"  #}
+                <a href="" 
+                class="rounded-2xl p-3 my-6 bg-slate-200 dark:bg-slate-800 flex flex-row 
+                    mx-auto sm:hover:bg-slate-300 sm:dark:hover:bg-slate-900 justify-center">
+                    ¿Quieres opinar de un profesor que no está aquí? Haz click en este botón.
+                </a>
             </ul>
         </div>
     </div>

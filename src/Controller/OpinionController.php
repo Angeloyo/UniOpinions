@@ -23,10 +23,29 @@ class OpinionController extends AbstractController
             return $this->redirect($referer);
         }
 
-        return $this->redirectToRoute('app_create_opinion', [
+        return $this->redirectToRoute('app_create_specific_opinion', [
             'type' => $type,
             'objectId' => $objectId,
-            'userId' => $this->getUser()->getId()
+            // 'userId' => $this->getUser()->getId()
+        ]);
+    }
+
+    #[Route('/opinion/generic-redirect/', name: 'app_redirect_generic_opinion')]
+    public function redirectToGenericOpinionForm($type, $objectId, Request $request)
+    {
+
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
+        if (!$this->getUser()->isVerified()) {
+            $session = $request->getSession();
+            $referer = $session->get('referer');
+            return $this->redirect($referer);
+        }
+
+        return $this->redirectToRoute('app_create_generic_opinion', [
+            // 'type' => $type,
+            // 'objectId' => $objectId,
+            // 'userId' => $this->getUser()->getId()
         ]);
     }
 

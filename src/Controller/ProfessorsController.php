@@ -59,7 +59,6 @@ class ProfessorsController extends AbstractController
         }
 
         $session = $request->getSession();
-        // $referer = $request->headers->get('referer');
         $referer = $request->getUri();
         $session->set('referer', $referer);
 
