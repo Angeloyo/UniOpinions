@@ -16,13 +16,16 @@ class OpinionListener
 
             $score = $entity->getGivenScore();
 
-            if ($professor = $entity->getProfessor()) {
-                $professor->decrementScoreCount($score);
-            }
+            if ($score !== null){
+                if ($professor = $entity->getProfessor() ) {
+                    $professor->decrementScoreCount($score);
+                }
 
-            if ($subject = $entity->getSubject()) {
-                $subject->decrementScoreCount($score);
+                if ($subject = $entity->getSubject()) {
+                    $subject->decrementScoreCount($score);
+                }
             }
+            
         }
     }
 
