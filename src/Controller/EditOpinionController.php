@@ -34,7 +34,11 @@ class EditOpinionController extends AbstractController
 
         if (!$opinion) {
             $this->addFlash('error', 'Opinion no encontrada');
-            return $this->redirect($referer);
+            if ($referer) {
+                return $this->redirect($referer);
+            } else {
+                return $this->redirectToRoute('app_home');
+            }
         }
 
         // Check if the user has permission to edit the opinion
@@ -42,7 +46,11 @@ class EditOpinionController extends AbstractController
         if (!$user || $user->getId() !== $opinion->getOwner()->getId()) {
             // throw $this->createAccessDeniedException('No tienes permiso para editar esta opinion.');
             $this->addFlash('error', 'No tienes permiso para editar esta opinion.');
-            return $this->redirect($referer);
+            if ($referer) {
+                return $this->redirect($referer);
+            } else {
+                return $this->redirectToRoute('app_home');
+            }
         }
 
         $form = $this->createForm(\App\Form\SpecificOpinionFormType::class, $opinion);

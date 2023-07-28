@@ -45,13 +45,23 @@ class UniversitiesController extends AbstractController
     {
 
         $session = $request->getSession();
-        // $referer = $request->headers->get('referer');
-        $referer = $request->getUri();
-        $session->set('referer', $referer);
+        $referer = $session->get('referer');
 
         $university = $this->universityRepository->findOneBySlug($universitySlug);
 
+        if(!$university){
+            $this->addFlash('error', 'Universidad no encontrada.');
+            if ($referer) {
+                return $this->redirect($referer);
+            } else {
+                return $this->redirectToRoute('app_home');
+            }
+        }
+
         $acceptedDegrees = $this->degreeRepository->findBy(['university' => $university, 'accepted' => true]);
+
+        $referer = $request->getUri();
+        $session->set('referer', $referer);
 
         return $this->render('show_university.html.twig', [
             'university' => $university,

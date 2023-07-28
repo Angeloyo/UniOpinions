@@ -27,9 +27,9 @@ class UniversityRepository extends ServiceEntityRepository
     {
         $university = $this->findOneBy(['slug' => $slug]);
 
-        if (!$university) {
-            throw new EntityNotFoundException('La universidad '.$slug.' no existe');
-        }
+        // if (!$university) {
+        //     $this->addFlash('error', 'Universidad no encontrada.');
+        // }
 
         return $university;
     }

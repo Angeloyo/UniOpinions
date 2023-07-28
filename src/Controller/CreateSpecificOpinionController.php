@@ -42,7 +42,11 @@ class CreateSpecificOpinionController extends AbstractController
         $referer = $session->get('referer');
 
         if (!$user->isVerified()) {
-            return $this->redirect($referer);
+            if ($referer) {
+                return $this->redirect($referer);
+            } else {
+                return $this->redirectToRoute('app_home');
+            }
         }
         
         $opinion = new Opinion();
@@ -54,7 +58,11 @@ class CreateSpecificOpinionController extends AbstractController
             if (!$professor) {
                 // throw $this->createNotFoundException('Profesor no encontrado');
                 $this->addFlash('error', 'Profesor no encontrado.');
-                return $this->redirect($referer);
+                if ($referer) {
+                    return $this->redirect($referer);
+                } else {
+                    return $this->redirectToRoute('app_home');
+                }
             }
             
             $existingOpinion = $professor->getOpinions()->filter(function($opinion) use ($userId) {
@@ -77,7 +85,11 @@ class CreateSpecificOpinionController extends AbstractController
             if (!$subject) {
                 // throw $this->createNotFoundException('Subject not found');
                 $this->addFlash('error', 'Asignatura no encontrada');
-                return $this->redirect($referer);
+                if ($referer) {
+                    return $this->redirect($referer);
+                } else {
+                    return $this->redirectToRoute('app_home');
+                }
             }
 
             $existingOpinion = $subject->getOpinions()->filter(function($opinion) use ($userId) {

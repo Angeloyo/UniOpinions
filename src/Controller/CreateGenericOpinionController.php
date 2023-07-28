@@ -59,7 +59,11 @@ class CreateGenericOpinionController extends AbstractController
         $referer = $session->get('referer');
 
         if (!$user->isVerified()) {
-            return $this->redirect($referer);
+            if ($referer) {
+                return $this->redirect($referer);
+            } else {
+                return $this->redirectToRoute('app_home');
+            }
         }
 
         $university = null;
@@ -73,7 +77,11 @@ class CreateGenericOpinionController extends AbstractController
             $university = $this->universityRepository->find($universityId);
             if (!$university) {
                 $this->addFlash('error', 'Universidad no encontrada.');
-                return $this->redirect($referer);
+                if ($referer) {
+                    return $this->redirect($referer);
+                } else {
+                    return $this->redirectToRoute('app_home');
+                }
             }
 
             if($degreeId){
@@ -81,12 +89,20 @@ class CreateGenericOpinionController extends AbstractController
                 $degree = $this->degreeRepository->find($degreeId);
                 if (!$degree) {
                     $this->addFlash('error', 'Grado no encontrado.');
-                    return $this->redirect($referer);
+                    if ($referer) {
+                        return $this->redirect($referer);
+                    } else {
+                        return $this->redirectToRoute('app_home');
+                    }
                 }
                 // Check if the degree is in that university
                 if ($degree->getUniversity() !== $university) {
                     $this->addFlash('error', 'El grado especificado no pertenece a la universidad especificada.');
-                    return $this->redirect($referer);
+                    if ($referer) {
+                        return $this->redirect($referer);
+                    } else {
+                        return $this->redirectToRoute('app_home');
+                    }
                 }
 
                 if($subjectId){
@@ -94,12 +110,20 @@ class CreateGenericOpinionController extends AbstractController
                     $subject = $this->subjectRepository->find($subjectId);
                     if (!$subject) {
                         $this->addFlash('error', 'Asignatura no encontrada');
-                        return $this->redirect($referer);
+                        if ($referer) {
+                            return $this->redirect($referer);
+                        } else {
+                            return $this->redirectToRoute('app_home');
+                        }
                     }
                     // Check if the subject is in that degree
                     if ($subject->getDegree() !== $degree) {
                         $this->addFlash('error', 'Asignatura especificada no pertenece al grado especificado');
-                        return $this->redirect($referer);
+                        if ($referer) {
+                            return $this->redirect($referer);
+                        } else {
+                            return $this->redirectToRoute('app_home');
+                        }
                     }
 
                     $form->get('year')->setData($subject->getYear());

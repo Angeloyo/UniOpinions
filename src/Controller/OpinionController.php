@@ -16,11 +16,16 @@ class OpinionController extends AbstractController
 
         $this->denyAccessUnlessGranted('ROLE_USER');
         // $this->denyAccessUnlessGranted('IS_AUTHENTIC ATED_FULLY');
-
+        $session = $request->getSession();
+        $referer = $session->get('referer');
+        
         if (!$this->getUser()->isVerified()) {
-            $session = $request->getSession();
-            $referer = $session->get('referer');
-            return $this->redirect($referer);
+            
+            if ($referer) {
+                return $this->redirect($referer);
+            } else {
+                return $this->redirectToRoute('app_home');
+            }
         }
 
         return $this->redirectToRoute('app_create_specific_opinion', [
@@ -35,11 +40,16 @@ class OpinionController extends AbstractController
     {
 
         $this->denyAccessUnlessGranted('ROLE_USER');
+        $session = $request->getSession();
+        $referer = $session->get('referer');
 
         if (!$this->getUser()->isVerified()) {
-            $session = $request->getSession();
-            $referer = $session->get('referer');
-            return $this->redirect($referer);
+            
+            if ($referer) {
+                return $this->redirect($referer);
+            } else {
+                return $this->redirectToRoute('app_home');
+            }
         }
 
         return $this->redirectToRoute('app_create_generic_opinion', [
