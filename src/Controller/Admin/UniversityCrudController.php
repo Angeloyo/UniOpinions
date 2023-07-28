@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\University;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
@@ -32,6 +33,8 @@ class UniversityCrudController extends AbstractCrudController
     {
         return [
             IdField::new('id')->onlyOnDetail(),
+            BooleanField::new('accepted'),
+            BooleanField::new('reviewed'),
             // IdField::new('id'),
             TextField::new('name'),
             ArrayField::new('aliases'),

@@ -44,7 +44,6 @@ class SubjectsController extends AbstractController
         $university = $this->universityRepository->findOneBySlug($universitySlug);
         $degree = $this->degreeRepository->findOneBySlugAndUniversity($degreeSlug, $university);
         $subject = $this->subjectRepository->findOneBySlugAndDegree($subjectSlug, $degree);
-        $professors = $subject->getProfessors();
         $acceptedOpinions = $this->opinionRepository->findAcceptedBySubject($subject);
 
         $user = $this->getUser();
@@ -53,6 +52,8 @@ class SubjectsController extends AbstractController
         if ($user !== null) {
             $opinionExists = $this->opinionRepository->existsByUserAndSubject($user, $subject);
         }
+
+        $acceptedProfessors = $subject->getAcceptedProfessors();
 
         $session = $request->getSession();
         // $referer = $request->headers->get('referer');
@@ -64,7 +65,7 @@ class SubjectsController extends AbstractController
             'degree' => $degree,
             'subject' => $subject,
             'opinions' => $acceptedOpinions,
-            'professors' => $professors,
+            'professors' => $acceptedProfessors,
             'opinionExists' => $opinionExists,
         ]);
     }

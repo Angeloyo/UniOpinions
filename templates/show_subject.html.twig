@@ -16,7 +16,7 @@
             <a href="/u/{{ university.slug }}/{{ degree.slug }}/{{ subject.slug }}"> {{ subject.name }}</a>
         </h2>
 
-        <a href="{{ path('app_redirect_specific_opinion', {
+        <a href="{{ path('app_create_specific_opinion', {
             'type': 's', 
             'objectId': subject.id, 
             }) }}">
@@ -105,8 +105,8 @@
                         
                     </li>
                 {% endfor %}
-                {# <a href="{{ path('app_redirect_generic_opinion') }}"  #}
-                <a href="" 
+                <a href="{{ path('app_create_generic_opinion', { universityId: university.id, degreeId: degree.id, subjectId: subject.id }) }}" 
+                {# <a href=""  #}
                 class="rounded-2xl p-3 my-6 bg-slate-200 dark:bg-slate-800 flex flex-row 
                     mx-auto sm:hover:bg-slate-300 sm:dark:hover:bg-slate-900 justify-center">
                     ¿Quieres opinar de un profesor que no está aquí? Haz click en este botón.

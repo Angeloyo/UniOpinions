@@ -33,4 +33,14 @@ class UniversityRepository extends ServiceEntityRepository
 
         return $university;
     }
+
+    public function findByNameLike(string $name)
+    {
+        return $this->createQueryBuilder('u')  // 'u' se refiere a la entidad 'University'
+            //Se busca también entre los alias de la universidad    
+            ->where('LOWER(UNACCENT(u.name)) LIKE LOWER(UNACCENT(:name)) OR LOWER(UNACCENT(u.aliases)) LIKE LOWER(UNACCENT(:name))')
+            ->setParameter('name', '%' . $name . '%')  
+            ->getQuery()
+            ->getResult();
+    }
 }

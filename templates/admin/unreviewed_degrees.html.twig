@@ -1,0 +1,32 @@
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block content %}
+
+{# texto gris porque no se como manejar modo oscuro/claro en el panel admin #}
+<div class="text-gray-500 m-11">
+    <h1 class="">Grados no revisados</h1>
+
+    <table class="table">
+        <thead>
+            <tr class="text-gray-500 ">
+                <th>ID</th>
+                <th>Grado</th>
+                <th class="text-right">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for degree in degrees %}
+                <tr class="text-gray-500">
+                    <td >{{ degree.id }}</td>
+                    <td >{{ degree.name }}</td>
+                    <td class="text-right">
+                        <a href="{{ path('admin_accept_degree', {id: degree.id}) }}" class="btn btn-success">Aceptar</a>
+                        <a href="{{ path('admin_reject_degree', {id: degree.id}) }}" class="btn btn-danger">Rechazar</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+    
+{% endblock %}

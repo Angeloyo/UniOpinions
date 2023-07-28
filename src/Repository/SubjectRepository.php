@@ -33,4 +33,29 @@ class SubjectRepository extends ServiceEntityRepository
 
         return $subject;
     }
+
+    public function findOneByIdAndDegree(int $id, Degree $degree): ?Subject
+    {
+        $subject = $this->findOneBy(['id' => $id, 'degree' => $degree]);
+
+        if (!$subject) {
+            throw new EntityNotFoundException('La asignatura con id '.$id.' no existe en el grado especificado.');
+        }
+
+        return $subject;
+    }
+
+    public function findByDegreeIdAndYearAndNameLike($degreeId, $year, $term)
+    {
+        return $this->createQueryBuilder('s')
+            ->innerJoin('s.degree', 'd')
+            ->where('d.id = :degreeId')
+            ->andWhere('s.year = :year')
+            ->andWhere('LOWER(UNACCENT(s.name)) LIKE LOWER(UNACCENT(:term))')
+            ->setParameter('degreeId', $degreeId)
+            ->setParameter('year', $year)
+            ->setParameter('term', '%' . $term . '%')
+            ->getQuery()
+            ->getResult();
+    }
 }

@@ -7,20 +7,24 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\UniversityRepository;
 use App\Repository\DegreeRepository;
+use App\Repository\SubjectRepository;
 use Symfony\Component\HttpFoundation\Request;
 
 class DegreesController extends AbstractController
 {
     private $universityRepository;
     private $degreeRepository;
+    private $subjectRepository;
 
     public function __construct(
         UniversityRepository $universityRepository,
         DegreeRepository $degreeRepository,
+        SubjectRepository $subjectRepository,
         )
     {
         $this->universityRepository = $universityRepository;
         $this->degreeRepository = $degreeRepository;
+        $this->subjectRepository = $subjectRepository;
     }
 
     #[Route('/u/{universitySlug}/{degreeSlug}', name: 'app_degree')]
@@ -39,8 +43,9 @@ class DegreesController extends AbstractController
         $university = $this->universityRepository->findOneBySlug($universitySlug);
         $degree = $this->degreeRepository->findOneBySlugAndUniversity($degreeSlug, $university);
 
+        $subjects = $this->subjectRepository->findBy(['degree' => $degree, 'accepted' => true]);
+        
         // Agrupa las asignaturas por año
-        $subjects = $degree->getSubjects()->toArray();
         $subjectsByYear = [];
         foreach ($subjects as $subject) {
             $year = $subject->getYear();

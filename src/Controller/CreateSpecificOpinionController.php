@@ -29,7 +29,7 @@ class CreateSpecificOpinionController extends AbstractController
     }
 
     #[Route('/opinion/new-specific/{type}/{objectId}', name: 'app_create_specific_opinion')]
-    public function createOpinion(
+    public function createSpecificOpinion(
         string $type, 
         int $objectId,
         Request $request,
@@ -37,21 +37,24 @@ class CreateSpecificOpinionController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-        $opinion = new Opinion();
-        $userId = $this->getUser()->getId();
         $user = $this->getUser();
+        $session = $request->getSession();
+        $referer = $session->get('referer');
 
         if (!$user->isVerified()) {
-            $session = $request->getSession();
-            $referer = $session->get('referer');
             return $this->redirect($referer);
         }
+        
+        $opinion = new Opinion();
+        $userId = $this->getUser()->getId();
 
         if ($type == 'p') {
 
             $professor = $this->professorRepository->find($objectId);
             if (!$professor) {
-                throw $this->createNotFoundException('Profesor no encontrado');
+                // throw $this->createNotFoundException('Profesor no encontrado');
+                $this->addFlash('error', 'Profesor no encontrado.');
+                return $this->redirect($referer);
             }
             
             $existingOpinion = $professor->getOpinions()->filter(function($opinion) use ($userId) {
@@ -72,7 +75,9 @@ class CreateSpecificOpinionController extends AbstractController
 
             $subject = $this->subjectRepository->find($objectId);
             if (!$subject) {
-                throw $this->createNotFoundException('Subject not found');
+                // throw $this->createNotFoundException('Subject not found');
+                $this->addFlash('error', 'Asignatura no encontrada');
+                return $this->redirect($referer);
             }
 
             $existingOpinion = $subject->getOpinions()->filter(function($opinion) use ($userId) {
@@ -108,11 +113,6 @@ class CreateSpecificOpinionController extends AbstractController
             
             $this->entityManager->persist($opinion);
             $this->entityManager->flush();
-
-            $session = $request->getSession();
-            $referer = $session->get('referer');
-            // $session->remove('referer');
-            // return $this->redirect($referer);
 
             if ($referer) {
                 return $this->redirect($referer);

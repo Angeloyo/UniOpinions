@@ -32,4 +32,16 @@ class ProfessorRepository extends ServiceEntityRepository
 
         return $professor;
     }
+
+    public function findBySubjectIdAndNameLike($subjectId, $term)
+    {
+        return $this->createQueryBuilder('p')
+            ->innerJoin('p.subject', 's')
+            ->where('s.id IN (:subjectId)')
+            ->andWhere('LOWER(UNACCENT(p.name)) LIKE LOWER(UNACCENT(:term))')
+            ->setParameter('subjectId', $subjectId)
+            ->setParameter('term', '%' . $term . '%')
+            ->getQuery()
+            ->getResult();
+    }
 }

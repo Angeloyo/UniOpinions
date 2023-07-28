@@ -29,14 +29,20 @@ class EditOpinionController extends AbstractController
 
         $opinion = $this->opinionRepository->find($id);
 
+        $session = $request->getSession();
+        $referer = $session->get('referer');
+
         if (!$opinion) {
-            throw $this->createNotFoundException('Opinion no encontrada');
+            $this->addFlash('error', 'Opinion no encontrada');
+            return $this->redirect($referer);
         }
 
         // Check if the user has permission to edit the opinion
         $user = $this->getUser();
         if (!$user || $user->getId() !== $opinion->getOwner()->getId()) {
-            throw $this->createAccessDeniedException('No tienes permiso para editar esta opinion.');
+            // throw $this->createAccessDeniedException('No tienes permiso para editar esta opinion.');
+            $this->addFlash('error', 'No tienes permiso para editar esta opinion.');
+            return $this->redirect($referer);
         }
 
         $form = $this->createForm(\App\Form\SpecificOpinionFormType::class, $opinion);
@@ -65,11 +71,6 @@ class EditOpinionController extends AbstractController
             $this->entityManager->persist($opinion);
             $this->entityManager->flush();
 
-            $session = $request->getSession();
-            $referer = $session->get('referer');
-            // $session->remove('referer');
-
-            // return $this->redirect($referer);
             if ($referer) {
                 return $this->redirect($referer);
             } else {

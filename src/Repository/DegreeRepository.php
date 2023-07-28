@@ -33,4 +33,29 @@ class DegreeRepository extends ServiceEntityRepository
 
         return $degree;
     }
+
+    public function findOneByIdAndUniversity(int $id, University $university): ?Degree
+    {
+        $degree = $this->findOneBy(['id' => $id, 'university' => $university]);
+
+        if (!$degree) {
+            throw new EntityNotFoundException('El grado con id '.$id.' no existe en la universidad especificada');
+        }
+
+        return $degree;
+    }
+
+    public function findByUniversityIdAndNameLike($universityId, $term)
+    {
+        return $this->createQueryBuilder('d')
+            ->innerJoin('d.university', 'u')
+            ->where('u.id = :universityId')
+            ->andWhere('LOWER(UNACCENT(d.name)) LIKE LOWER(UNACCENT(:term))')
+            ->setParameter('universityId', $universityId)
+            ->setParameter('term', '%' . $term . '%')
+            ->getQuery()
+            ->getResult();
+    }
+
+
 }

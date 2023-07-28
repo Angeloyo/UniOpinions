@@ -28,6 +28,12 @@ class University
     #[ORM\Column(type: Types::SIMPLE_ARRAY, nullable: true)]
     private ?array $aliases = null;
 
+    #[ORM\Column]
+    private ?bool $accepted = false;
+
+    #[ORM\Column]
+    private ?bool $reviewed = false;
+
     public function __construct()
     {
         $this->degrees = new ArrayCollection();
@@ -105,6 +111,30 @@ class University
     public function setAliases(?array $aliases): static
     {
         $this->aliases = $aliases;
+
+        return $this;
+    }
+
+    public function isAccepted(): ?bool
+    {
+        return $this->accepted;
+    }
+
+    public function setAccepted(bool $accepted): static
+    {
+        $this->accepted = $accepted;
+
+        return $this;
+    }
+
+    public function isReviewed(): ?bool
+    {
+        return $this->reviewed;
+    }
+
+    public function setReviewed(bool $reviewed): static
+    {
+        $this->reviewed = $reviewed;
 
         return $this;
     }

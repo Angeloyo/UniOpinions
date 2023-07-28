@@ -33,10 +33,10 @@ class UniversitiesController extends AbstractController
         $referer = $request->getUri();
         $session->set('referer', $referer);
 
-        $universities = $this->universityRepository->findAll();
+        $acceptedUniversities = $this->universityRepository->findBy(['accepted' => true]);
 
         return $this->render('universities.html.twig', [
-            'universities' => $universities,
+            'universities' => $acceptedUniversities,
         ]);
     }
 
@@ -51,11 +51,11 @@ class UniversitiesController extends AbstractController
 
         $university = $this->universityRepository->findOneBySlug($universitySlug);
 
-        $degrees = $this->degreeRepository->findBy(['university' => $university]);
+        $acceptedDegrees = $this->degreeRepository->findBy(['university' => $university, 'accepted' => true]);
 
         return $this->render('show_university.html.twig', [
             'university' => $university,
-            'degrees' => $degrees,
+            'degrees' => $acceptedDegrees,
         ]);
     }
 }

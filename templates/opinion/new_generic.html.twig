@@ -1,0 +1,191 @@
+{# templates/opinion/new_generic.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block main %}
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var ratingOptions = document.getElementsByClassName('hidden-rating');
+
+            for (var i = 0; i < ratingOptions.length; i++) {
+                ratingOptions[i].addEventListener('change', function() {
+
+                    var selected = document.querySelector('.rating-label.bg-slate-300');
+                    
+                    if (selected) {
+                        selected.classList.remove('bg-slate-300');
+                        selected.classList.remove('dark:bg-slate-900');
+                    }
+
+                    if (this.checked) {
+                        this.parentElement.classList.add('bg-slate-300');
+                        this.parentElement.classList.add('dark:bg-slate-900');
+                    }
+                });
+
+                // Verifica si alguna opción está seleccionada al cargar la página
+                if (ratingOptions[i].checked) {
+                    ratingOptions[i].parentElement.classList.add('bg-slate-300');
+                    ratingOptions[i].parentElement.classList.add('dark:bg-slate-900');
+                }
+            }
+        });
+    </script>
+
+    <script>
+        var initialData = {
+            university: {
+                id: "{{ selectedUniversity ? selectedUniversity.id : '' }}",
+                text: "{{ selectedUniversity ? selectedUniversity : '' }}"
+            },
+            degree: {
+                id: "{{ selectedDegree ? selectedDegree.id : '' }}",
+                text: "{{ selectedDegree ? selectedDegree : '' }}"
+            },
+            subject: {
+                id: "{{ selectedSubject ? selectedSubject.id : '' }}",
+                text: "{{ selectedSubject ? selectedSubject : '' }}"
+            },
+            year: {
+                id: "{{ selectedYear ? selectedYear : '' }}",
+                text: "{{ selectedYear ? selectedYear : '' }}"
+            }
+        };
+    </script>
+
+
+    <div class="flex justify-center items-center text-black dark:text-white
+    text-4xl flex-col">
+
+        <h1 class="sm:m-5 m-1 sm:text-5xl text-3xl text-center">Nueva opinión genérica</h1>
+        <div class="text-xl text-center">
+            <h2>En este formulario podrás opinar sobre la asignatura o profesor que quieras, incluso si no existen actualmente en la página web.</h2>
+            <h2>Tampoco importa si no existe tu universidad o grado en la web. Nosotros lo crearemos por ti.</h2>
+            <h2>Recuerda que las solicitudes las revisa un humano. Rellena los campos con los nombres completos y sin faltas de ortografía.</h2>
+        </div>
+
+        {# {{ form(form) }} #}
+        {{ form_start(form, {'attr': {'class': '
+            flex flex-col justify-center items-center','style': 'width: 100%'}}) }}
+
+        <div class=" text-black dark:text-white w-[20rem] sm:w-[25rem] 
+        md:w-[30rem] lg:w-[40rem] xl:w-[50rem]">
+
+            {# {% if form.errors is not empty %}
+                <div class="">
+                    {% for error in form.errors %}
+                        {{ error.message }}
+                    {% endfor %}
+                </div>
+            {% endif %} #}
+
+            {# {{ form_errors(form) }} #}
+
+            {% if errors is defined %}
+                {% for error in errors %}
+                    <div class="text-red-600 text-center m-11">{{ error }}</div>
+                {% endfor %}
+            {% endif %}
+
+
+            <div class="mb-7 mt-3 mx-1">
+                <h2 class="my-5 text-center">Universidad: </h2>
+                
+                <div class="" >
+                    {{ form_widget(form.university, {'attr': {'class': '
+                     text-xl bg-slate-200 text-xl
+                      select2-enable','style': 'width: 100%'}}) }}
+
+                </div>
+            </div>
+
+            <div class="mb-7 mt-3 mx-1">
+                <h2 class="my-5 text-center">Grado: </h2>
+                
+                <div class="">
+                    {{ form_widget(form.degree, {'attr': {'class': '
+                     select2-enable','style': 'width: 100%'}}) }}
+
+                </div>
+            </div>
+
+            <div class="mb-7 mt-3 mx-1">
+                <h2 class="my-5 text-center">Asignatura: </h2>
+                <h3 class="text-base mb-2">Recuerda: si quieres opinar sobre una asignatura, deja el campo "profesor" vacío.</h3>
+                
+                <div class="flex w-full items-end justify-center">
+                    <div class=" flex flex-col items-start justify-center">
+                        <h4 class="text-sm ">Año:</h4>
+                        {{ form_widget(form.year, {'attr': {'class': '
+                        bg-slate-200 dark:bg-slate-800 text-xl rounded-md p-[0.45rem] mt-2 mr-2 h-full year-select'}}) }}
+                    </div>
+                    <div class="w-full ">
+                        {{ form_widget(form.subject, {'attr': {'class': '
+                        select2-enable ','style': 'width: 100%'}}) }}
+                    </div>
+                </div>
+                
+            </div>
+
+            <div class="mb-7 mt-3 mx-1">
+                <h2 class="my-5 text-center">Profesor: </h2>
+                
+                <div class="">
+                    {{ form_widget(form.professor, {'attr': {'class': '
+                     select2-enable','style': 'width: 100%'}}) }}
+
+                </div>
+            </div>
+            
+            <div class="mb-7 mt-3 mx-1 flex items-center justify-center flex-col">
+                {# {{ form_label(form.comment) }} #}
+                <h2 class="my-1 text-center">Comentario: </h2>
+                
+                <h3 class="my-1 text-xl text-center">Aviso: el comentario debe cumplir unas normas y será enviado a revisión antes de publicarse.</h3>
+                {# todo: elaborar las normas y mostrarlas #}
+
+                <div class="my-1text-black dark:text-white text-xl sm:text-3xl">
+                    {# {{ form_widget(form.comment) }} #}
+                    {{ form_widget(form.comment, {'attr': {'class': '
+                    border-0 dark:bg-slate-800 w-full p-2 border border-gray-300 rounded-xl 
+                    lg:h-80 h-56 mx-1  bg-slate-200
+                    w-[26rem] sm:w-[30rem] md:w-[35rem] lg:w-[50rem] xl:w-[60rem]
+                    '}}) }}
+
+                </div>
+            </div>
+            
+            <div class="flex items-center justify-center flex-col ">
+                <h2 class="my-5 ">Valoración general: </h2>
+
+                <div class="flex flex-row space-x-2 bg-slate-200 dark:bg-slate-800  p-2 rounded-xl text-xl sm:text-3xl flex items-center ">
+
+                    {% for choice_form in form.givenScore %}
+                        <label for="{{ choice_form.vars.id }}" class="rating-label cursor-pointer px-1 py-2 rounded-md">
+                            {% if choice_form.vars.value == '' %}
+                                Ninguna
+                            {% else %}
+                                <img class="w-12" src="/img/rating-{{ choice_form.vars.value }}.png" alt="Rating {{ choice_form.vars.value }}">
+                            {% endif %}
+                            {{ form_widget(choice_form, {'attr': {'class': 'hidden-rating'}}) }}
+                        </label>
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+            </div>
+                <div class="text-center ">
+                    {# <h2>Enviar!</h2> #}
+                    {# {{ form_widget(form.Enviar, {'attr': {'class': 'btn btn-success'}}) }} #}
+                    {{ form_widget(form.Enviar, {'attr': {'class': 'sm:text-5xl text-3xl
+                    py-5 sm:px-36 px-16 bg-slate-200 dark:bg-slate-800 text-center rounded-full m-11'}}) }}
+                </div>
+            </div>
+            {{ form_rest(form) }}
+
+    </div>
+
+{% endblock %}

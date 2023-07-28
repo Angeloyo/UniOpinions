@@ -4,24 +4,24 @@
 
 {# texto gris porque no se como manejar modo oscuro/claro en el panel admin #}
 <div class="text-gray-500 m-11">
-    <h1 class="">Opiniones no revisadas</h1>
+    <h1 class="">Asignaturas no revisadas</h1>
 
     <table class="table">
         <thead>
             <tr class="text-gray-500 ">
                 <th>ID</th>
-                <th>Comentario</th>
+                <th>Asignatura</th>
                 <th class="text-right">Acciones</th>
             </tr>
         </thead>
         <tbody>
-            {% for opinion in opinions %}
+            {% for subject in subjects %}
                 <tr class="text-gray-500">
-                    <td >{{ opinion.id }}</td>
-                    <td >{{ opinion.comment }}</td>
+                    <td >{{ subject.id }}</td>
+                    <td >{{ subject.name }}</td>
                     <td class="text-right">
-                        <a href="{{ path('admin_accept_opinion', {id: opinion.id}) }}" class="btn btn-success">Aceptar</a>
-                        <a href="{{ path('admin_reject_opinion', {id: opinion.id}) }}" class="btn btn-danger">Rechazar</a>
+                        <a href="{{ path('admin_accept_subject', {id: subject.id}) }}" class="btn btn-success">Aceptar</a>
+                        <a href="{{ path('admin_reject_subject', {id: subject.id}) }}" class="btn btn-danger">Rechazar</a>
                     </td>
                 </tr>
             {% endfor %}

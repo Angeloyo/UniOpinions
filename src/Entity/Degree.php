@@ -28,6 +28,12 @@ class Degree
     #[ORM\Column(length: 255)]
     private ?string $slug = null;
 
+    #[ORM\Column]
+    private ?bool $accepted = false;
+
+    #[ORM\Column]
+    private ?bool $reviewed = false;
+
     public function __construct()
     {
         $this->subjects = new ArrayCollection();
@@ -94,8 +100,8 @@ class Degree
 
     public function __toString(): string
     {
-        // return $this->name;
-        return sprintf('%s (%s)', $this->name, $this->getUniversity()->getName());
+        return $this->name;
+        // return sprintf('%s (%s)', $this->name, $this->getUniversity()->getName());
     }
 
     public function getSlug(): ?string
@@ -106,6 +112,30 @@ class Degree
     public function setSlug(string $slug): static
     {
         $this->slug = $slug;
+
+        return $this;
+    }
+
+    public function isAccepted(): ?bool
+    {
+        return $this->accepted;
+    }
+
+    public function setAccepted(bool $accepted): static
+    {
+        $this->accepted = $accepted;
+
+        return $this;
+    }
+
+    public function isReviewed(): ?bool
+    {
+        return $this->reviewed;
+    }
+
+    public function setReviewed(bool $reviewed): static
+    {
+        $this->reviewed = $reviewed;
 
         return $this;
     }

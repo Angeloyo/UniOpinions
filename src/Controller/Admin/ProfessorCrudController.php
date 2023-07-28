@@ -9,6 +9,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 
 
 class ProfessorCrudController extends AbstractCrudController
@@ -22,7 +23,9 @@ class ProfessorCrudController extends AbstractCrudController
     {
         return [
             IdField::new('id')->onlyOnDetail(),
-            TextField::new('name'),
+            BooleanField::new('accepted'),
+            BooleanField::new('reviewed'),
+            TextField::new('name'),            
             TextField::new('slug')->onlyOnDetail(),
             ArrayField::new('scoreCount')->onlyOnDetail(),
             AssociationField::new('subject')

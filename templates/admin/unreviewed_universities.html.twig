@@ -1,0 +1,31 @@
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block content %}
+
+<div class="text-gray-500 m-11">
+    <h1 class="">Universidades no revisadas</h1>
+
+    <table class="table">
+        <thead>
+            <tr class="text-gray-500 ">
+                <th>ID</th>
+                <th>Universidad</th>
+                <th class="text-right">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for university in universities %}
+                <tr class="text-gray-500">
+                    <td >{{ university.id }}</td>
+                    <td >{{ university.name }}</td>
+                    <td class="text-right">
+                        <a href="{{ path('admin_accept_university', {id: university.id}) }}" class="btn btn-success">Aceptar</a>
+                        <a href="{{ path('admin_reject_university', {id: university.id}) }}" class="btn btn-danger">Rechazar</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+    
+{% endblock %}

@@ -17,7 +17,7 @@
             <a href="/u/{{ university.slug }}/{{ degree.slug }}/{{ subject.slug }}/{{ professor.slug }}"> {{ professor.name }}</a>
         </h2>
                 
-        <a href="{{ path('app_redirect_specific_opinion', {
+        <a href="{{ path('app_create_specific_opinion', {
                 'type': 'p', 
                 'objectId': professor.id,
                 }) }}">

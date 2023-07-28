@@ -1,0 +1,30 @@
+/* Estilos para el modo claro */
+.select2-container .select2-selection--single{
+    border: 0;
+    height: 40px;
+    font-size: large;
+    background: rgb(226 232 240 / var(--tw-bg-opacity));
+    color: #000;
+}
+
+.select2-container .select2-selection--single .select2-selection__rendered{
+    display: inline;
+    background: rgb(226 232 240 / var(--tw-bg-opacity));
+    color: #000;
+}
+
+/* Estilos para el modo oscuro */
+.dark .select2-container .select2-selection--single{
+    height: 40px;
+    font-size: large;
+    background: rgb(30 41 59 / var(--tw-bg-opacity));
+    color: #fff;
+}
+
+.dark .select2-container .select2-selection--single .select2-selection__rendered{
+    display: inline;
+    background: rgb(30 41 59 / var(--tw-bg-opacity));
+    color: #fff;
+}
+
+

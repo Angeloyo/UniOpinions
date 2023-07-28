@@ -44,6 +44,12 @@ class Subject
         '5' => 0,
     ];
 
+    #[ORM\Column]
+    private ?bool $accepted = false;
+
+    #[ORM\Column]
+    private ?bool $reviewed = false;
+
     public function __construct()
     {
         $this->professors = new ArrayCollection();
@@ -150,8 +156,8 @@ class Subject
 
     public function __toString(): string
     {
-        // return $this->name;
-        return sprintf('%s, %s, %s)', $this->name, $this->getDegree()->getName(),  $this->getDegree()->getUniversity()->getName());
+        return $this->name;
+        // return sprintf('%s, %s, %s)', $this->name, $this->getDegree()->getName(),  $this->getDegree()->getUniversity()->getName());
     }
 
     public function getSlug(): ?string
@@ -189,5 +195,42 @@ class Subject
         // $this->scoreCount = max(0, $this->scoreCount - 1);
         // $this->scoreCount[$score] = max(0, $this->scoreCount[$score] - 1);
 
+    }
+
+    public function isAccepted(): ?bool
+    {
+        return $this->accepted;
+    }
+
+    public function setAccepted(bool $accepted): static
+    {
+        $this->accepted = $accepted;
+
+        return $this;
+    }
+
+    public function isReviewed(): ?bool
+    {
+        return $this->reviewed;
+    }
+
+    public function setReviewed(bool $reviewed): static
+    {
+        $this->reviewed = $reviewed;
+
+        return $this;
+    }
+
+    public function getAcceptedProfessors(): array
+    {
+        $acceptedProfessors = [];
+
+        foreach ($this->professors as $professor) {
+            if ($professor->isAccepted() === true) {
+                $acceptedProfessors[] = $professor;
+            }
+        }
+
+        return $acceptedProfessors;
     }
 }

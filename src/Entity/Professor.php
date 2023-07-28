@@ -36,6 +36,12 @@ class Professor
         '5' => 0,
     ];
 
+    #[ORM\Column]
+    private ?bool $accepted = false;
+
+    #[ORM\Column]
+    private ?bool $reviewed = false;
+
     public function __construct()
     {
         $this->subject = new ArrayCollection();
@@ -150,5 +156,29 @@ class Professor
     {
         $this->scoreCount[$score]--;
         // $this->scoreCount[$score] = max(0, $this->scoreCount[$score] - 1);
+    }
+
+    public function isAccepted(): ?bool
+    {
+        return $this->accepted;
+    }
+
+    public function setAccepted(bool $accepted): static
+    {
+        $this->accepted = $accepted;
+
+        return $this;
+    }
+
+    public function isReviewed(): ?bool
+    {
+        return $this->reviewed;
+    }
+
+    public function setReviewed(bool $reviewed): static
+    {
+        $this->reviewed = $reviewed;
+
+        return $this;
     }
 }

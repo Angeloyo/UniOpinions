@@ -7,6 +7,10 @@
 
 // any CSS you import will output into a single css file (app.css in this case)
 import './styles/app.css';
+import 'select2/dist/css/select2.min.css';
+import './select2_init'; 
+import './styles/customSelect.css';
+import 'select2/dist/js/i18n/es';
 
 // Icons and img
 const sunIcon = document.getElementById("sun");

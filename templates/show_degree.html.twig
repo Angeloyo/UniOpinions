@@ -16,7 +16,7 @@
         Asignaturas
     </h1>
 
-    {% set yearTranslations = {1: 'Primer año', 2: 'Segundo año', 3: 'Tercer año', 4: 'Cuarto año'} %}
+    {% set yearTranslations = {1: 'Primer año', 2: 'Segundo año', 3: 'Tercer año', 4: 'Cuarto año', 5: 'Quinto año', 6: 'Sexto año'} %}
 
         {% for year, subjects in subjects %}
 
@@ -24,19 +24,28 @@
 
             <ul class="text-center sm:text-left text-xl dark:text-white text-black mt-5 mx-0 sm:mx-[19%] ">
 
-            {% for subject in subjects %}
-                <li>
-                    <a href="{{ path('app_subject', { universitySlug: university.getSlug(), degreeSlug: degree.getSlug(), subjectSlug: subject.getSlug() }) }}" 
-                    
-                    class="rounded-2xl p-3 my-4 bg-slate-200 dark:bg-slate-800 flex flex-row 
-                        mx-auto hover:bg-slate-300 dark:hover:bg-slate-900 justify-center sm:justify-start">
-                            {{ subject.getName() }}
-                    </a>
-                </li>
-            {% endfor %}
+                {% for subject in subjects %}
+                    <li>
+                        <a href="{{ path('app_subject', { universitySlug: university.getSlug(), degreeSlug: degree.getSlug(), subjectSlug: subject.getSlug() }) }}" 
+                        
+                        class="rounded-2xl p-3 my-4 bg-slate-200 dark:bg-slate-800 flex flex-row 
+                            mx-auto hover:bg-slate-300 dark:hover:bg-slate-900 justify-center sm:justify-start">
+                                {{ subject.getName() }}
+                        </a>
+                    </li>
+                {% endfor %}
 
+                
             </ul>
             
         {% endfor %}
 
+        <div class="text-center text-xl dark:text-white text-black mt-7 mx-0 sm:mx-[19%]">
+            <a href="{{ path('app_create_generic_opinion', { universityId: university.id, degreeId: degree.id }) }}" 
+            class="rounded-2xl p-3 my-4 bg-slate-200 dark:bg-slate-800 flex flex-row 
+                mx-auto hover:bg-slate-300 dark:hover:bg-slate-900 justify-center sm:justify-start">
+                    ¿Quieres opinar sobre una asignatura o profesor pero no está la asignatura aquí? Haz click en este botón.
+            </a>
+        </div>
+        
 {% endblock %}
