@@ -101,7 +101,7 @@ class ReviewDashboardController extends AbstractDashboardController
 
     // OPINIONS
 
-    #[Route('/review/accept/degree/{id}', name: 'admin_accept_opinion')]
+    #[Route('/review/accept/opinion/{id}', name: 'admin_accept_opinion')]
     public function acceptOpinion(int $id): RedirectResponse
     {
         $opinion = $this->opinionRepository->findBy(['id' => $id]);
