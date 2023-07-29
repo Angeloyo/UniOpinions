@@ -104,7 +104,7 @@ class ReviewDashboardController extends AbstractDashboardController
     #[Route('/review/accept/opinion/{id}', name: 'admin_accept_opinion')]
     public function acceptOpinion(int $id): RedirectResponse
     {
-        $opinion = $this->opinionRepository->findBy(['id' => $id]);
+        $opinion = $this->opinionRepository->find($id);
         if ($opinion) {
             $opinion->setAccepted(true);
             $opinion->setReviewed(true);
@@ -119,7 +119,7 @@ class ReviewDashboardController extends AbstractDashboardController
     #[Route('/review/reject/opinion/{id}', name: 'admin_reject_opinion')]
     public function rejectOpinion(int $id): RedirectResponse
     {
-        $opinion = $this->opinionRepository->findBy(['id' => $id]);
+        $opinion = $this->opinionRepository->find($id);
         if ($opinion) {
             $opinion->setAccepted(false);
             $opinion->setReviewed(true);
@@ -138,7 +138,7 @@ class ReviewDashboardController extends AbstractDashboardController
     #[Route('/review/accept/university/{id}', name: 'admin_accept_university')]
     public function acceptUniversity(int $id): RedirectResponse
     {
-        $university = $this->universityRepository->findBy(['id' => $id]);
+        $university = $this->universityRepository->find($id);
         if ($university) {
             $university->setAccepted(true);
             $university->setReviewed(true);
@@ -153,7 +153,7 @@ class ReviewDashboardController extends AbstractDashboardController
     #[Route('/review/reject/university/{id}', name: 'admin_reject_university')]
     public function rejectUniversity(int $id): RedirectResponse
     {
-        $university = $this->universityRepository->findBy(['id' => $id]);
+        $university = $this->universityRepository->find($id);
         if ($university) {
             // $university->setAccepted(false);
             // $university->setReviewed(true);
@@ -170,7 +170,7 @@ class ReviewDashboardController extends AbstractDashboardController
     #[Route('/review/accept/degree/{id}', name: 'admin_accept_degree')]
     public function acceptDegree(int $id): RedirectResponse
     {
-        $degree = $this->degreeRepository->findBy(['id' => $id]);
+        $degree = $this->degreeRepository->find($id);
         
         if ($degree) {
             $degree->setAccepted(true);
@@ -186,7 +186,7 @@ class ReviewDashboardController extends AbstractDashboardController
     #[Route('/review/reject/degree/{id}', name: 'admin_reject_degree')]
     public function rejectDegree(int $id): RedirectResponse
     {
-        $degree = $this->degreeRepository->findBy(['id' => $id]);
+        $degree = $this->degreeRepository->find($id);
         if ($degree) {
             // $university->setAccepted(false);
             // $university->setReviewed(true);
@@ -203,7 +203,7 @@ class ReviewDashboardController extends AbstractDashboardController
     #[Route('/review/accept/subject/{id}', name: 'admin_accept_subject')]
     public function acceptSubject(int $id): RedirectResponse
     {
-        $subject = $this->subjectRepository->findBy(['id' => $id]);
+        $subject = $this->subjectRepository->find($id);
         if ($subject) {
             $subject->setAccepted(true);
             $subject->setReviewed(true);
@@ -218,7 +218,7 @@ class ReviewDashboardController extends AbstractDashboardController
     #[Route('/review/reject/subject/{id}', name: 'admin_reject_subject')]
     public function rejectSubject(int $id): RedirectResponse
     {
-        $subject = $this->subjectRepository->findBy(['id' => $id]);
+        $subject = $this->subjectRepository->find($id);
         if ($subject) {
             // $university->setAccepted(false);
             // $university->setReviewed(true);
@@ -235,7 +235,7 @@ class ReviewDashboardController extends AbstractDashboardController
     #[Route('/review/accept/professor/{id}', name: 'admin_accept_professor')]
     public function acceptProfessor(int $id): RedirectResponse
     {
-        $professor = $this->professorRepository->findBy(['id' => $id]);
+        $professor = $this->professorRepository->find($id);
         if ($professor) {
             $professor->setAccepted(true);
             $professor->setReviewed(true);
@@ -250,7 +250,7 @@ class ReviewDashboardController extends AbstractDashboardController
     #[Route('/review/reject/professor/{id}', name: 'admin_reject_professor')]
     public function rejectProfessor(int $id): RedirectResponse
     {
-        $professor = $this->professorRepository->findBy(['id' => $id]);
+        $professor = $this->professorRepository->find($id);
         if ($professor) {
             // $university->setAccepted(false);
             // $university->setReviewed(true);
