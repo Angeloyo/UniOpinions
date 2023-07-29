@@ -50,9 +50,16 @@ class AutocompleteController extends AbstractController
 
         if ($type === 'university') {
             $universities = $this->universityRepository->findByNameLike($term);
-            $results = array_map(function ($university) {
-                return ['id' => $university->getId(), 'text' => $university->getName()];
-            }, $universities);
+
+            if($universities){
+                $results = array_map(function ($university) {
+                    return ['id' => $university->getId(), 'text' => $university->getName()];
+                }, $universities);
+            }
+            else {
+                $results = [];
+            }
+            
         }
         elseif ($type === 'degree') {
 
@@ -61,9 +68,17 @@ class AutocompleteController extends AbstractController
 
                 if ($university) {
                     $degrees = $this->degreeRepository->findByUniversityIdAndNameLike($university->getId(), $term);
-                    $results = array_map(function ($degree) {
-                        return ['id' => $degree->getId(), 'text' => $degree->getName()];
-                    }, $degrees);
+
+                    if($degrees){
+
+                        $results = array_map(function ($degree) {
+                            return ['id' => $degree->getId(), 'text' => $degree->getName()];
+                        }, $degrees);
+                        
+                    } else {
+                        $results = [];
+                    }
+                    
                 } else {
                     $results = [];
                 }
@@ -84,14 +99,18 @@ class AutocompleteController extends AbstractController
 
                         $subjects = $this->subjectRepository->findByDegreeIdAndYearAndNameLike($degree->getId(), $year, $term);
 
-                        $results = array_map(function ($subject) {
-                            return ['id' => $subject->getId(), 'text' => $subject->getName()];
-                        }, $subjects);
-            
+                        if($subjects){
+
+                            $results = array_map(function ($subject) {
+                                return ['id' => $subject->getId(), 'text' => $subject->getName()];
+                            }, $subjects);
+
+                        }else {
+                            $results = [];
+                        }
+                        
                     }
-                    else {
-                        $results = [];
-                    }
+                    
 
                 } else {
                     $results = [];
@@ -117,9 +136,16 @@ class AutocompleteController extends AbstractController
 
                             $professors = $this->professorRepository->findBySubjectIdAndNameLike($subject->getId(), $term);
 
-                            $results = array_map(function ($professor) {
-                                return ['id' => $professor->getId(), 'text' => $professor->getName()];
-                            }, $professors);
+                            if($professors){
+
+                                $results = array_map(function ($professor) {
+                                    return ['id' => $professor->getId(), 'text' => $professor->getName()];
+                                }, $professors);
+
+                            } else {
+                                $results = [];
+                            }
+                            
 
                         } else {
                             $results = [];
