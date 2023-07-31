@@ -9,14 +9,15 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <!-- Google tag (gtag.js) -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-ME0D4YZ9K5"></script>
-        <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        
-        gtag('config', 'G-ME0D4YZ9K5');
+            <script async src="https://www.googletagmanager.com/gtag/js?id=G-ME0D4YZ9K5"></script>
+            <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            
+            gtag('config', 'G-ME0D4YZ9K5');
         </script>
+        {# end google tag #}
 
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
@@ -25,6 +26,7 @@
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
         {% endblock %}
+
     </head>
     <body class="bg-slate-50 dark:bg-slate-700 min-h-[100vh] flex flex-col">
         <header class="bg-slate-200 dark:bg-slate-800 drop-shadow-lg ">
@@ -109,8 +111,8 @@
 
                 <div class="m-5 flex flex-col ">
                     <h3 class="text-xl">Legal</h3>
-                    <a target="_blank" href="./terms-and-conditions.html">Terms & Conditions</a>
-                    <a target="_blank" href="./privacy-policy.html">Privacy Policy</a>
+                    <a target="_blank" href="#">Terms & Conditions</a>
+                    <a target="_blank" href="#">Privacy Policy</a>
                     <div class="flex flex-row">
                         <a href="#" id="toggleButton" class="z-10">Attributions</a>
                         <div id="attributionsLink" class="invisible absolute z-0">
