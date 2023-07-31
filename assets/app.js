@@ -15,6 +15,8 @@ import 'select2/dist/js/i18n/es';
 // Icons and img
 const sunIcon = document.getElementById("sun");
 const moonIcon = document.getElementById("moon");
+const logoBlack = document.getElementById("logoBlack");
+const logoWhite = document.getElementById("logoWhite");
 // phone version different icons
 // const sunIcon2 = document.getElementById("sun2");
 // const moonIcon2 = document.getElementById("moon2");
@@ -33,6 +35,8 @@ const iconToggle = () => {
     // sunIcon.classList.toggle("hidden");
     moonIcon.classList.toggle("display-none");
     sunIcon.classList.toggle("display-none");
+    logoBlack.classList.toggle("display-none");
+    logoWhite.classList.toggle("display-none");
     // moonIcon2.classList.toggle("display-none");
     // sunIcon2.classList.toggle("display-none");
     // blackBanner.classList.toggle("display-none");
@@ -45,10 +49,12 @@ const themeCheck = () => {
         document.documentElement.classList.add("dark");
         // moonIcon.classList.add("hidden");
         moonIcon.classList.add("display-none");
+        logoBlack.classList.add("display-none");
         // moonIcon2.classList.add("display-none");
         return;
     }
     sunIcon.classList.add("display-none");
+    logoWhite.classList.add("display-none");
     // sunIcon2.classList.add("display-none");
 
 }
