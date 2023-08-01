@@ -134,7 +134,8 @@ class AutocompleteController extends AbstractController
                         
                         if($subject){
 
-                            $professors = $this->professorRepository->findBySubjectIdAndNameLike($subject->getId(), $term);
+                            // $professors = $this->professorRepository->findBySubjectIdAndNameLike($subject->getId(), $term);
+                            $professors = $this->professorRepository->findByNameLike($term);
 
                             if($professors){
 

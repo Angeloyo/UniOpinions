@@ -44,4 +44,16 @@ class ProfessorRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function findByNameLike($term){
+        return $this->createQueryBuilder('p')  
+            ->where('LOWER(UNACCENT(p.name)) LIKE LOWER(UNACCENT(:term))')
+            ->andWhere('p.accepted = :accepted')
+            ->setParameters([
+                'term' => '%' . $term . '%',
+                'accepted' => true
+            ])
+            ->getQuery()
+            ->getResult();
+    }
 }
