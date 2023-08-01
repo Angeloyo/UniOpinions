@@ -29,21 +29,14 @@ class OpinionListener
         }
     }
 
-    // public function postLoad(LifecycleEventArgs $args): void
-    // {
-    //     $entity = $args->getObject();
-
-    //     if ($entity instanceof Opinion) {
-    //         $entity->setOldScore($entity->getGivenScore());
-    //     }
-    // }
-
     public function prePersist(LifecycleEventArgs $args): void
     {
 
         $entity = $args->getObject();
 
         if ($entity instanceof Opinion) {
+
+            $entity->setCreationDate(new \DateTime());
 
             $score = $entity->getGivenScore();
 
@@ -61,30 +54,6 @@ class OpinionListener
         }
 
     }
-
-// public function preUpdate(PreUpdateEventArgs $args): void
-// {
-//     $entity = $args->getObject();
-
-//     if ($entity instanceof Opinion) {
-
-//         if ($args->hasChangedField('givenScore')) {
-//             $oldScore = $args->getOldValue('givenScore');
-//             $newScore = $args->getNewValue('givenScore');
-
-//             if ($professor = $entity->getProfessor()) {
-//                 $professor->decrementScoreCount($oldScore);
-//                 $professor->incrementScoreCount($newScore);
-//             }
-
-//             if ($subject = $entity->getSubject()) {
-//                 $subject->decrementScoreCount($oldScore);
-//                 $subject->incrementScoreCount($newScore);
-//             }
-//         }
-//     }
-// }
-
 public function onFlush(OnFlushEventArgs $args)
     {
         $em = $args->getObjectManager();

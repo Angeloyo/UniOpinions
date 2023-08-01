@@ -9,6 +9,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use Doctrine\ORM\EntityManagerInterface;
 
 class OpinionCrudController extends AbstractCrudController 
@@ -45,6 +46,7 @@ class OpinionCrudController extends AbstractCrudController
             BooleanField::new('reviewed')->onlyOnDetail(),
             BooleanField::new('accepted')->onlyOnDetail(),
             AssociationField::new('subject'),
+            DateTimeField::new('creationDate')->setFormat('dd/MM/yyyy')->onlyOnDetail(),
             AssociationField::new('professor'),
             AssociationField::new('owner')
                 // ->onlyOnDetail(),

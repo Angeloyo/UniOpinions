@@ -5,7 +5,6 @@ namespace App\Entity;
 use App\Repository\OpinionRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\EntityManagerInterface;
 
 #[ORM\Entity(repositoryClass: OpinionRepository::class)]
 class Opinion
@@ -47,6 +46,9 @@ class Opinion
      * @var int|null
      */
     private $oldScore = null;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $creationDate = null;
 
     public function getId(): ?int
     {
@@ -157,6 +159,18 @@ class Opinion
     public function setOldScore(?int $oldScore): static
     {
         $this->oldScore = $oldScore;
+
+        return $this;
+    }
+
+    public function getCreationDate(): ?\DateTimeInterface
+    {
+        return $this->creationDate;
+    }
+
+    public function setCreationDate(?\DateTimeInterface $creationDate): static
+    {
+        $this->creationDate = $creationDate;
 
         return $this;
     }
