@@ -52,9 +52,11 @@ class SubjectRepository extends ServiceEntityRepository
             ->where('d.id = :degreeId')
             ->andWhere('s.year = :year')
             ->andWhere('LOWER(UNACCENT(s.name)) LIKE LOWER(UNACCENT(:term))')
+            ->andWhere('s.accepted = :accepted')
             ->setParameter('degreeId', $degreeId)
             ->setParameter('year', $year)
             ->setParameter('term', '%' . $term . '%')
+            ->setParameter('accepted', true)
             ->getQuery()
             ->getResult();
     }

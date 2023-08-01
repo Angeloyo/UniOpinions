@@ -51,11 +51,12 @@ class DegreeRepository extends ServiceEntityRepository
             ->innerJoin('d.university', 'u')
             ->where('u.id = :universityId')
             ->andWhere('LOWER(UNACCENT(d.name)) LIKE LOWER(UNACCENT(:term))')
+            ->andWhere('d.accepted = :accepted')
             ->setParameter('universityId', $universityId)
             ->setParameter('term', '%' . $term . '%')
+            ->setParameter('accepted', true)
             ->getQuery()
             ->getResult();
     }
-
 
 }
