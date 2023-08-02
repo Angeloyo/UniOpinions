@@ -33,7 +33,9 @@
 
     </div>
 
-    <h1 class="text-black dark:text-white text-3xl sm:text-6xl text-center mt-10">{{ professor.getName() }}</h1>
+    <h1 class="text-black dark:text-white text-4xl sm:text-6xl text-center mt-2 sm:mt-10">
+        {{ professor.getName() }}
+    </h1>
 
     {# valoraciones del 1 al 5 #}
     <div class="flex justify-center flex-col items-center text-black dark:text-white">
@@ -64,14 +66,14 @@
         <ul class="text-center text-xl  dark:text-white text-black ">
             {% for opinion in opinions %}
                 <li class="rounded-2xl p-3 my-4 bg-slate-200 dark:bg-slate-800 flex flex-row
-                    justify-center items-center mx-0 sm:mx-5">
+                    justify-center items-center ">
 
                     <style>
                         .icon-fill { fill: currentColor; }
                     </style>
 
                     <div class="flex flex-col items-center justify-center">
-                        <div class="sm:w-12 w-7 flex-shrink-0 flex items-center justify-center sm:mx-5 mx-1">
+                        <div class="w-12 flex-shrink-0 flex items-center justify-center mx-5">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"
                                 class="icon-fill text-gray-800 dark:text-white w-full h-full">
                                 <path d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm0 96c48.6 0 88 39.4 88 88s-39.4 88-88 88-88-39.4-88-88 39.4-88 88-88zm0 344c-58.7 0-111.3-26.6-146.5-68.2 18.8-35.4 55.6-59.8 98.5-59.8 2.4 0 4.8.4 7.1 1.1 13 4.2 26.6 6.9 40.9 6.9 14.3 0 28-2.7 40.9-6.9 2.3-.7 4.7-1.1 7.1-1.1 42.9 0 79.7 24.4 98.5 59.8C359.3 421.4 306.7 448 248 448z"/>
@@ -80,11 +82,11 @@
                         </div>
 
                         <div class="text-sm mt-2">
-                            {{ opinion.getCreationDate()|date('d-m-Y') }}
+                            {{ opinion.getCreationDate()|date('d/m/Y') }}
                         </div>
                     </div>
 
-                    <div class="flex-grow justify-center items-center sm:m-5 m-3">
+                    <div class="flex-grow justify-center md:m-5 m-1">
                         <p class="text-left">
                             {{ opinion.getComment() }}
                         </p>
