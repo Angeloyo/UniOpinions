@@ -1,0 +1,5 @@
+{# templates/listsubjects.html.twig #}
+
+{% for relation in field.value %}
+    {{ relation.professor.getName() }}<br/>
+{% endfor %}
