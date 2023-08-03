@@ -40,10 +40,42 @@ class SubjectsController extends AbstractController
         Request $request
         ): Response
     {
+        $session = $request->getSession();
+        $referer = $session->get('referer');
 
         $university = $this->universityRepository->findOneBySlug($universitySlug);
+
+        if(!$university){
+            $this->addFlash('error', 'Universidad no encontrada.');
+            if ($referer) {
+                return $this->redirect($referer);
+            } else {
+                return $this->redirectToRoute('app_home');
+            }
+        }
+
         $degree = $this->degreeRepository->findOneBySlugAndUniversity($degreeSlug, $university);
+        
+        if(!$degree){
+            $this->addFlash('error', 'Grado no encontrado.');
+            if ($referer) {
+                return $this->redirect($referer);
+            } else {
+                return $this->redirectToRoute('app_home');
+            }
+        }
+        
         $subject = $this->subjectRepository->findOneBySlugAndDegree($subjectSlug, $degree);
+        
+        if(!$subject){
+            $this->addFlash('error', 'Asignatura no encontrada.');
+            if ($referer) {
+                return $this->redirect($referer);
+            } else {
+                return $this->redirectToRoute('app_home');
+            }
+        }
+        
         // $acceptedOpinions = $this->opinionRepository->findAcceptedBySubject($subject);
         $acceptedOpinions = $this->opinionRepository->findAcceptedBySubjectAndNoProfessor($subject);
 
@@ -57,8 +89,6 @@ class SubjectsController extends AbstractController
 
         $acceptedProfessors = $subject->getAcceptedProfessors();
 
-        $session = $request->getSession();
-        // $referer = $request->headers->get('referer');
         $referer = $request->getUri();
         $session->set('referer', $referer);
 

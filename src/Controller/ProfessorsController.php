@@ -45,10 +45,53 @@ class ProfessorsController extends AbstractController
         ): Response
     {
 
+        $session = $request->getSession();
+        $referer = $session->get('referer');
+
         $university = $this->universityRepository->findOneBySlug($universitySlug);
+        
+        if(!$university){
+            $this->addFlash('error', 'Universidad no encontrada.');
+            if ($referer) {
+                return $this->redirect($referer);
+            } else {
+                return $this->redirectToRoute('app_home');
+            }
+        }
+        
         $degree = $this->degreeRepository->findOneBySlugAndUniversity($degreeSlug, $university);
+        
+        if(!$degree){
+            $this->addFlash('error', 'Grado no encontrado.');
+            if ($referer) {
+                return $this->redirect($referer);
+            } else {
+                return $this->redirectToRoute('app_home');
+            }
+        }
+        
         $subject = $this->subjectRepository->findOneBySlugAndDegree($subjectSlug, $degree);
+        
+        if(!$subject){
+            $this->addFlash('error', 'Asignatura no encontrada.');
+            if ($referer) {
+                return $this->redirect($referer);
+            } else {
+                return $this->redirectToRoute('app_home');
+            }
+        }
+        
         $professor = $this->professorRepository->findOneBySlug($professorSlug);
+        
+        if(!$professor){
+            $this->addFlash('error', 'Profesor no encontrado.');
+            if ($referer) {
+                return $this->redirect($referer);
+            } else {
+                return $this->redirectToRoute('app_home');
+            }
+        }
+        
         // $acceptedOpinions = $this->opinionRepository->findAcceptedByProfessor($professor);
         $acceptedOpinions = $this->opinionRepository->findAcceptedBySubjectAndProfessor($professor, $subject);
 

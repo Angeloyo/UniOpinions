@@ -27,9 +27,9 @@ class DegreeRepository extends ServiceEntityRepository
     {
         $degree = $this->findOneBy(['slug' => $slug, 'university' => $university]);
 
-        if (!$degree) {
-            throw new EntityNotFoundException('El grado '.$slug.' no existe en la universidad especificada');
-        }
+        // if (!$degree) {
+        //     throw new EntityNotFoundException('El grado '.$slug.' no existe en la universidad especificada');
+        // }
 
         return $degree;
     }

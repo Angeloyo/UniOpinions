@@ -27,9 +27,9 @@ class SubjectRepository extends ServiceEntityRepository
     {
         $subject = $this->findOneBy(['slug' => $slug, 'degree' => $degree]);
 
-        if (!$subject) {
-            throw new EntityNotFoundException('La asignatura '.$slug.' no existe en el grado especificado.');
-        }
+        // if (!$subject) {
+        //     throw new EntityNotFoundException('La asignatura '.$slug.' no existe en el grado especificado.');
+        // }
 
         return $subject;
     }

@@ -36,12 +36,29 @@ class DegreesController extends AbstractController
     {
 
         $session = $request->getSession();
-        // $referer = $request->headers->get('referer');
-        $referer = $request->getUri();
-        $session->set('referer', $referer);
+        $referer = $session->get('referer');
 
         $university = $this->universityRepository->findOneBySlug($universitySlug);
+
+        if(!$university){
+            $this->addFlash('error', 'Universidad no encontrada.');
+            if ($referer) {
+                return $this->redirect($referer);
+            } else {
+                return $this->redirectToRoute('app_home');
+            }
+        }
+
         $degree = $this->degreeRepository->findOneBySlugAndUniversity($degreeSlug, $university);
+
+        if(!$degree){
+            $this->addFlash('error', 'Grado no encontrado.');
+            if ($referer) {
+                return $this->redirect($referer);
+            } else {
+                return $this->redirectToRoute('app_home');
+            }
+        }
 
         $subjects = $this->subjectRepository->findBy(['degree' => $degree, 'accepted' => true]);
         
@@ -57,6 +74,9 @@ class DegreesController extends AbstractController
 
         // Ordena las asignaturas por año en orden ascendente
         ksort($subjectsByYear);
+
+        $referer = $request->getUri();
+        $session->set('referer', $referer);
 
         return $this->render('show_degree.html.twig', [
             'university' => $university,
