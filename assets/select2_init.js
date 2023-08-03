@@ -96,6 +96,8 @@ $(function() {
     $('.select2-enable').select2({
         language: 'es',
         tags: true,
+        placeholder: "",
+        allowClear: true,
         createTag: function(params) {
             return {
                 id: params.term,
