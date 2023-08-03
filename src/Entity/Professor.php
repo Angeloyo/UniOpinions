@@ -18,9 +18,6 @@ class Professor
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\ManyToMany(targetEntity: Subject::class, inversedBy: 'professors')]
-    private Collection $subject;
-
     #[ORM\OneToMany(mappedBy: 'professor', targetEntity: Opinion::class, orphanRemoval: true)]
     private Collection $opinions;
 
@@ -42,10 +39,13 @@ class Professor
     #[ORM\Column]
     private ?bool $reviewed = false;
 
+    #[ORM\OneToMany(mappedBy: 'professor', targetEntity: RelationSubjectProfessor::class, orphanRemoval: true)]
+    private Collection $relationsSubjectProfessor;
+
     public function __construct()
     {
-        $this->subject = new ArrayCollection();
         $this->opinions = new ArrayCollection();
+        $this->relationsSubjectProfessor = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -61,30 +61,6 @@ class Professor
     public function setName(string $name): static
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Subject>
-     */
-    public function getSubject(): Collection
-    {
-        return $this->subject;
-    }
-
-    public function addSubject(Subject $subject): static
-    {
-        if (!$this->subject->contains($subject)) {
-            $this->subject->add($subject);
-        }
-
-        return $this;
-    }
-
-    public function removeSubject(Subject $subject): static
-    {
-        $this->subject->removeElement($subject);
 
         return $this;
     }
@@ -178,6 +154,36 @@ class Professor
     public function setReviewed(bool $reviewed): static
     {
         $this->reviewed = $reviewed;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, RelationSubjectProfessor>
+     */
+    public function getRelationsSubjectProfessor(): Collection
+    {
+        return $this->relationsSubjectProfessor;
+    }
+
+    public function addRelationSubjectProfessor(RelationSubjectProfessor $relationsSubjectProfessor): static
+    {
+        if (!$this->relationsSubjectProfessor->contains($relationsSubjectProfessor)) {
+            $this->relationsSubjectProfessor->add($relationsSubjectProfessor);
+            $relationsSubjectProfessor->setProfessor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRelationSubjectProfessor(RelationSubjectProfessor $relationsSubjectProfessor): static
+    {
+        if ($this->relationsSubjectProfessor->removeElement($relationsSubjectProfessor)) {
+            // set the owning side to null (unless already changed)
+            if ($relationsSubjectProfessor->getProfessor() === $this) {
+                $relationsSubjectProfessor->setProfessor(null);
+            }
+        }
 
         return $this;
     }

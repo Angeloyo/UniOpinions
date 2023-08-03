@@ -28,10 +28,11 @@ class CreateSpecificOpinionController extends AbstractController
         $this->entityManager = $entityManager;
     }
 
-    #[Route('/opinion/new-specific/{type}/{objectId}', name: 'app_create_specific_opinion')]
+    #[Route('/opinion/new-specific/{subjectId}/{professorId?}', name: 'app_create_specific_opinion')]
     public function createSpecificOpinion(
-        string $type, 
-        int $objectId,
+        // string $type, 
+        int $subjectId,
+        ?int $professorId = null,
         Request $request,
         ): Response
     {
@@ -52,9 +53,9 @@ class CreateSpecificOpinionController extends AbstractController
         $opinion = new Opinion();
         $userId = $this->getUser()->getId();
 
-        if ($type == 'p') {
+        if ($professorId !== null) {
 
-            $professor = $this->professorRepository->find($objectId);
+            $professor = $this->professorRepository->find($professorId);
             if (!$professor) {
                 // throw $this->createNotFoundException('Profesor no encontrado');
                 $this->addFlash('error', 'Profesor no encontrado.');
@@ -64,9 +65,36 @@ class CreateSpecificOpinionController extends AbstractController
                     return $this->redirectToRoute('app_home');
                 }
             }
+
+            $subject = $this->subjectRepository->find($subjectId);
+            if (!$subject) {
+                // throw $this->createNotFoundException('Profesor no encontrado');
+                $this->addFlash('error', 'Asignatura no encontrada.');
+                if ($referer) {
+                    return $this->redirect($referer);
+                } else {
+                    return $this->redirectToRoute('app_home');
+                }
+            }
+
+            //comprobar que el profesor esta relacionado con la asignatura
+            if(!$professor->getRelationsSubjectProfessor()->exists(function($key, $relation) use ($subject) {
+                return $relation->getSubject() === $subject;
+            })) {
+                $this->addFlash('error', 'El profesor no está relacionado con esa asignatura.');
+                if ($referer) {
+                    return $this->redirect($referer);
+                } else {
+                    return $this->redirectToRoute('app_home');
+                }
+            }
             
-            $existingOpinion = $professor->getOpinions()->filter(function($opinion) use ($userId) {
-                return $opinion->getOwner()->getId() == $userId;
+            // $existingOpinion = $professor->getOpinions()->filter(function($opinion) use ($userId) {
+            //     return $opinion->getOwner()->getId() == $userId;
+            // })->first();
+
+            $existingOpinion = $professor->getOpinions()->filter(function($opinion) use ($userId, $subject) {
+                return $opinion->getOwner()->getId() == $userId && $opinion->getSubject() === $subject;
             })->first();
 
             if ($existingOpinion) {
@@ -76,12 +104,13 @@ class CreateSpecificOpinionController extends AbstractController
             }
 
             $opinion->setProfessor($professor);
+            $opinion->setSubject($subject);
 
             $object = $professor;
 
-        } elseif ($type == 's') {
+        } else{
 
-            $subject = $this->subjectRepository->find($objectId);
+            $subject = $this->subjectRepository->find($subjectId);
             if (!$subject) {
                 // throw $this->createNotFoundException('Subject not found');
                 $this->addFlash('error', 'Asignatura no encontrada');
@@ -92,9 +121,15 @@ class CreateSpecificOpinionController extends AbstractController
                 }
             }
 
+            // $existingOpinion = $subject->getOpinions()->filter(function($opinion) use ($userId) {
+            //     return $opinion->getOwner()->getId() == $userId;
+            // })->first();
+
             $existingOpinion = $subject->getOpinions()->filter(function($opinion) use ($userId) {
-                return $opinion->getOwner()->getId() == $userId;
+                return $opinion->getOwner()->getId() == $userId && $opinion->getProfessor() === null;
             })->first();
+            
+            // $opinionExists = $this->opinionRepository->existsByUserSubjectAndNoProfessor($user, $subject);
             
             if ($existingOpinion) {
                 return $this->redirectToRoute('app_edit_opinion', [

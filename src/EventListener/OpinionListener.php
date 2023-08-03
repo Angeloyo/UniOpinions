@@ -16,12 +16,15 @@ class OpinionListener
 
             $score = $entity->getGivenScore();
 
+            $professor = $entity->getProfessor();
+            $subject = $entity->getSubject();
+
             if ($score !== null){
-                if ($professor = $entity->getProfessor() ) {
+                if ($subject !== null && $professor !== null) {
                     $professor->decrementScoreCount($score);
                 }
 
-                if ($subject = $entity->getSubject()) {
+                if ($subject !== null && $professor === null) {
                     $subject->decrementScoreCount($score);
                 }
             }
@@ -40,13 +43,18 @@ class OpinionListener
 
             $score = $entity->getGivenScore();
 
-            if ($professor = $entity->getProfessor()) {
+            $professor = $entity->getProfessor();
+            $subject = $entity->getSubject();
+
+            if ($subject !== null && $professor !== null) {
+
                 if($score !== null){
                     $professor->incrementScoreCount($score);
                 }
+
             }
 
-            if ($subject = $entity->getSubject()) {
+            if ($subject !== null && $professor === null) {
                 if($score !== null){
                     $subject->incrementScoreCount($score);
                 }
@@ -69,7 +77,10 @@ public function onFlush(OnFlushEventArgs $args)
                     $oldScore = $changeset['givenScore'][0];
                     $newScore = $changeset['givenScore'][1];
 
-                    if ($professor = $entity->getProfessor()) {
+                    $professor = $entity->getProfessor();
+                    $subject = $entity->getSubject();  
+
+                    if ($subject !== null && $professor !== null) {
 
                         if($oldScore !== null){
                             $professor->decrementScoreCount($oldScore);
@@ -85,7 +96,7 @@ public function onFlush(OnFlushEventArgs $args)
                             $professor
                         );
 
-                    } elseif ($subject = $entity->getSubject()) {
+                    } elseif ($subject !== null && $professor === null) {
 
                         if($oldScore !== null){
                             $subject->decrementScoreCount($oldScore);

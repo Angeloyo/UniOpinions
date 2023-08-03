@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
+// use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Repository\ProfessorRepository;
@@ -45,7 +45,7 @@ class AutocompleteController extends AbstractController
         $term = $request->query->get('term');
         $universityId = $request->query->get('university');
         $degreeId = $request->query->get('degree');
-        $subjectId = $request->query->get('subject');
+        // $subjectId = $request->query->get('subject');
         $year= $request->query->get('year');
 
         if ($type === 'university') {
@@ -122,43 +122,13 @@ class AutocompleteController extends AbstractController
         }
         elseif ($type === 'professor') {
 
-            if(is_numeric($universityId) ){
-                $university = $this->universityRepository->findOneBy(['id' => $universityId]);
+            $professors = $this->professorRepository->findByNameLike($term);
 
-                if ($university && is_numeric($degreeId)) {
-                    $degree = $this->degreeRepository->findOneByIdAndUniversity($degreeId, $university );
-                    
-                    if($degree && is_numeric($subjectId)){
+            if($professors){
 
-                        $subject = $this->subjectRepository->findOneByIdAndDegree($subjectId, $degree);
-                        
-                        if($subject){
-
-                            // $professors = $this->professorRepository->findBySubjectIdAndNameLike($subject->getId(), $term);
-                            $professors = $this->professorRepository->findByNameLike($term);
-
-                            if($professors){
-
-                                $results = array_map(function ($professor) {
-                                    return ['id' => $professor->getId(), 'text' => $professor->getName()];
-                                }, $professors);
-
-                            } else {
-                                $results = [];
-                            }
-                            
-
-                        } else {
-                            $results = [];
-                        }
-                        
-                    } else {
-                        $results = [];
-                    }
-
-                } else {
-                    $results = [];
-                }
+                $results = array_map(function ($professor) {
+                    return ['id' => $professor->getId(), 'text' => $professor->getName()];
+                }, $professors);
 
             } else {
                 $results = [];

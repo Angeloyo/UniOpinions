@@ -49,13 +49,15 @@ class ProfessorsController extends AbstractController
         $degree = $this->degreeRepository->findOneBySlugAndUniversity($degreeSlug, $university);
         $subject = $this->subjectRepository->findOneBySlugAndDegree($subjectSlug, $degree);
         $professor = $this->professorRepository->findOneBySlug($professorSlug);
-        $acceptedOpinions = $this->opinionRepository->findAcceptedByProfessor($professor);
+        // $acceptedOpinions = $this->opinionRepository->findAcceptedByProfessor($professor);
+        $acceptedOpinions = $this->opinionRepository->findAcceptedBySubjectAndProfessor($professor, $subject);
 
         $user = $this->getUser();
         $opinionExists = false;
         
         if ($user !== null) {
-            $opinionExists = $this->opinionRepository->existsByUserAndProfessor($user, $professor);
+            // $opinionExists = $this->opinionRepository->existsByUserAndProfessor($user, $professor);
+            $opinionExists = $this->opinionRepository->existsByUserSubjectAndProfessor($user, $subject, $professor);
         }
 
         $session = $request->getSession();

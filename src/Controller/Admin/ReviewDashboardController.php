@@ -14,6 +14,7 @@ use App\Repository\DegreeRepository;
 use App\Repository\OpinionRepository;
 use App\Repository\SubjectRepository;
 use App\Repository\ProfessorRepository;
+use App\Repository\RelationSubjectProfessorRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
@@ -31,6 +32,7 @@ class ReviewDashboardController extends AbstractDashboardController
     private $degreeRepository;
     private $subjectRepository;
     private $professorRepository;
+    private $relationSubjectProfessorRepository;
     private $entityManager;
     public function __construct(
         OpinionRepository $opinionRepository,
@@ -38,6 +40,7 @@ class ReviewDashboardController extends AbstractDashboardController
         DegreeRepository $degreeRepository,
         SubjectRepository $subjectRepository,
         ProfessorRepository $professorRepository,
+        RelationSubjectProfessorRepository $relationSubjectProfessorRepository,
         EntityManagerInterface $entityManager
         )
     {
@@ -46,6 +49,7 @@ class ReviewDashboardController extends AbstractDashboardController
         $this->degreeRepository = $degreeRepository;
         $this->subjectRepository = $subjectRepository;
         $this->professorRepository = $professorRepository;
+        $this->relationSubjectProfessorRepository = $relationSubjectProfessorRepository;
         $this->entityManager = $entityManager;
     }
     
@@ -96,6 +100,16 @@ class ReviewDashboardController extends AbstractDashboardController
 
         return $this->render('admin/unreviewed_professors.html.twig', [
             'professors' => $professors,
+        ]);
+    }
+
+    #[Route('/review/unreviewed/relations-sp', name: 'admin_unreviewed_relations_sp')]
+    public function showUnreviewedRelationsSP(): Response
+    {
+        $relations = $this->relationSubjectProfessorRepository->findBy(['reviewed' => false]);
+
+        return $this->render('admin/unreviewed_relations_sp.html.twig', [
+            'relations' => $relations,
         ]);
     }
 
@@ -155,10 +169,7 @@ class ReviewDashboardController extends AbstractDashboardController
     {
         $university = $this->universityRepository->find($id);
         if ($university) {
-            // $university->setAccepted(false);
-            // $university->setReviewed(true);
             $this->entityManager->remove($university);
-            // $this->entityManager->persist($university);
             $this->entityManager->flush();
         }
 
@@ -188,10 +199,7 @@ class ReviewDashboardController extends AbstractDashboardController
     {
         $degree = $this->degreeRepository->find($id);
         if ($degree) {
-            // $university->setAccepted(false);
-            // $university->setReviewed(true);
             $this->entityManager->remove($degree);
-            // $this->entityManager->persist($university);
             $this->entityManager->flush();
         }
 
@@ -220,10 +228,7 @@ class ReviewDashboardController extends AbstractDashboardController
     {
         $subject = $this->subjectRepository->find($id);
         if ($subject) {
-            // $university->setAccepted(false);
-            // $university->setReviewed(true);
             $this->entityManager->remove($subject);
-            // $this->entityManager->persist($university);
             $this->entityManager->flush();
         }
 
@@ -252,14 +257,39 @@ class ReviewDashboardController extends AbstractDashboardController
     {
         $professor = $this->professorRepository->find($id);
         if ($professor) {
-            // $university->setAccepted(false);
-            // $university->setReviewed(true);
             $this->entityManager->remove($professor);
-            // $this->entityManager->persist($university);
             $this->entityManager->flush();
         }
 
         return $this->redirectToRoute('admin_unreviewed_professors');
+    }
+
+    // RELATIONS SUBJECT-PROFESSOR
+
+    #[Route('/review/accept/relation-sp/{id}', name: 'admin_accept_relation_sp')]
+    public function acceptRelationSP(int $id): RedirectResponse
+    {
+        $relation_sp = $this->relationSubjectProfessorRepository->find($id);
+        if ($relation_sp) {
+            $relation_sp->setReviewed(true);
+
+            $this->entityManager->persist($relation_sp);
+            $this->entityManager->flush();
+        }
+
+        return $this->redirectToRoute('admin_unreviewed_relations_sp');
+    }
+
+    #[Route('/review/reject/relation-sp/{id}', name: 'admin_reject_relation_sp')]
+    public function rejectRelationSP(int $id): RedirectResponse
+    {
+        $relation_sp = $this->relationSubjectProfessorRepository->find($id);
+        if ($relation_sp) {
+            $this->entityManager->remove($relation_sp);
+            $this->entityManager->flush();
+        }
+
+        return $this->redirectToRoute('admin_unreviewed_relations_sp');
     }
 
     public function configureDashboard(): Dashboard
@@ -276,6 +306,7 @@ class ReviewDashboardController extends AbstractDashboardController
         yield MenuItem::linkToRoute('Unreviewed Degrees', 'fas fa-flask', 'admin_unreviewed_degrees');
         yield MenuItem::linkToRoute('Unreviewed Subjects', 'fas fa-book', 'admin_unreviewed_subjects');
         yield MenuItem::linkToRoute('Unreviewed Professors', 'fas fa-chalkboard-user', 'admin_unreviewed_professors');
+        yield MenuItem::linkToRoute('Unreviewed relations subject-professor', 'fas fa-key ', 'admin_unreviewed_relations_sp');
     }
 
     public function configureActions(): Actions

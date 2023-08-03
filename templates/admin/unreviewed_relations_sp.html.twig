@@ -1,0 +1,33 @@
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block content %}
+
+<div class="text-gray-500 m-11">
+    <h1 class="">Relaciones asignatura-profesor no revisadas</h1>
+
+    <table class="table">
+        <thead>
+            <tr class="text-gray-500 ">
+                <th>ID</th>
+                <th>Profesor</th>
+                <th>Asignatura</th>
+                <th class="text-right">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for relation in relations %}
+                <tr class="text-gray-500">
+                    <td >{{ relation.id }}</td>
+                    <td >{{ relation.professor.getName() }}</td>
+                    <td >{{ relation.subject.getname() }}</td>
+                    <td class="text-right">
+                        <a href="{{ path('admin_accept_relation_sp', {id: relation.id}) }}" class="btn btn-success">Aceptar</a>
+                        <a href="{{ path('admin_reject_relation_sp', {id: relation.id}) }}" class="btn btn-danger">Rechazar</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+    
+{% endblock %}

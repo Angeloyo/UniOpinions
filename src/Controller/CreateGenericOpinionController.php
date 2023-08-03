@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\RelationSubjectProfessor;
 use App\Repository\ProfessorRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -195,6 +196,7 @@ class CreateGenericOpinionController extends AbstractController
                 $finalDegree = null;
                 $finalSubject = null;
                 $finalProfessor = null;
+                $rsp = null;
 
                 // si es una universidad que existe
                 if( is_numeric($obtainedUniversity)){
@@ -232,7 +234,12 @@ class CreateGenericOpinionController extends AbstractController
                                             }
 
                                             //Asignar el profesor (Existente o no) con asignatura
-                                            $finalSubject->addProfessor($finalProfessor);
+                                            // $finalSubject->addProfessor($finalProfessor);
+                                            $rsp = new RelationSubjectProfessor();
+                                            // $rsp->setProfessor($finalProfessor);
+                                            $finalProfessor->addRelationSubjectProfessor($rsp);
+                                            // $rsp->setSubject($finalSubject);
+                                            $finalSubject->addRelationSubjectProfessor($rsp);
                                         }
                                     }
                                     
@@ -259,7 +266,10 @@ class CreateGenericOpinionController extends AbstractController
                                         }
                                        
                                         //asignarlo con la asignatura
-                                        $finalSubject->addProfessor($finalProfessor);
+                                        // $finalSubject->addProfessor($finalProfessor);
+                                        $rsp = new RelationSubjectProfessor();
+                                        $finalProfessor->addRelationSubjectProfessor($rsp);
+                                        $finalSubject->addRelationSubjectProfessor($rsp);
 
                                     }
                                     
@@ -301,7 +311,10 @@ class CreateGenericOpinionController extends AbstractController
                                     
                                 }
                                 //Asignarlo con la asignatura
-                                $finalSubject->addProfessor($finalProfessor);
+                                // $finalSubject->addProfessor($finalProfessor);
+                                $rsp = new RelationSubjectProfessor();
+                                $finalProfessor->addRelationSubjectProfessor($rsp);
+                                $finalSubject->addRelationSubjectProfessor($rsp);
                                 
                             }
                         }
@@ -338,7 +351,10 @@ class CreateGenericOpinionController extends AbstractController
 
                         $finalProfessor = new Professor();
                         $finalProfessor->setName($obtainedProfessor);
-                        $finalSubject->addProfessor($finalProfessor);
+                        // $finalSubject->addProfessor($finalProfessor);
+                        $rsp = new RelationSubjectProfessor();
+                        $finalProfessor->addRelationSubjectProfessor($rsp);
+                        $finalSubject->addRelationSubjectProfessor($rsp);
 
                     }
                 }
@@ -355,6 +371,8 @@ class CreateGenericOpinionController extends AbstractController
                 else{
                     // si hay profesor la opinion sera de ese profesor
                     $opinion->setProfessor($finalProfessor);
+                    // en una asignatura especifica
+                    $opinion->setSubject($finalSubject);
                 }
 
                 //agregar a la opinion el comentario y el score
@@ -365,6 +383,10 @@ class CreateGenericOpinionController extends AbstractController
                 if($obtainedProfessor !== null){
                     $this->entityManager->persist($finalProfessor);
                 }
+                if($rsp !== null){
+                    $this->entityManager->persist($rsp);
+                }
+
                 $this->entityManager->persist($finalSubject);
                 $this->entityManager->persist($finalDegree);
 

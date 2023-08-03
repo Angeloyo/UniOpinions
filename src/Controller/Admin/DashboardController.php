@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Professor;
+use App\Entity\RelationSubjectProfessor;
 use App\Entity\Subject;
 use App\Entity\University;
 use App\Entity\Degree;
@@ -57,6 +58,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Professors', 'fa fa-user-tie', Professor::class);
         yield MenuItem::linkToCrud('Opinions', 'fa fa-comment', Opinion::class);
         yield MenuItem::linkToCrud('Users', 'fa fa-user', User::class);
+        yield MenuItem::linkToCrud('Relations Subject-Professor', 'fa fa-key', RelationSubjectProfessor::class);
     }
 
     public function configureActions(): Actions

@@ -1,5 +1,5 @@
-{# templates/listdegrees.html.twig #}
+{# templates/listsubjects.html.twig #}
 
-{% for subject in field.value %}
-    {{ subject.name }}<br/>
+{% for relation in field.value %}
+    {{ relation.subject.getName() }}<br/>
 {% endfor %}

@@ -34,12 +34,26 @@ class OpinionRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function findAcceptedBySubjectAndProfessor(Professor $professor, Subject $subject)
+    {
+        return $this->createQueryBuilder('o')
+            ->where('o.professor = :professor')
+            ->andWhere('o.subject = :subject')
+            ->andWhere('o.accepted = true')
+            ->andWhere('o.comment IS NOT NULL')
+            ->setParameter('professor', $professor)
+            ->setParameter('subject', $subject)
+            ->getQuery()
+            ->getResult();
+    }
     
-    public function findAcceptedBySubject(Subject $subject)
+    public function findAcceptedBySubjectAndNoProfessor(Subject $subject)
     {
         return $this->createQueryBuilder('o')
             ->where('o.subject = :subject')
             ->andWhere('o.accepted = true')
+            ->andWhere('o.professor IS NULL')
             ->andWhere('o.comment IS NOT NULL')
             ->setParameter('subject', $subject)
             ->getQuery()
@@ -59,11 +73,40 @@ class OpinionRepository extends ServiceEntityRepository
         return count($result) > 0;
     }
 
+    public function existsByUserSubjectAndProfessor(User $user, Subject $subject, Professor $professor)
+    {
+        $result = $this->createQueryBuilder('o')
+                ->where('o.owner = :owner')
+                ->andWhere('o.professor = :professor')
+                ->andWhere('o.subject = :subject')
+                ->setParameter('owner', $user)
+                ->setParameter('professor', $professor)
+                ->setParameter('subject', $subject)
+                ->getQuery()
+                ->getResult();
+
+        return count($result) > 0;
+    }
+
     public function existsByUserAndSubject(User $user, Subject $subject)
     {
         $result = $this->createQueryBuilder('o')
                 ->where('o.owner = :owner')
                 ->andWhere('o.subject = :subject')
+                ->setParameter('owner', $user)
+                ->setParameter('subject', $subject)
+                ->getQuery()
+                ->getResult();
+
+        return count($result) > 0;
+    }
+
+    public function existsByUserSubjectAndNoProfessor(User $user, Subject $subject)
+    {
+        $result = $this->createQueryBuilder('o')
+                ->where('o.owner = :owner')
+                ->andWhere('o.subject = :subject')
+                ->andWhere('o.professor IS NULL')
                 ->setParameter('owner', $user)
                 ->setParameter('subject', $subject)
                 ->getQuery()

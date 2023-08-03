@@ -43,10 +43,10 @@ class OpinionCrudController extends AbstractCrudController
                     5 => '5',
                 ]),
             //KEYWORDS
-            BooleanField::new('reviewed')->onlyOnDetail(),
-            BooleanField::new('accepted')->onlyOnDetail(),
+            BooleanField::new('reviewed'),
+            BooleanField::new('accepted'),
             AssociationField::new('subject'),
-            DateTimeField::new('creationDate')->setFormat('dd/MM/yyyy')->onlyOnDetail(),
+            DateTimeField::new('creationDate')->setFormat('dd/MM/yyyy'),
             AssociationField::new('professor'),
             AssociationField::new('owner')
                 // ->onlyOnDetail(),

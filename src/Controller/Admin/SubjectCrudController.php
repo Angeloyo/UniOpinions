@@ -31,9 +31,10 @@ class SubjectCrudController extends AbstractCrudController
             ArrayField::new('scoreCount')->onlyOnDetail(),
             AssociationField::new('degree'),
             IntegerField::new('year'),
-            CollectionField::new('professors')
-                ->onlyOnDetail(),
+            CollectionField::new('relationsSubjectProfessor')
+                // ->onlyOnDetail(),
                 // ->setTemplatePath('admin/listdegrees.html.twig')
+                ,
             CollectionField::new('opinions')
                 ->onlyOnDetail()
         ];

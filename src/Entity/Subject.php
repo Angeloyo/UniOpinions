@@ -23,9 +23,6 @@ class Subject
     #[ORM\JoinColumn(nullable: false)]
     private ?Degree $degree = null;
 
-    #[ORM\ManyToMany(targetEntity: Professor::class, mappedBy: 'subject')]
-    private Collection $professors;
-
     #[ORM\OneToMany(mappedBy: 'subject', targetEntity: Opinion::class, orphanRemoval: true)]
     private Collection $opinions;
 
@@ -50,10 +47,13 @@ class Subject
     #[ORM\Column]
     private ?bool $reviewed = false;
 
+    #[ORM\OneToMany(mappedBy: 'subject', targetEntity: RelationSubjectProfessor::class, orphanRemoval: true)]
+    private Collection $relationsSubjectProfessor;
+
     public function __construct()
     {
-        $this->professors = new ArrayCollection();
         $this->opinions = new ArrayCollection();
+        $this->relationsSubjectProfessor = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -81,33 +81,6 @@ class Subject
     public function setDegree(?Degree $degree): static
     {
         $this->degree = $degree;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Professor>
-     */
-    public function getProfessors(): Collection
-    {
-        return $this->professors;
-    }
-
-    public function addProfessor(Professor $professor): static
-    {
-        if (!$this->professors->contains($professor)) {
-            $this->professors->add($professor);
-            $professor->addSubject($this);
-        }
-
-        return $this;
-    }
-
-    public function removeProfessor(Professor $professor): static
-    {
-        if ($this->professors->removeElement($professor)) {
-            $professor->removeSubject($this);
-        }
 
         return $this;
     }
@@ -221,16 +194,59 @@ class Subject
         return $this;
     }
 
+    // public function getAcceptedProfessors(): array
+    // {
+    //     $acceptedProfessors = [];
+
+    //     foreach ($this->professors as $professor) {
+    //         if ($professor->isAccepted() === true) {
+    //             $acceptedProfessors[] = $professor;
+    //         }
+    //     }
+
+    //     return $acceptedProfessors;
+    // }
+
     public function getAcceptedProfessors(): array
     {
         $acceptedProfessors = [];
 
-        foreach ($this->professors as $professor) {
-            if ($professor->isAccepted() === true) {
-                $acceptedProfessors[] = $professor;
+        foreach ($this->relationsSubjectProfessor as $relation) {
+            if ($relation->isReviewed() === true) {
+                $acceptedProfessors[] = $relation->getProfessor();
             }
         }
 
         return $acceptedProfessors;
+    }
+
+    /**
+     * @return Collection<int, RelationSubjectProfessor>
+     */
+    public function getRelationsSubjectProfessor(): Collection
+    {
+        return $this->relationsSubjectProfessor;
+    }
+
+    public function addRelationSubjectProfessor(RelationSubjectProfessor $relationsSubjectProfessor): static
+    {
+        if (!$this->relationsSubjectProfessor->contains($relationsSubjectProfessor)) {
+            $this->relationsSubjectProfessor->add($relationsSubjectProfessor);
+            $relationsSubjectProfessor->setSubject($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRelationSubjectProfessor(RelationSubjectProfessor $relationsSubjectProfessor): static
+    {
+        if ($this->relationsSubjectProfessor->removeElement($relationsSubjectProfessor)) {
+            // set the owning side to null (unless already changed)
+            if ($relationsSubjectProfessor->getSubject() === $this) {
+                $relationsSubjectProfessor->setSubject(null);
+            }
+        }
+
+        return $this;
     }
 }

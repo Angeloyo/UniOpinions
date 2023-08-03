@@ -28,10 +28,10 @@
                         {{ opinion.subject.getDegree() }} --
                         {{ opinion.subject.getDegree().getUniversity() }}
                     {% else %}
-                        {% for subject in opinion.professor.getSubject() %}
-                            {{ subject.name }} -- 
-                            {{ subject.degree }} -- 
-                            {{ subject.degree.getUniversity() }}
+                        {% for relation in opinion.professor.getRelationsSubjectProfessor() %}
+                            {{ relation.subject.getName() }} -- 
+                            {{ relation.subject.getDegree() }} -- 
+                            {{ relation.subject.getDegree().getUniversity() }}
                             {% if not loop.last %}, {% endif %}
                         {% endfor %}
                     {% endif %}
