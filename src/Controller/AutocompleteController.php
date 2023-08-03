@@ -95,18 +95,25 @@ class AutocompleteController extends AbstractController
                 if ($university && is_numeric($degreeId)) {
                     $degree = $this->degreeRepository->findOneByIdAndUniversity($degreeId, $university );
                     
-                    if($degree  && !empty($year) ){
+                    if($degree ){
 
-                        $subjects = $this->subjectRepository->findByDegreeIdAndYearAndNameLike($degree->getId(), $year, $term);
+                        if( !empty($year) ){
 
-                        if($subjects){
+                            $subjects = $this->subjectRepository->findByDegreeIdAndYearAndNameLike($degree->getId(), $year, $term);
 
-                            $results = array_map(function ($subject) {
-                                return ['id' => $subject->getId(), 'text' => $subject->getName()];
-                            }, $subjects);
+                            if($subjects){
 
-                        }else {
-                            $results = [];
+                                $results = array_map(function ($subject) {
+                                    return ['id' => $subject->getId(), 'text' => $subject->getName()];
+                                }, $subjects);
+
+                            }else {
+                                $results = [];
+                            }
+
+                        }
+                        else{
+                            $results = [['id' => 0, 'text' => 'Por favor selecciona primero un año.', 'disabled' => true]];
                         }
                         
                     }
