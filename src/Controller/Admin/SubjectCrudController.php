@@ -24,7 +24,7 @@ class SubjectCrudController extends AbstractCrudController
         return [
             IdField::new('id')->onlyOnDetail(),
             BooleanField::new('accepted'),
-            BooleanField::new('reviewed'),
+            // BooleanField::new('reviewed'),
             // IdField::new('id'),
             TextField::new('name'),
             TextField::new('slug')->onlyOnDetail(),

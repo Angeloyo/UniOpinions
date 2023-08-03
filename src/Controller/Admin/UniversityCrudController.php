@@ -34,7 +34,7 @@ class UniversityCrudController extends AbstractCrudController
         return [
             IdField::new('id')->onlyOnDetail(),
             BooleanField::new('accepted'),
-            BooleanField::new('reviewed'),
+            // BooleanField::new('reviewed'),
             // IdField::new('id'),
             TextField::new('name'),
             ArrayField::new('aliases'),

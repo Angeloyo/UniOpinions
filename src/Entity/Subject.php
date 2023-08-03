@@ -44,9 +44,6 @@ class Subject
     #[ORM\Column]
     private ?bool $accepted = false;
 
-    #[ORM\Column]
-    private ?bool $reviewed = false;
-
     #[ORM\OneToMany(mappedBy: 'subject', targetEntity: RelationSubjectProfessor::class, orphanRemoval: true)]
     private Collection $relationsSubjectProfessor;
 
@@ -182,18 +179,6 @@ class Subject
         return $this;
     }
 
-    public function isReviewed(): ?bool
-    {
-        return $this->reviewed;
-    }
-
-    public function setReviewed(bool $reviewed): static
-    {
-        $this->reviewed = $reviewed;
-
-        return $this;
-    }
-
     // public function getAcceptedProfessors(): array
     // {
     //     $acceptedProfessors = [];
@@ -212,7 +197,7 @@ class Subject
         $acceptedProfessors = [];
 
         foreach ($this->relationsSubjectProfessor as $relation) {
-            if ($relation->isReviewed() === true) {
+            if ($relation->isAccepted() === true) {
                 $acceptedProfessors[] = $relation->getProfessor();
             }
         }

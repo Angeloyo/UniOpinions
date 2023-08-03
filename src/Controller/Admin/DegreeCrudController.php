@@ -38,7 +38,7 @@ class DegreeCrudController extends AbstractCrudController
         $fields = [
             IdField::new('id')->onlyOnDetail(),
             BooleanField::new('accepted'),
-            BooleanField::new('reviewed'),
+            // BooleanField::new('reviewed'),
             TextField::new('name'),
             TextField::new('slug')->onlyOnDetail(),
             AssociationField::new('university'),

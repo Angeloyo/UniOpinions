@@ -36,9 +36,6 @@ class Professor
     #[ORM\Column]
     private ?bool $accepted = false;
 
-    #[ORM\Column]
-    private ?bool $reviewed = false;
-
     #[ORM\OneToMany(mappedBy: 'professor', targetEntity: RelationSubjectProfessor::class, orphanRemoval: true)]
     private Collection $relationsSubjectProfessor;
 
@@ -142,18 +139,6 @@ class Professor
     public function setAccepted(bool $accepted): static
     {
         $this->accepted = $accepted;
-
-        return $this;
-    }
-
-    public function isReviewed(): ?bool
-    {
-        return $this->reviewed;
-    }
-
-    public function setReviewed(bool $reviewed): static
-    {
-        $this->reviewed = $reviewed;
 
         return $this;
     }

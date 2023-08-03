@@ -31,9 +31,6 @@ class Degree
     #[ORM\Column]
     private ?bool $accepted = false;
 
-    #[ORM\Column]
-    private ?bool $reviewed = false;
-
     public function __construct()
     {
         $this->subjects = new ArrayCollection();
@@ -128,15 +125,4 @@ class Degree
         return $this;
     }
 
-    public function isReviewed(): ?bool
-    {
-        return $this->reviewed;
-    }
-
-    public function setReviewed(bool $reviewed): static
-    {
-        $this->reviewed = $reviewed;
-
-        return $this;
-    }
 }

@@ -19,7 +19,7 @@ class RelationSubjectProfessorCrudController extends AbstractCrudController
     {
         return [
             IdField::new('id')->onlyOnDetail(),
-            BooleanField::new('reviewed'),
+            BooleanField::new('accepted'),
             AssociationField::new('professor'),
             AssociationField::new('subject')
         ];

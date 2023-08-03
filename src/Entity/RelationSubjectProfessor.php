@@ -22,7 +22,7 @@ class RelationSubjectProfessor
     private ?Subject $subject = null;
 
     #[ORM\Column]
-    private ?bool $reviewed = false;
+    private ?bool $accepted = false;
 
     public function getId(): ?int
     {
@@ -53,14 +53,14 @@ class RelationSubjectProfessor
         return $this;
     }
 
-    public function isReviewed(): ?bool
+    public function isAccepted(): ?bool
     {
-        return $this->reviewed;
+        return $this->accepted;
     }
 
-    public function setReviewed(bool $reviewed): static
+    public function setAccepted(bool $accepted): static
     {
-        $this->reviewed = $reviewed;
+        $this->accepted = $accepted;
 
         return $this;
     }

@@ -56,7 +56,7 @@ class ReviewDashboardController extends AbstractDashboardController
     #[Route('/review/unreviewed/opinions', name: 'admin_unreviewed_opinions')]
     public function showUnreviewedOpinions(): Response
     {
-        $opinions = $this->opinionRepository->findBy(['reviewed' => false]);
+        $opinions = $this->opinionRepository->findBy(['accepted' => false]);
 
         return $this->render('admin/unreviewed_opinions.html.twig', [
             'opinions' => $opinions,
@@ -66,7 +66,7 @@ class ReviewDashboardController extends AbstractDashboardController
     #[Route('/review/unreviewed/universities',name: 'admin_unreviewed_universities')]
     public function showUnreviewedUniversities(): Response
     {
-        $universities = $this->universityRepository->findBy(['reviewed' => false]);
+        $universities = $this->universityRepository->findBy(['accepted' => false]);
 
         return $this->render('admin/unreviewed_universities.html.twig', [
             'universities' => $universities,
@@ -76,7 +76,7 @@ class ReviewDashboardController extends AbstractDashboardController
     #[Route('/review/unreviewed/degrees', name: 'admin_unreviewed_degrees')]
     public function showUnreviewedDegrees(): Response
     {
-        $degrees = $this->degreeRepository->findBy(['reviewed' => false]);
+        $degrees = $this->degreeRepository->findBy(['accepted' => false]);
 
         return $this->render('admin/unreviewed_degrees.html.twig', [
             'degrees' => $degrees,
@@ -86,7 +86,7 @@ class ReviewDashboardController extends AbstractDashboardController
     #[Route('/review/unreviewed/subjects', name: 'admin_unreviewed_subjects')]
     public function showUnreviewedSubjects(): Response
     {
-        $subjects = $this->subjectRepository->findBy(['reviewed' => false]);
+        $subjects = $this->subjectRepository->findBy(['accepted' => false]);
 
         return $this->render('admin/unreviewed_subjects.html.twig', [
             'subjects' => $subjects,
@@ -96,7 +96,7 @@ class ReviewDashboardController extends AbstractDashboardController
     #[Route('/review/unreviewed/professors', name: 'admin_unreviewed_professors')]
     public function showUnreviewedProfessors(): Response
     {
-        $professors = $this->professorRepository->findBy(['reviewed' => false]);
+        $professors = $this->professorRepository->findBy(['accepted' => false]);
 
         return $this->render('admin/unreviewed_professors.html.twig', [
             'professors' => $professors,
@@ -106,7 +106,7 @@ class ReviewDashboardController extends AbstractDashboardController
     #[Route('/review/unreviewed/relations-sp', name: 'admin_unreviewed_relations_sp')]
     public function showUnreviewedRelationsSP(): Response
     {
-        $relations = $this->relationSubjectProfessorRepository->findBy(['reviewed' => false]);
+        $relations = $this->relationSubjectProfessorRepository->findBy(['accepted' => false]);
 
         return $this->render('admin/unreviewed_relations_sp.html.twig', [
             'relations' => $relations,
@@ -155,7 +155,7 @@ class ReviewDashboardController extends AbstractDashboardController
         $university = $this->universityRepository->find($id);
         if ($university) {
             $university->setAccepted(true);
-            $university->setReviewed(true);
+            // $university->setReviewed(true);
 
             $this->entityManager->persist($university);
             $this->entityManager->flush();
@@ -185,7 +185,7 @@ class ReviewDashboardController extends AbstractDashboardController
         
         if ($degree) {
             $degree->setAccepted(true);
-            $degree->setReviewed(true);
+            // $degree->setReviewed(true);
 
             $this->entityManager->persist($degree);
             $this->entityManager->flush();
@@ -214,7 +214,7 @@ class ReviewDashboardController extends AbstractDashboardController
         $subject = $this->subjectRepository->find($id);
         if ($subject) {
             $subject->setAccepted(true);
-            $subject->setReviewed(true);
+            // $subject->setReviewed(true);
 
             $this->entityManager->persist($subject);
             $this->entityManager->flush();
@@ -243,7 +243,7 @@ class ReviewDashboardController extends AbstractDashboardController
         $professor = $this->professorRepository->find($id);
         if ($professor) {
             $professor->setAccepted(true);
-            $professor->setReviewed(true);
+            // $professor->setReviewed(true);
 
             $this->entityManager->persist($professor);
             $this->entityManager->flush();
@@ -271,7 +271,7 @@ class ReviewDashboardController extends AbstractDashboardController
     {
         $relation_sp = $this->relationSubjectProfessorRepository->find($id);
         if ($relation_sp) {
-            $relation_sp->setReviewed(true);
+            $relation_sp->setAccepted(true);
 
             $this->entityManager->persist($relation_sp);
             $this->entityManager->flush();
