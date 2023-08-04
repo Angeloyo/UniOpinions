@@ -44,7 +44,13 @@
                 <h2 class="my-5 text-center">Comentario: </h2>
                 
                 <h3 class="my-3 text-xl text-center">Aviso: el comentario debe cumplir unas normas y será enviado a revisión antes de publicarse.</h3>
-                {# todo: elaborar las normas y mostrarlas #}
+                <h3 class="text-2xl text-blue-800 underline-offset-2 my-2">
+                    <button type="button">
+                        <span class="" data-a11y-dialog-show="my-dialog">
+                            Leer normas
+                        </span>
+                    </button>
+                </h3>
 
                 <div class="text-black dark:text-white text-xl sm:text-3xl">
                     {# {{ form_widget(form.comment) }} #}
@@ -85,6 +91,61 @@
             </div>
 
         {{ form_end(form) }}
+
+        <div
+            class="dialog-container"
+            id="my-dialog"
+            aria-hidden="true"
+            aria-labelledby="my-dialog-title"
+            aria-describedby="my-dialog-description"
+            >
+            <div class="dialog-overlay" data-a11y-dialog-hide></div>
+            <div class="dialog-content" role="document">
+                <button
+                data-a11y-dialog-hide
+                class="dialog-close"
+                aria-label="Close this dialog window"
+                type="button"
+                >
+                <svg class="svg-icon" viewBox="0 0 20 20">
+                    <path
+                    fill="currentcolor"
+                    d="M15.898,4.045c-0.271-0.272-0.713-0.272-0.986,0l-4.71,4.711L5.493,4.045c-0.272-0.272-0.714-0.272-0.986,0s-0.272,0.714,0,0.986l4.709,4.711l-4.71,4.711c-0.272,0.271-0.272,0.713,0,0.986c0.136,0.136,0.314,0.203,0.492,0.203c0.179,0,0.357-0.067,0.493-0.203l4.711-4.711l4.71,4.711c0.137,0.136,0.314,0.203,0.494,0.203c0.178,0,0.355-0.067,0.492-0.203c0.273-0.273,0.273-0.715,0-0.986l-4.711-4.711l4.711-4.711C16.172,4.759,16.172,4.317,15.898,4.045z"
+                    ></path>
+                </svg>
+                </button>
+
+                <h1 id="my-dialog-title">Normas para la publicación de comentarios en UniOpinions</h1>
+                
+                <div id="my-dialog-description">
+                    <p><span class="text-blue-600 uppercase">Respeto:</span> Todos los comentarios deben ser respetuosos. No se tolerará ninguna forma de insulto, lenguaje ofensivo, acoso o discriminación.</p>
+
+                    <p><span class="text-blue-600 uppercase">Objetividad:</span> Los comentarios deben ser objetivos y basados en experiencias personales. Evita generalizaciones y suposiciones.</p>
+
+                    <p><span class="text-blue-600 uppercase">Veracidad:</span> Asegúrate de que tu comentario refleje tus verdaderas experiencias y opiniones. No se permiten falsedades o exageraciones.</p>
+
+                    <p><span class="text-blue-600 uppercase">Relevancia:</span> Mantén tus comentarios relevantes para la enseñanza y el rendimiento del profesor. No incluyas información personal irrelevante sobre el profesor.</p>
+
+                    <p><span class="text-blue-600 uppercase">Privacidad:</span> No se permite compartir información personal del profesor que no sea de dominio público.</p>
+
+                    <p><span class="text-blue-600 uppercase">Lenguaje apropiado:</span> Usa un lenguaje adecuado y evita el uso de jerga o abreviaturas que podrían ser confusas.</p>
+
+                    <p><span class="text-blue-600 uppercase">Sin promociones:</span> Los comentarios no deben contener promociones de productos o servicios, ni enlaces a sitios web externos.</p>
+
+                    <p><span class="text-blue-600 uppercase">Sin plagio:</span> Todos los comentarios deben ser originales. No copies comentarios de otros lugares.</p>
+
+                    <p><span class="text-blue-600 uppercase">No se permiten comentarios duplicados:</span> Cada estudiante debe realizar un único comentario por profesor.</p>
+
+                    <p><span class="text-blue-600 uppercase">Denuncia de abusos:</span> Si ves un comentario que viola estas normas, repórtalo. Nos tomamos muy en serio las violaciones y tomaremos las medidas necesarias para mantener la integridad de nuestra plataforma.</p>
+
+                </div>
+
+                <h1 id="my-dialog-footer">
+                    Recuerda que estas reglas están en lugar para garantizar un ambiente respetuoso y útil para todos los usuarios. Incumplir estas normas puede llevar a la eliminación del comentario o la suspensión de tu cuenta.
+                </h1>
+
+            </div>
+        </div>
 
     </div>
 

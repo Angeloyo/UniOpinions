@@ -22,3 +22,127 @@ body {
 .hidden-rating {
     display: none;
 }
+
+/* A11y-dialog styles */
+/**
+ * 1. Make the dialog container, and its child overlay spread across
+ *    the entire window.
+ */
+ .dialog-container,
+ .dialog-overlay {
+   position: fixed; /* 1 */
+   top: 0; /* 1 */
+   right: 0; /* 1 */
+   bottom: 0; /* 1 */
+   left: 0; /* 1 */
+ }
+ 
+ /**
+   * 1. Make sure the dialog container and all its descendants sits on
+   *    top of the rest of the page.
+   * 2. Make the dialog container a flex container to easily center the
+   *    dialog.
+   */
+ .dialog-container {
+   z-index: 2; /* 1 */
+   display: flex; /* 2 */
+ }
+ 
+ /**
+   * 1. Make sure the dialog container and all its descendants are not
+   *    visible and not focusable when it is hidden.
+   */
+ .dialog-container[aria-hidden='true'] {
+   display: none; /* 1 */
+ }
+ 
+ /**
+   * 1. Make the overlay look like an overlay.
+   */
+ .dialog-overlay {
+   background-color: rgb(43 46 56 / 0.9); /* 1 */
+   animation: fade-in 200ms both;
+ }
+ 
+ /**
+   * 1. Vertically and horizontally center the dialog in the page.
+   * 2. Make sure the dialog sits on top of the overlay.
+   * 3. Make sure the dialog has an opaque background.
+   */
+ .dialog-content {
+   margin: auto; /* 1 */
+   z-index: 2; /* 2 */
+   position: relative; /* 2 */
+   background-color: white; /* 3 */
+ 
+   animation: fade-in 400ms 200ms both, slide-up 400ms 200ms both;
+   padding: 1em;
+   max-width: 90%;
+   width: 600px;
+   border-radius: 5px;
+ }
+ 
+ @media screen and (min-width: 700px) {
+   .dialog-content {
+     padding: 2em;
+   }
+ }
+ 
+ @keyframes fade-in {
+   from {
+     opacity: 0;
+   }
+ }
+ 
+ @keyframes slide-up {
+   from {
+     transform: translateY(10%);
+   }
+ }
+ 
+ @media (prefers-reduced-motion: reduce) {
+   .dialog-overlay,
+   .dialog-content {
+     animation: none;
+   }
+ }
+ 
+ .dialog-content h1 {
+   margin: 0;
+   font-size: 1.25em;
+ }
+ 
+ .dialog-close {
+   position: absolute;
+   top: 0.5em;
+   right: 0.5em;
+   border: 0;
+   padding: 0.25em;
+   background-color: transparent;
+   font-size: 1.5em;
+   width: 1.5em;
+   height: 1.5em;
+   text-align: center;
+   cursor: pointer;
+   transition: 0.15s;
+   border-radius: 50%;
+ }
+ 
+ .dialog-close:hover {
+   background-color: rgb(50 50 0 / 0.15);
+ }
+ 
+ @media screen and (min-width: 700px) {
+   .dialog-close {
+     top: 1em;
+     right: 1em;
+   }
+ }
+
+ #my-dialog-title{
+  margin-bottom: 0.5em;
+ }
+
+ #my-dialog-footer{
+  margin-top: 0.5em;
+ }
