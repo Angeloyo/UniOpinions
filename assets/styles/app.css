@@ -70,6 +70,7 @@ body {
    * 3. Make sure the dialog has an opaque background.
    */
  .dialog-content {
+
    margin: auto; /* 1 */
    z-index: 2; /* 2 */
    position: relative; /* 2 */
@@ -80,6 +81,8 @@ body {
    max-width: 90%;
    width: 600px;
    border-radius: 5px;
+   overflow: auto;
+   max-height: 90vh;
  }
  
  @media screen and (min-width: 700px) {
