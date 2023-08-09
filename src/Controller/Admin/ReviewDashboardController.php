@@ -56,7 +56,7 @@ class ReviewDashboardController extends AbstractDashboardController
     #[Route('/review/unreviewed/opinions', name: 'admin_unreviewed_opinions')]
     public function showUnreviewedOpinions(): Response
     {
-        $opinions = $this->opinionRepository->findBy(['accepted' => false]);
+        $opinions = $this->opinionRepository->findBy(['reviewed' => false]);
 
         return $this->render('admin/unreviewed_opinions.html.twig', [
             'opinions' => $opinions,
