@@ -26,15 +26,6 @@ class Professor
     private ?string $slug = null;
 
     #[ORM\Column]
-    private array $scoreCount = [
-        '1' => 0,
-        '2' => 0,
-        '3' => 0,
-        '4' => 0,
-        '5' => 0,
-    ];
-
-    #[ORM\Column]
     private ?bool $accepted = false;
 
     #[ORM\OneToMany(mappedBy: 'professor', targetEntity: RelationSubjectProfessor::class, orphanRemoval: true)]
@@ -105,18 +96,6 @@ class Professor
     public function setSlug(string $slug): static
     {
         $this->slug = $slug;
-
-        return $this;
-    }
-
-    public function getScoreCount(): array
-    {
-        return $this->scoreCount;
-    }
-
-    public function setScoreCount(array $scoreCount): static
-    {
-        $this->scoreCount = $scoreCount;
 
         return $this;
     }
