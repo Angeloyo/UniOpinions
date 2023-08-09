@@ -22,7 +22,7 @@ class UserCrudController extends AbstractCrudController
     {
         return [
             IdField::new('id')
-            ->onlyOnDetail()
+            // ->onlyOnDetail()
             ,
             BooleanField::new('isVerified'),
             EmailField::new('email'),

@@ -32,7 +32,7 @@ class UniversityCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            IdField::new('id')->onlyOnDetail(),
+            IdField::new('id'),
             BooleanField::new('accepted'),
             // BooleanField::new('reviewed'),
             // IdField::new('id'),
