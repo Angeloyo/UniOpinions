@@ -32,8 +32,8 @@ class CreateSpecificOpinionController extends AbstractController
     public function createSpecificOpinion(
         // string $type, 
         int $subjectId,
-        ?int $professorId = null,
         Request $request,
+        ?int $professorId = null,
         ): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -53,6 +53,7 @@ class CreateSpecificOpinionController extends AbstractController
         $opinion = new Opinion();
         $userId = $this->getUser()->getId();
 
+        //opinion sobre un profesor
         if ($professorId !== null) {
 
             $professor = $this->professorRepository->find($professorId);
@@ -68,7 +69,6 @@ class CreateSpecificOpinionController extends AbstractController
 
             $subject = $this->subjectRepository->find($subjectId);
             if (!$subject) {
-                // throw $this->createNotFoundException('Profesor no encontrado');
                 $this->addFlash('error', 'Asignatura no encontrada.');
                 if ($referer) {
                     return $this->redirect($referer);
@@ -108,11 +108,12 @@ class CreateSpecificOpinionController extends AbstractController
 
             $object = $professor;
 
-        } else{
+        } 
+        //opinion de una asignatura
+        else{
 
             $subject = $this->subjectRepository->find($subjectId);
             if (!$subject) {
-                // throw $this->createNotFoundException('Subject not found');
                 $this->addFlash('error', 'Asignatura no encontrada');
                 if ($referer) {
                     return $this->redirect($referer);
@@ -128,8 +129,6 @@ class CreateSpecificOpinionController extends AbstractController
             $existingOpinion = $subject->getOpinions()->filter(function($opinion) use ($userId) {
                 return $opinion->getOwner()->getId() == $userId && $opinion->getProfessor() === null;
             })->first();
-            
-            // $opinionExists = $this->opinionRepository->existsByUserSubjectAndNoProfessor($user, $subject);
             
             if ($existingOpinion) {
                 return $this->redirectToRoute('app_edit_opinion', [
@@ -148,24 +147,50 @@ class CreateSpecificOpinionController extends AbstractController
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() ) {
+            //comprobar que se ha rellenado al menos uno de los campos
 
-            // if there is no comment we dont need to review it
-            if($opinion->getComment() == null){
-                $opinion->setAccepted(true);
-                $opinion->setReviewed(true);
+            $checkScore = $form->get('givenScore')->getData();
+            $checkComment = $form->get('comment')->getData();
+            //$checkKeywords = $form->get('keywords')->getData();
+
+            $errors = [];
+
+            if ($checkScore === null && $checkComment === null) {
+                $errors['input'] = 'Debes rellenar al menos uno de los campos: valoración general, comentario';
             }
-            //it wont display because the query that brings the
-            // opinions to frontend filters by comment not null
+
+            if (count($errors) > 0) {
+                // Render the form again and pass the errors
+                return $this->render('opinion/new_specific.html.twig', [
+                    'form' => $form,
+                    'object' => $object,
+                    'errors' => $errors,
+                ]);
+
+            } 
+            //si no hay errores
+            else{
+
+                // if there is no comment we dont need to review it
+                if($opinion->getComment() == null){
+                    $opinion->setAccepted(true);
+                    $opinion->setReviewed(true);
+                }
+                //it wont display because the query that brings the
+                // opinions to frontend filters by comment not null
+                
+                $this->entityManager->persist($opinion);
+                $this->entityManager->flush();
+
+                if ($referer) {
+                    return $this->redirect($referer);
+                } else {
+                    return $this->redirectToRoute('app_home');
+                }
+            }
+
             
-            $this->entityManager->persist($opinion);
-            $this->entityManager->flush();
-
-            if ($referer) {
-                return $this->redirect($referer);
-            } else {
-                return $this->redirectToRoute('app_home');
-            }
         }
 
         return $this->render('opinion/new_specific.html.twig', [

@@ -136,10 +136,10 @@ class CreateGenericOpinionController extends AbstractController
 
         $form->handleRequest($request);
 
-        $errors = $form->getErrors(true);
-        foreach ($errors as $error) {
-            dump($error->getMessage());
-        }
+        // $errors = $form->getErrors(true);
+        // foreach ($errors as $error) {
+        //     dump($error->getMessage());
+        // }
         
         if ($form->isSubmitted() ) {
             
@@ -147,6 +147,10 @@ class CreateGenericOpinionController extends AbstractController
             $checkDegree = $form->get('degree')->getData();
             $checkSubject = $form->get('subject')->getData();
             $checkYear = $form->get('year')->getData();
+
+            $checkScore = $form->get('givenScore')->getData();
+            $checkComment = $form->get('comment')->getData();
+            //$checkKeywords = $form->get('keywords')->getData();
 
             $errors = [];
 
@@ -164,6 +168,10 @@ class CreateGenericOpinionController extends AbstractController
 
             if ($checkYear == null) {
                 $errors['year'] = 'El campo "año" es obligatorio';
+            }
+
+            if ($checkScore === null && $checkComment === null) {
+                $errors['input'] = 'Debes rellenar al menos uno de los campos: valoración general, comentario';
             }
 
             if (count($errors) > 0) {

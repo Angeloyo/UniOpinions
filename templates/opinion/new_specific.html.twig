@@ -26,6 +26,12 @@
                         this.parentElement.classList.add('dark:bg-slate-900');
                     }
                 });
+
+                // Verifica si alguna opción está seleccionada al cargar la página
+                if (ratingOptions[i].checked) {
+                    ratingOptions[i].parentElement.classList.add('bg-slate-300');
+                    ratingOptions[i].parentElement.classList.add('dark:bg-slate-900');
+                }
             }
         });
     </script>
@@ -38,6 +44,12 @@
         {# {{ form(form) }} #}
         {{ form_start(form) }}
         <div class="text-black dark:text-white">
+
+            {% if errors is defined %}
+                {% for error in errors %}
+                    <div class="text-red-600 text-center m-11">{{ error }}</div>
+                {% endfor %}
+            {% endif %}
 
             <div class="mb-7 mt-3 mx-1 text-center">
                 {# {{ form_label(form.comment) }} #}

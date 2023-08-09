@@ -74,22 +74,11 @@
         <div class=" text-black dark:text-white w-[20rem] sm:w-[25rem] 
         md:w-[30rem] lg:w-[40rem] xl:w-[50rem]">
 
-            {# {% if form.errors is not empty %}
-                <div class="">
-                    {% for error in form.errors %}
-                        {{ error.message }}
-                    {% endfor %}
-                </div>
-            {% endif %} #}
-
-            {# {{ form_errors(form) }} #}
-
             {% if errors is defined %}
                 {% for error in errors %}
                     <div class="text-red-600 text-center m-11">{{ error }}</div>
                 {% endfor %}
             {% endif %}
-
 
             <div class="mb-7 mt-3 mx-1">
                 <h2 class="my-5 text-center">Universidad: </h2>

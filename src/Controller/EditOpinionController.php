@@ -60,29 +60,53 @@ class EditOpinionController extends AbstractController
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() ) {
+            //comprobar que se ha rellenado al menos uno de los campos
 
-            // if there is no comment we dont need to review it
-            if($opinion->getComment() == null){
-                $opinion->setAccepted(true);
-                $opinion->setReviewed(true);
+            $checkScore = $form->get('givenScore')->getData();
+            $checkComment = $form->get('comment')->getData();
+            //$checkKeywords = $form->get('keywords')->getData();
+
+            $errors = [];
+
+            if ($checkScore === null && $checkComment === null) {
+                $errors['input'] = 'Debes rellenar al menos uno de los campos: valoración general, comentario';
             }
+
+            if (count($errors) > 0) {
+                // Render the form again and pass the errors
+                return $this->render('edit_opinion/index.html.twig', [
+                    'form' => $form,
+                    'object' => $opinion->getSubject() ?? $opinion->getProfessor(),
+                    'errors' => $errors,
+                ]);
+
+            } 
+            //si no hay errores
             else{
-                // When comment is edited, it needs to be reviewed again
-                if ($originalComment != $opinion->getComment()) {
-                    //hacer: avisar al usuario de que el comentario ha sido enviado a revision
-                    $opinion->setAccepted(false);
-                    $opinion->setReviewed(false);
+
+                // if there is no comment we dont need to review it
+                if($opinion->getComment() == null){
+                    $opinion->setAccepted(true);
+                    $opinion->setReviewed(true);
                 }
-            }
+                else{
+                    // When comment is edited, it needs to be reviewed again
+                    if ($originalComment != $opinion->getComment()) {
+                        //hacer: avisar al usuario de que el comentario ha sido enviado a revision
+                        $opinion->setAccepted(false);
+                        $opinion->setReviewed(false);
+                    }
+                }
 
-            $this->entityManager->persist($opinion);
-            $this->entityManager->flush();
+                $this->entityManager->persist($opinion);
+                $this->entityManager->flush();
 
-            if ($referer) {
-                return $this->redirect($referer);
-            } else {
-                return $this->redirectToRoute('app_home');
+                if ($referer) {
+                    return $this->redirect($referer);
+                } else {
+                    return $this->redirectToRoute('app_home');
+                }
             }
         }
 
