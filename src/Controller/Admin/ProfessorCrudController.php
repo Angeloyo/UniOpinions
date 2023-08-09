@@ -33,7 +33,8 @@ class ProfessorCrudController extends AbstractCrudController
                 ->setTemplatePath('admin/listsubjects.html.twig'),
             CollectionField::new('opinions')
                 ->onlyOnDetail()
-                //listar id de opiniones?
+                //listar id de opiniones
+                ->setTemplatePath('admin/listopinions.html.twig'),
         ];
     }
 }
