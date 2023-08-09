@@ -25,7 +25,7 @@ class Professor
     #[ORM\Column(length: 255)]
     private ?string $slug = null;
 
-    #[ORM\Column(nullable:true)]
+    #[ORM\Column]
     private array $scoreCount = [
         '1' => 0,
         '2' => 0,
