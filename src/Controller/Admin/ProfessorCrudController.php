@@ -27,7 +27,7 @@ class ProfessorCrudController extends AbstractCrudController
             // BooleanField::new('reviewed'),
             TextField::new('name'),            
             TextField::new('slug')->onlyOnDetail(),
-            ArrayField::new('scoreCount'),
+            // ArrayField::new('scoreCount'),
             AssociationField::new('relationsSubjectProfessor')
                 // ->onlyOnDetail(),
                 ->setTemplatePath('admin/listsubjects.html.twig'),
