@@ -51,7 +51,7 @@
         </div>
 
         <div class="text-center flex flex-row text-2xl">
-            {% for score, count in professor.scoreCount %}
+            {% for score, count in relation_sp.getScoreCount() %}
                 <p class="mx-6">{{ count }}</p>
             {% endfor %}
         </div>

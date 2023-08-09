@@ -6,6 +6,7 @@ use App\Repository\ProfessorRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Subject;
 
 #[ORM\Entity(repositoryClass: ProfessorRepository::class)]
 class Professor
@@ -24,7 +25,7 @@ class Professor
     #[ORM\Column(length: 255)]
     private ?string $slug = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable:true)]
     private array $scoreCount = [
         '1' => 0,
         '2' => 0,
@@ -120,17 +121,6 @@ class Professor
         return $this;
     }
 
-    public function incrementScoreCount(int $score): void
-    {
-        $this->scoreCount[$score]++;
-    }
-
-    public function decrementScoreCount(int $score): void
-    {
-        $this->scoreCount[$score]--;
-        // $this->scoreCount[$score] = max(0, $this->scoreCount[$score] - 1);
-    }
-
     public function isAccepted(): ?bool
     {
         return $this->accepted;
@@ -171,5 +161,14 @@ class Professor
         }
 
         return $this;
+    }
+
+    public function getRelationWithSubject(Subject $subject): ?RelationSubjectProfessor {
+        foreach ($this->relationsSubjectProfessor as $relation) {
+            if ($relation->getSubject() === $subject) {
+                return $relation;
+            }
+        }
+        return null;  // si no se encuentra la relación
     }
 }

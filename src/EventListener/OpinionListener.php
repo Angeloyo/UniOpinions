@@ -8,6 +8,7 @@ use App\Entity\Opinion;
 
 class OpinionListener
 {
+    //eliminacion de una opinion
     public function preRemove(LifecycleEventArgs $args): void
     {
         $entity = $args->getObject();
@@ -20,10 +21,15 @@ class OpinionListener
             $subject = $entity->getSubject();
 
             if ($score !== null){
+
+
+                //opinion de un profesor
                 if ($subject !== null && $professor !== null) {
-                    $professor->decrementScoreCount($score);
+                    $relationSp = $professor->getRelationWithSubject($subject);
+                    $relationSp->decrementScoreCount($score);
                 }
 
+                //opinion de una asignatura
                 if ($subject !== null && $professor === null) {
                     $subject->decrementScoreCount($score);
                 }
@@ -32,6 +38,7 @@ class OpinionListener
         }
     }
 
+    //Creacion de una opinion
     public function prePersist(LifecycleEventArgs $args): void
     {
 
@@ -46,14 +53,17 @@ class OpinionListener
             $professor = $entity->getProfessor();
             $subject = $entity->getSubject();
 
+            //opinion de un profesor
             if ($subject !== null && $professor !== null) {
 
                 if($score !== null){
-                    $professor->incrementScoreCount($score);
+                    $relationSp = $professor->getRelationWithSubject($subject);
+                    $relationSp->incrementScoreCount($score);
                 }
 
             }
 
+            //opinion de una asignatura
             if ($subject !== null && $professor === null) {
                 if($score !== null){
                     $subject->incrementScoreCount($score);
@@ -62,7 +72,7 @@ class OpinionListener
         }
 
     }
-public function onFlush(OnFlushEventArgs $args)
+    public function onFlush(OnFlushEventArgs $args)
     {
         $em = $args->getObjectManager();
         $uow = $em->getUnitOfWork();
@@ -80,23 +90,28 @@ public function onFlush(OnFlushEventArgs $args)
                     $professor = $entity->getProfessor();
                     $subject = $entity->getSubject();  
 
+                    //opinion de un profesor
                     if ($subject !== null && $professor !== null) {
 
+                        $relationSp = $professor->getRelationWithSubject($subject);
+
                         if($oldScore !== null){
-                            $professor->decrementScoreCount($oldScore);
+                            $relationSp->decrementScoreCount($oldScore);
                         }
 
                         if($newScore !== null){
-                            $professor->incrementScoreCount($newScore);
+                            $relationSp->incrementScoreCount($newScore);
                         }
                         
                         // recalculate changes
                         $uow->recomputeSingleEntityChangeSet(
-                            $em->getClassMetadata(get_class($professor)),
-                            $professor
+                            $em->getClassMetadata(get_class($relationSp)),
+                            $relationSp
                         );
 
-                    } elseif ($subject !== null && $professor === null) {
+                    } 
+                    //opinion de una asignatura
+                    elseif ($subject !== null && $professor === null) {
 
                         if($oldScore !== null){
                             $subject->decrementScoreCount($oldScore);

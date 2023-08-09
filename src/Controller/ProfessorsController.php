@@ -10,6 +10,7 @@ use App\Repository\DegreeRepository;
 use App\Repository\SubjectRepository;
 use App\Repository\ProfessorRepository;
 use App\Repository\OpinionRepository;
+use App\Repository\RelationSubjectProfessorRepository;
 use Symfony\Component\HttpFoundation\Request;
 
 class ProfessorsController extends AbstractController
@@ -19,13 +20,15 @@ class ProfessorsController extends AbstractController
     private $subjectRepository;
     private $professorRepository;
     private $opinionRepository;
+    private $relationsSubjectProfessorRepository;
 
     public function __construct(
         UniversityRepository $universityRepository,
         DegreeRepository $degreeRepository,
         SubjectRepository $subjectRepository,
         ProfessorRepository $professorRepository,
-        OpinionRepository $opinionRepository
+        OpinionRepository $opinionRepository,
+        RelationSubjectProfessorRepository $relationSubjectProfessorRepository
         )
     {
         $this->universityRepository = $universityRepository;
@@ -33,6 +36,7 @@ class ProfessorsController extends AbstractController
         $this->subjectRepository = $subjectRepository;
         $this->professorRepository = $professorRepository;
         $this->opinionRepository = $opinionRepository;
+        $this->relationsSubjectProfessorRepository = $relationSubjectProfessorRepository;
     }
 
     #[Route('/u/{universitySlug}/{degreeSlug}/{subjectSlug}/{professorSlug}', name: 'app_professor')]
@@ -91,7 +95,21 @@ class ProfessorsController extends AbstractController
                 return $this->redirectToRoute('app_home');
             }
         }
+
+        $relation_sp = $this->relationsSubjectProfessorRepository->findOneBy(['subject' => $subject, 'professor' => $professor]);
         
+        // dump($relation_sp);
+        // die();
+
+        if(!$relation_sp){
+            $this->addFlash('error', 'No encontrada relación del profesor con la asignatura');
+            if ($referer) {
+                return $this->redirect($referer);
+            } else {
+                return $this->redirectToRoute('app_home');
+            }
+        }
+
         // $acceptedOpinions = $this->opinionRepository->findAcceptedByProfessor($professor);
         $acceptedOpinions = $this->opinionRepository->findAcceptedBySubjectAndProfessor($professor, $subject);
 
@@ -114,6 +132,7 @@ class ProfessorsController extends AbstractController
             'professor' => $professor,
             'opinions' => $acceptedOpinions,
             'opinionExists' => $opinionExists,
+            'relation_sp' => $relation_sp
         ]);
     }
 }

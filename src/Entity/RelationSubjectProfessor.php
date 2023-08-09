@@ -24,6 +24,15 @@ class RelationSubjectProfessor
     #[ORM\Column]
     private ?bool $accepted = false;
 
+    #[ORM\Column(nullable:true)]
+    private array $scoreCount = [
+        '1' => 0,
+        '2' => 0,
+        '3' => 0,
+        '4' => 0,
+        '5' => 0,
+    ];
+
     public function getId(): ?int
     {
         return $this->id;
@@ -68,5 +77,28 @@ class RelationSubjectProfessor
     public function __toString(): string
     {
         return sprintf('%s-%s)', $this->professor->getName(), $this->getSubject()->getName());
+    }
+
+    public function getScoreCount(): array
+    {
+        return $this->scoreCount;
+    }
+
+    public function setScoreCount(array $scoreCount): static
+    {
+        $this->scoreCount = $scoreCount;
+
+        return $this;
+    }
+
+    public function incrementScoreCount(int $score): void
+    {
+        $this->scoreCount[$score]++;
+    }
+
+    public function decrementScoreCount(int $score): void
+    {
+        $this->scoreCount[$score]--;
+        // $this->scoreCount[$score] = max(0, $this->scoreCount[$score] - 1);
     }
 }

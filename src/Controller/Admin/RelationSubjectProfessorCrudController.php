@@ -7,6 +7,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 
 class RelationSubjectProfessorCrudController extends AbstractCrudController
 {
@@ -20,6 +21,7 @@ class RelationSubjectProfessorCrudController extends AbstractCrudController
         return [
             IdField::new('id')->onlyOnDetail(),
             BooleanField::new('accepted'),
+            ArrayField::new('scoreCount'),
             AssociationField::new('professor'),
             AssociationField::new('subject')
         ];
