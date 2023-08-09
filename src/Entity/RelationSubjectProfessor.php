@@ -24,7 +24,7 @@ class RelationSubjectProfessor
     #[ORM\Column]
     private ?bool $accepted = false;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable:true)]
     private array $scoreCount = [
         '1' => 0,
         '2' => 0,
