@@ -10,6 +10,7 @@
         <thead>
             <tr class="text-gray-500 ">
                 <th>ID</th>
+                <th>Año</th>
                 <th>Asignatura</th>
                 <th class="text-right">Acciones</th>
             </tr>
@@ -18,6 +19,7 @@
             {% for subject in subjects %}
                 <tr class="text-gray-500">
                     <td >{{ subject.id }}</td>
+                    <td >{{ subject.year }}</td>
                     <td >{{ subject.name }}</td>
                     <td class="text-right">
                         <a href="{{ path('admin_accept_subject', {id: subject.id}) }}" class="btn btn-success">Aceptar</a>
