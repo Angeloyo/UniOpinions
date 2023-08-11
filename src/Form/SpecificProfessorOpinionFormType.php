@@ -10,13 +10,27 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class SpecificOpinionFormType extends AbstractType
+class SpecificProfessorOpinionFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('comment', TextareaType::class, ['required' => false])
-            // ->add('keywords')
+            ->add('keywords', ChoiceType::class, [
+                'choices' => [
+                    'Lección estimulante' => 'leccion_estimulante',
+                    'Lección pesada' => 'leccion_pesada',
+                    'Disponible' => 'disponible',
+                    'Apreciado' => 'apreciado',
+                    'Trabajo en grupo' => 'trabajo_en_grupo',
+                    'Muchas tareas' => 'muchas_tareas',
+                    'Estricto' => 'estricto',
+                    'Corrección exigente' => 'correccion_exigente'
+                ],
+                'required' => false,
+                'expanded' => true,  // Render as checkboxes
+                'multiple' => true   // Allow multiple selections
+            ])
             ->add('givenScore', ChoiceType::class, [
                 'choices' => [
                     '1' => 1,

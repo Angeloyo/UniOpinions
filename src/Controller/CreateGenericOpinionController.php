@@ -150,7 +150,7 @@ class CreateGenericOpinionController extends AbstractController
 
             $checkScore = $form->get('givenScore')->getData();
             $checkComment = $form->get('comment')->getData();
-            //$checkKeywords = $form->get('keywords')->getData();
+            $checkKeywords = $form->get('keywords')->getData();
 
             $errors = [];
 
@@ -170,8 +170,8 @@ class CreateGenericOpinionController extends AbstractController
                 $errors['year'] = 'El campo "año" es obligatorio';
             }
 
-            if ($checkScore === null && $checkComment === null) {
-                $errors['input'] = 'Debes rellenar al menos uno de los campos: valoración general, comentario';
+            if ($checkScore === null && $checkComment === null && $checkKeywords === null) {
+                $errors['input'] = 'Debes rellenar al menos uno de los campos: valoración general, comentario, palabras clave';
             }
 
             if (count($errors) > 0) {
@@ -194,6 +194,7 @@ class CreateGenericOpinionController extends AbstractController
                 $obtainedProfessor = $form->get('professor')->getData();
                 $obtainedComment = $form->get('comment')->getData();
                 $obtainedScore = $form->get('givenScore')->getData();
+                $obtainedKeywords = $form->get('keywords')->getData();
                 $obtainedYear = $form->get('year')->getData();
 
                 if(empty($obtainedProfessor)){
@@ -298,7 +299,15 @@ class CreateGenericOpinionController extends AbstractController
 
                             //hay que crear asignatura 
                             $finalSubject = new Subject();
-                            $finalSubject->setName($obtainedSubject);
+
+                            //sin embargo es posible que estuviese preseleccionada
+                            if(is_numeric($obtainedSubject)){
+                                $finalSubject->setName($this->subjectRepository->find($obtainedSubject)->getName());
+                            }
+                            else{
+                                $finalSubject->setName($obtainedSubject);
+                            }
+
                             $finalSubject->setYear($obtainedYear);
 
                             //Asignar asignatura con el grado
@@ -343,13 +352,29 @@ class CreateGenericOpinionController extends AbstractController
 
                     // crear grado asignarlo con universidad
                     $finalDegree = new Degree();
-                    $finalDegree->setName($obtainedDegree);
+
+                    // es posible que se hayan preseleccionado entidades 
+                    //y creado una entidad superior
+                    if(is_numeric($obtainedDegree)){
+                        $finalDegree->setName($this->degreeRepository->find($obtainedDegree)->getName());
+                    }
+                    else{
+                        $finalDegree->setName($obtainedDegree);
+                    }
+
                     $finalUniversity->addDegree($finalDegree);
                     // $this->entityManager->persist($finalDegree);
 
                     // crear asignatura asignarla con grado
                     $finalSubject = new Subject();
-                    $finalSubject->setName($obtainedSubject);
+
+                    if(is_numeric($obtainedSubject)){
+                        $finalSubject->setName($this->subjectRepository->find($obtainedSubject)->getName());
+                    }
+                    else{
+                        $finalSubject->setName($obtainedSubject);
+                    }
+                    
                     $finalSubject->setYear($obtainedYear);
                     $finalDegree->addSubject($finalSubject);
                     
@@ -386,6 +411,7 @@ class CreateGenericOpinionController extends AbstractController
                 //agregar a la opinion el comentario y el score
                 $opinion->setComment($obtainedComment);
                 $opinion->setGivenScore($obtainedScore);
+                $opinion->setKeywords($obtainedKeywords);
 
                 //persistir todo
                 if($obtainedProfessor !== null){

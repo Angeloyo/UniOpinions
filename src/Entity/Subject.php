@@ -47,6 +47,9 @@ class Subject
     #[ORM\OneToMany(mappedBy: 'subject', targetEntity: RelationSubjectProfessor::class, orphanRemoval: true)]
     private Collection $relationsSubjectProfessor;
 
+    #[ORM\Column(nullable: true)]
+    private ?array $keywordsCount = null;
+
     public function __construct()
     {
         $this->opinions = new ArrayCollection();
@@ -233,5 +236,54 @@ class Subject
         }
 
         return $this;
+    }
+
+    public function getKeywordsCount(): ?array
+    {
+        return $this->keywordsCount;
+    }
+
+    public function setKeywordsCount(?array $keywordsCount): static
+    {
+        $this->keywordsCount = $keywordsCount;
+
+        return $this;
+    }
+
+    public function getKeywordsCountDisplay(): string{
+        $items = [];
+        if (is_array($this->keywordsCount)) {
+            foreach ($this->keywordsCount as $keyword => $count) {
+                $items[] = "$keyword ($count)";
+            }
+        }
+        return implode(', ', $items);
+    }
+
+    public function incrementKeywordsCount(array $keywords): void
+    {
+        // Acceder a $this->keywordsCount y actualizarlo basado en el array $keywords
+        foreach ($keywords as $keyword) {
+            if (isset($this->keywordsCount[$keyword])) {
+                $this->keywordsCount[$keyword]++;
+            } else {
+                $this->keywordsCount[$keyword] = 1;
+            }
+        }
+    }
+
+    public function decrementKeywordsCount(array $keywords): void
+    {
+        foreach ($keywords as $keyword) {
+            if (isset($this->keywordsCount[$keyword])) {
+                $this->keywordsCount[$keyword]--;
+
+                // Si el contador para una palabra clave llega a cero, eliminarlo del array
+                if ($this->keywordsCount[$keyword] <= 0) {
+                    unset($this->keywordsCount[$keyword]);
+                }
+            }
+            // Si no existe el keyword en $this->keywordsCount, no hacemos nada.
+        }
     }
 }

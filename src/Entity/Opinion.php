@@ -42,11 +42,6 @@ class Opinion
     #[ORM\Column(type: Types::SMALLINT, nullable: true)]
     private ?int $givenScore = null;
 
-    /**
-     * @var int|null
-     */
-    private $oldScore = null;
-
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $creationDate = null;
 
@@ -147,18 +142,6 @@ class Opinion
     public function setGivenScore(?int $givenScore): static
     {
         $this->givenScore = $givenScore;
-
-        return $this;
-    }
-
-    public function getOldScore(): ?int
-    {
-        return $this->oldScore;
-    }
-
-    public function setOldScore(?int $oldScore): static
-    {
-        $this->oldScore = $oldScore;
 
         return $this;
     }

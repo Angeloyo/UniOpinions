@@ -23,6 +23,14 @@ body {
     display: none;
 }
 
+.hidden-keyword {
+  display: none;
+}
+
+.hidden{
+  display: none;
+}
+
 /* A11y-dialog styles */
 /**
  * 1. Make the dialog container, and its child overlay spread across

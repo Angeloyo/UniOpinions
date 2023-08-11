@@ -7,6 +7,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Opinion;
+use App\Entity\Professor;
+use App\Entity\Subject;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\ProfessorRepository;
 use App\Repository\SubjectRepository;
@@ -142,8 +144,17 @@ class CreateSpecificOpinionController extends AbstractController
         }
 
         $opinion->setOwner($user);
-    
-        $form = $this->createForm(\App\Form\SpecificOpinionFormType::class, $opinion);
+
+        if($object instanceof Professor){
+            //editar opinion de un profesor
+            $form = $this->createForm(\App\Form\SpecificProfessorOpinionFormType::class, $opinion);
+        }
+        else if($object instanceof Subject){
+            //Editar opinion de una asignatura
+            $form = $this->createForm(\App\Form\SpecificSubjectOpinionFormType::class, $opinion);
+        }
+
+        // $form = $this->createForm(\App\Form\SpecificOpinionFormType::class, $opinion);
 
         $form->handleRequest($request);
 
@@ -152,12 +163,12 @@ class CreateSpecificOpinionController extends AbstractController
 
             $checkScore = $form->get('givenScore')->getData();
             $checkComment = $form->get('comment')->getData();
-            //$checkKeywords = $form->get('keywords')->getData();
+            $checkKeywords = $form->get('keywords')->getData();
 
             $errors = [];
 
-            if ($checkScore === null && $checkComment === null) {
-                $errors['input'] = 'Debes rellenar al menos uno de los campos: valoración general, comentario';
+            if ($checkScore === null && $checkComment === null && $checkKeywords === null) {
+                $errors['input'] = 'Debes rellenar al menos uno de los campos: valoración general, comentario, palabras clave';
             }
 
             if (count($errors) > 0) {
@@ -189,7 +200,6 @@ class CreateSpecificOpinionController extends AbstractController
                     return $this->redirectToRoute('app_home');
                 }
             }
-
             
         }
 

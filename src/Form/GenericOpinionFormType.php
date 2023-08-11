@@ -43,7 +43,30 @@ class GenericOpinionFormType extends AbstractType
                 'choices' => [],
             ])
             ->add('comment', TextareaType::class, ['required' => false])
-            // ->add('keywords')
+            ->add('keywords', ChoiceType::class, [
+                'choices' => [
+                    'Lección estimulante' => 'leccion_estimulante',
+                    'Lección pesada' => 'leccion_pesada',
+                    'Disponible' => 'disponible',
+                    'Apreciado' => 'apreciado',
+                    'Trabajo en grupo' => 'trabajo_en_grupo',
+                    'Muchas tareas' => 'muchas_tareas',
+                    'Estricto' => 'estricto',
+                    'Corrección exigente' => 'correccion_exigente',
+                    
+                    'Mucha teoría' => 'mucha_teoria',
+                    'Prácticas útiles' => 'practicas_utiles',
+                    'Prácticas fáciles' => 'practicas_faciles',
+                    'Prácticas difíciles' => 'practicas_dificiles',
+                    'Necesario conocimientos previos' => 'necesario_conocimientos_previos',
+                    'Evaluación continua' => 'evaluacion_continua',
+                    'Examen final' => 'examen_final',
+                    'Parciales' => 'parciales'
+                ],
+                'required' => false,
+                'expanded' => true,  // Render as checkboxes
+                'multiple' => true   // Allow multiple selections
+            ])
             ->add('givenScore', ChoiceType::class, [
                 'choices' => [
                     '1' => 1,

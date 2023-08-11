@@ -32,7 +32,31 @@
                     ratingOptions[i].parentElement.classList.add('dark:bg-slate-900');
                 }
             }
+
+            var keywordOptions = document.getElementsByClassName('hidden-keyword');
+
+            for (var i = 0; i < keywordOptions.length; i++) {
+                keywordOptions[i].addEventListener('click', function() {
+                    toggleKeywordButton(this);
+                });
+
+                // Verifica si alguna palabra clave está seleccionada al cargar la página
+                if (keywordOptions[i].checked) {
+                    toggleKeywordButton(keywordOptions[i]);
+                }
+            }
         });
+
+        function toggleKeywordButton(inputElement) {
+            let labelElement = document.querySelector('label[for="' + inputElement.id + '"]');
+            if (inputElement.checked) {
+                labelElement.classList.remove('bg-slate-200', 'dark:bg-slate-800');
+                labelElement.classList.add('bg-slate-300', 'dark:bg-slate-900');
+            } else {
+                labelElement.classList.add('bg-slate-200', 'dark:bg-slate-800');
+                labelElement.classList.remove('bg-slate-300', 'dark:bg-slate-900');
+            }
+        }
     </script>
 
     <div class="flex justify-center items-center text-black dark:text-white
@@ -69,6 +93,22 @@
                     lg:h-80 h-56 mx-1 lg:w-[60rem] bg-slate-200'}}) }}
 
                 </div>
+            </div>
+
+            <div class="text-center mx-12">
+                <h2 class="my-5">Palabras clave:</h2>
+
+                <div class="flex justify-center flex-wrap">
+                    {% for keyword in form.keywords %}
+                        <div class="mx-1 my-3">
+                            <label for="{{ keyword.vars.id }}" class="px-4 py-2 bg-slate-200 dark:bg-slate-800 text-3xl rounded-full cursor-pointer select-none">
+                                {{ keyword.vars.label }}
+                                {{ form_widget(keyword, {'attr': {'class': 'hidden-keyword'}}) }}
+                            </label>
+                        </div>
+                    {% endfor %}
+                </div>
+
             </div>
             
             <div class="flex items-center justify-center flex-col ">

@@ -8,6 +8,7 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
+            
             var ratingOptions = document.getElementsByClassName('hidden-rating');
 
             for (var i = 0; i < ratingOptions.length; i++) {
@@ -33,7 +34,19 @@
                 }
             }
         });
+
+        function toggleKeywordButton(inputElement) {
+            let labelElement = document.querySelector('label[for="' + inputElement.id + '"]');
+            if (inputElement.checked) {
+                labelElement.classList.remove('bg-slate-200', 'dark:bg-slate-800');
+                labelElement.classList.add('bg-slate-300', 'dark:bg-slate-900');
+            } else {
+                labelElement.classList.add('bg-slate-200', 'dark:bg-slate-800');
+                labelElement.classList.remove('bg-slate-300', 'dark:bg-slate-900');
+            }
+        }
     </script>
+
 
     <script>
         var initialData = {
@@ -122,9 +135,9 @@
             <div class="mb-7 mt-3 mx-1">
                 <h2 class="my-5 text-center">Profesor: </h2>
                 
-                <div class="">
+                <div id="">
                     {{ form_widget(form.professor, {'attr': {'class': '
-                     select2-enable','style': 'width: 100%'}}) }}
+                     select2-enable','style': 'width: 100%', 'id': 'professorField'}}) }}
 
                 </div>
             </div>
@@ -152,9 +165,26 @@
 
                 </div>
             </div>
+
+            <div class="text-center mx-12">
+                <h2 class="my-5">Palabras clave:</h2>
+
+                <div class="flex justify-center flex-wrap">
+                    {% for keyword in form.keywords %}
+                        <div class="mx-1 my-3 divKeyword">
+                            <input type="checkbox" id="{{ keyword.vars.id }}" name="{{ keyword.vars.full_name }}" value="{{ keyword.vars.value }}" class="hidden" 
+                                onchange="toggleKeywordButton(this)">
+                            <label for="{{ keyword.vars.id }}" class="px-4 py-2  bg-slate-200 dark:bg-slate-800 text-3xl rounded-full cursor-pointer select-none">
+                                {{ keyword.vars.label }}
+                                {{ form_widget(keyword, {'attr': {'class': 'hidden-keyword'}}) }}
+                            </label>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
             
             <div class="flex items-center justify-center flex-col ">
-                <h2 class="my-5 ">Valoración general: </h2>
+                <h2 class="mb-5 mt-7">Valoración general: </h2>
 
                 <div class="flex flex-row space-x-2 bg-slate-200 dark:bg-slate-800  p-2 rounded-xl text-xl sm:text-3xl flex items-center ">
 

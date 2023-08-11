@@ -8,6 +8,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
 class RelationSubjectProfessorCrudController extends AbstractCrudController
 {
@@ -22,6 +23,7 @@ class RelationSubjectProfessorCrudController extends AbstractCrudController
             IdField::new('id')->onlyOnDetail(),
             BooleanField::new('accepted'),
             ArrayField::new('scoreCount'),
+            TextField::new('keywordsCountDisplay', 'Keywords Count'),
             AssociationField::new('professor'),
             AssociationField::new('subject')
         ];

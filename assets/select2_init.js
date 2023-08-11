@@ -67,6 +67,99 @@ $(function() {
         selectedYear = initialYear.id;
     }
 
+    let currentFieldBeingUsed = '';
+
+    // Inicialización de Select2
+    $('.select2-enable').select2({
+        language: 'es',
+        tags: true,
+        placeholder: "",
+        allowClear: true,
+        createTag: function(params) {
+            let newOption = {
+                id: params.term,
+                text: params.term,
+                newOption: true
+            };
+        
+            // Revisar si estamos en el campo del profesor
+            // Debido a problemas con el trigger de cambiar las keywords
+            if (currentFieldBeingUsed === "generic_opinion_form[professor]") {
+                console.log("esto se ejecuta");
+                $professorSelect.trigger({
+                    type: 'select2:select',
+                    params: {
+                        data: newOption
+                    }
+                });
+            }
+        
+            return newOption;
+        }
+        ,
+        ajax: {
+            url: function(){
+                // Aquí seleccionas qué URL usar dependiendo del campo
+                let fieldName = $(this).attr('name');
+                switch (fieldName) {
+                    case 'generic_opinion_form[university]':
+                        return "/autocomplete?type=university";
+                    case 'generic_opinion_form[degree]':
+                        return "/autocomplete?type=degree&university=" + selectedUniversityId;
+                    case 'generic_opinion_form[subject]':
+                        return "/autocomplete?type=subject&university=" + selectedUniversityId
+                        + "&degree=" + selectedDegreeId
+                        + "&year=" + selectedYear;
+                    // case 'generic_opinion_form[professor]':
+                    //     return "/autocomplete?type=professor&university=" + selectedUniversityId
+                    //     + "&degree=" + selectedDegreeId
+                    //     + "&subject=" + selectedSubjectId
+                    //     + "&year=" + selectedYear;
+                    case 'generic_opinion_form[professor]':
+                        return "/autocomplete?type=professor";
+                }
+            },
+            dataType: 'json',
+            delay: 250,
+            processResults: function (data) {
+                return {
+                    results: data
+                };
+            },
+            cache: true
+        },
+        minimumInputLength: 1
+    });
+
+    $('.select2-enable').on('select2:opening', function() {
+        currentFieldBeingUsed = $(this).attr('name');
+    });
+    
+    function toggleKeywords() {
+        let keywords = document.querySelectorAll(".divKeyword");
+        if(selectedProfessorId) {
+            console.log(selectedProfessorId);
+            // Si el campo "profesor" tiene valor, mostramos las primeras 8 keywords y ocultamos las 8 últimas.
+            keywords.forEach((keyword, index) => {
+                if(index < 8) {
+                    keyword.classList.remove("hidden");
+                } else {
+                    keyword.classList.add("hidden");
+                }
+            });
+        } else {
+            // Si el campo "profesor" está vacío, ocultamos las primeras 8 keywords y mostramos las 8 últimas.
+            console.log("no hay profe");
+            keywords.forEach((keyword, index) => {
+                if(index < 8) {
+                    keyword.classList.add("hidden");
+                } else {
+                    keyword.classList.remove("hidden");
+                }
+            });
+        }
+    }
+
     // Actualizar cuando se cambia un campo
     $universitySelect.on('select2:select', function (e) {
         let data = e.params.data; // Los datos del elemento seleccionado.
@@ -88,52 +181,18 @@ $(function() {
     });
 
     $professorSelect.on('select2:select', function (e) {
+        console.log('Evento select2:select disparado.', e.params.data);
         let data = e.params.data; 
-        selectedProfessorId = data.id; 
+        selectedProfessorId = data.id;
+        // optionSelected = true;
+        toggleKeywords();
     });
 
-    // Inicialización de Select2
-    $('.select2-enable').select2({
-        language: 'es',
-        tags: true,
-        placeholder: "",
-        allowClear: true,
-        createTag: function(params) {
-            return {
-                id: params.term,
-                text: params.term,
-                newOption: true
-            };
-        },
-        ajax: {
-            url: function(){
-                // Aquí seleccionas qué URL usar dependiendo del campo
-                let fieldName = $(this).attr('name');
-                switch (fieldName) {
-                    case 'generic_opinion_form[university]':
-                        return "/autocomplete?type=university";
-                    case 'generic_opinion_form[degree]':
-                        return "/autocomplete?type=degree&university=" + selectedUniversityId;
-                    case 'generic_opinion_form[subject]':
-                        return "/autocomplete?type=subject&university=" + selectedUniversityId
-                        + "&degree=" + selectedDegreeId
-                        + "&year=" + selectedYear;
-                    case 'generic_opinion_form[professor]':
-                        return "/autocomplete?type=professor&university=" + selectedUniversityId
-                        + "&degree=" + selectedDegreeId
-                        + "&subject=" + selectedSubjectId
-                        + "&year=" + selectedYear;
-                }
-            },
-            dataType: 'json',
-            delay: 250,
-            processResults: function (data) {
-                return {
-                    results: data
-                };
-            },
-            cache: true
-        },
-        minimumInputLength: 1
+    $professorSelect.on('select2:unselect', function (e) {
+        console.log('Evento select2:unselect disparado.', e.params.data);
+        selectedProfessorId = '';
+        toggleKeywords();
     });
+
+    toggleKeywords();
 });

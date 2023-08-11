@@ -33,6 +33,9 @@ class RelationSubjectProfessor
         '5' => 0,
     ];
 
+    #[ORM\Column(nullable: true)]
+    private ?array $keywordsCount = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -96,9 +99,61 @@ class RelationSubjectProfessor
         $this->scoreCount[$score]++;
     }
 
+    public function incrementKeywordsCount(array $keywords): void
+    {
+        // Acceder a $this->keywordsCount y actualizarlo basado en el array $keywords
+        foreach ($keywords as $keyword) {
+            if (isset($this->keywordsCount[$keyword])) {
+                $this->keywordsCount[$keyword]++;
+            } else {
+                $this->keywordsCount[$keyword] = 1;
+            }
+        }
+    }
+
+    public function decrementKeywordsCount(array $keywords): void
+    {
+        foreach ($keywords as $keyword) {
+            if (isset($this->keywordsCount[$keyword])) {
+                $this->keywordsCount[$keyword]--;
+
+                // Si el contador para una palabra clave llega a cero, eliminarlo del array
+                if ($this->keywordsCount[$keyword] <= 0) {
+                    unset($this->keywordsCount[$keyword]);
+                }
+            }
+            // Si no existe el keyword en $this->keywordsCount, no hacemos nada.
+        }
+    }
+
+
     public function decrementScoreCount(int $score): void
     {
         $this->scoreCount[$score]--;
         // $this->scoreCount[$score] = max(0, $this->scoreCount[$score] - 1);
     }
+
+    public function getKeywordsCount(): ?array
+    {
+        return $this->keywordsCount;
+    }
+
+    public function setKeywordsCount(?array $keywords): static
+    {
+        $this->keywordsCount = $keywords;
+
+        return $this;
+    }
+
+    public function getKeywordsCountDisplay(): string{
+        $items = [];
+        if (is_array($this->keywordsCount)) {
+            foreach ($this->keywordsCount as $keyword => $count) {
+                $items[] = "$keyword ($count)";
+            }
+        }
+        return implode(', ', $items);
+    }
+    
+
 }

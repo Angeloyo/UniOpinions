@@ -16,22 +16,31 @@ class OpinionListener
         if ($entity instanceof Opinion) {
 
             $score = $entity->getGivenScore();
+            $keywords = $entity->getKeywords();
 
             $professor = $entity->getProfessor();
             $subject = $entity->getSubject();
 
             if ($score !== null){
 
-
                 //opinion de un profesor
                 if ($subject !== null && $professor !== null) {
                     $relationSp = $professor->getRelationWithSubject($subject);
+                    
+                    //Decrementar valoracion
                     $relationSp->decrementScoreCount($score);
+
+                    //Decrementar palabras clave
+                    $relationSp->decrementKeywordsCount($keywords);
                 }
 
                 //opinion de una asignatura
                 if ($subject !== null && $professor === null) {
+                    //Decrementar valoracion
                     $subject->decrementScoreCount($score);
+
+                    //Decrementar palabras clave
+                    $subject->decrementKeywordsCount($keywords);
                 }
             }
             
@@ -49,6 +58,7 @@ class OpinionListener
             $entity->setCreationDate(new \DateTime());
 
             $score = $entity->getGivenScore();
+            $keywords = $entity->getKeywords();
 
             $professor = $entity->getProfessor();
             $subject = $entity->getSubject();
@@ -56,9 +66,14 @@ class OpinionListener
             //opinion de un profesor
             if ($subject !== null && $professor !== null) {
 
+                $relationSp = $professor->getRelationWithSubject($subject);
+
                 if($score !== null){
-                    $relationSp = $professor->getRelationWithSubject($subject);
                     $relationSp->incrementScoreCount($score);
+                }
+
+                if($keywords !== null){
+                    $relationSp->incrementKeywordsCount($keywords);
                 }
 
             }
@@ -68,10 +83,16 @@ class OpinionListener
                 if($score !== null){
                     $subject->incrementScoreCount($score);
                 }
+
+                if($keywords !== null){
+                    $subject->incrementKeywordsCount($keywords);
+                }
             }
         }
 
     }
+    
+    //edicion de opinion
     public function onFlush(OnFlushEventArgs $args)
     {
         $em = $args->getObjectManager();
@@ -83,6 +104,7 @@ class OpinionListener
 
                 $changeset = $uow->getEntityChangeSet($entity);
                 
+                //si ha cambiado valoracion
                 if (isset($changeset['givenScore'])) {
                     $oldScore = $changeset['givenScore'][0];
                     $newScore = $changeset['givenScore'][1];
@@ -127,6 +149,53 @@ class OpinionListener
                         );
                     }
                 }
+
+                // Si han cambiado las palabras clave (keywords)
+                if (isset($changeset['keywords'])) {
+                    $oldKeywords = $changeset['keywords'][0] ?? []; // Keywords antiguos
+                    $newKeywords = $changeset['keywords'][1] ?? []; // Nuevos keywords
+
+                    $professor = $entity->getProfessor();
+                    $subject = $entity->getSubject();
+
+                    // Opinión de un profesor
+                    if ($subject !== null && $professor !== null) {
+                        $relationSp = $professor->getRelationWithSubject($subject);
+
+                        // Disminuir contador para las palabras clave antiguas que se han eliminado
+                        $removedKeywords = array_diff($oldKeywords, $newKeywords);
+                        $relationSp->decrementKeywordsCount($removedKeywords);
+
+                        // Incrementar contador para nuevas palabras clave añadidas
+                        $addedKeywords = array_diff($newKeywords, $oldKeywords);
+                        $relationSp->incrementKeywordsCount($addedKeywords);
+
+                        // Recalcular cambios
+                        $uow->recomputeSingleEntityChangeSet(
+                            $em->getClassMetadata(get_class($relationSp)),
+                            $relationSp
+                        );
+                    }
+                    // opinion de una asignatura
+                    elseif ($subject !== null && $professor === null) {
+
+                        // Disminuir contador para las palabras clave antiguas que se han eliminado
+                        $removedKeywords = array_diff($oldKeywords, $newKeywords);
+                        $subject->decrementKeywordsCount($removedKeywords);
+
+                        // Incrementar contador para nuevas palabras clave añadidas
+                        $addedKeywords = array_diff($newKeywords, $oldKeywords);
+                        $subject->incrementKeywordsCount($addedKeywords);
+
+                        // Recalcular cambios
+                        $uow->recomputeSingleEntityChangeSet(
+                            $em->getClassMetadata(get_class($subject)),
+                            $subject
+                        );
+                    }
+                    
+                }
+
             }
         }
     }

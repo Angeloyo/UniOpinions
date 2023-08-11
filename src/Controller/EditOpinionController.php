@@ -8,6 +8,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Entity\Professor;
+use App\Entity\Subject;
 
 class EditOpinionController extends AbstractController
 {
@@ -53,7 +55,18 @@ class EditOpinionController extends AbstractController
             }
         }
 
-        $form = $this->createForm(\App\Form\SpecificOpinionFormType::class, $opinion);
+        $relatedObject = $opinion->getProfessor() ?? $opinion->getSubject();
+
+        if($relatedObject instanceof Professor){
+            //editar opinion de un profesor
+            $form = $this->createForm(\App\Form\SpecificProfessorOpinionFormType::class, $opinion);
+        }
+        else if($relatedObject instanceof Subject){
+            //Editar opinion de una asignatura
+            $form = $this->createForm(\App\Form\SpecificSubjectOpinionFormType::class, $opinion);
+        }
+        
+        // $form = $this->createForm(\App\Form\SpecificOpinionFormType::class, $opinion);
 
         // Get original comment before form handling
         $originalComment = $opinion->getComment();
@@ -112,7 +125,7 @@ class EditOpinionController extends AbstractController
 
         return $this->render('edit_opinion/index.html.twig', [
             'form' => $form,
-            'object' => $opinion->getSubject() ?? $opinion->getProfessor()
+            'object' => $relatedObject,
         ]);
     }
 }

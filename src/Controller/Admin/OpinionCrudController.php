@@ -32,8 +32,6 @@ class OpinionCrudController extends AbstractCrudController
         return [
             IdField::new('id'),
             TextField::new('comment'),
-            //SCORE
-            // ChoiceField::new('givenScore'),
             ChoiceField::new('givenScore')
                 ->setChoices([
                     1 => '1',
@@ -42,7 +40,18 @@ class OpinionCrudController extends AbstractCrudController
                     4 => '4',
                     5 => '5',
                 ]),
-            //KEYWORDS
+            ChoiceField::new('keywords')
+            ->setChoices([
+                'Lección estimulante' => 'leccion_estimulante',
+                'Lección pesada' => 'leccion_pesada',
+                'Disponible' => 'disponible',
+                'Apreciado' => 'apreciado',
+                'Trabajo en grupo' => 'trabajo_en_grupo',
+                'Muchas tareas' => 'muchas_tareas',
+                'Estricto' => 'estricto',
+                'Corrección exigente' => 'correccion_exigente',
+            ])
+            ->allowMultipleChoices(),
             BooleanField::new('reviewed'),
             BooleanField::new('accepted'),
             AssociationField::new('subject'),
