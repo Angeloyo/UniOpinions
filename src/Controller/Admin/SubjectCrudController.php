@@ -29,6 +29,7 @@ class SubjectCrudController extends AbstractCrudController
             TextField::new('name'),
             TextField::new('slug')->onlyOnDetail(),
             ArrayField::new('scoreCount'),
+            TextField::new('keywordsCountDisplay', 'Keywords Count'),
             AssociationField::new('degree'),
             IntegerField::new('year'),
             CollectionField::new('relationsSubjectProfessor')
