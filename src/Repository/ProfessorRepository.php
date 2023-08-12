@@ -26,10 +26,6 @@ class ProfessorRepository extends ServiceEntityRepository
     {
         $professor = $this->findOneBy(['slug' => $slug]);
 
-        if (!$professor) {
-            throw new EntityNotFoundException('El profesor '.$slug.' no existe.');
-        }
-
         return $professor;
     }
 
