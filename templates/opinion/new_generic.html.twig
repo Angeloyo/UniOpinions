@@ -174,7 +174,7 @@
                         <div class="mx-1 my-3 divKeyword">
                             <input type="checkbox" id="{{ keyword.vars.id }}" name="{{ keyword.vars.full_name }}" value="{{ keyword.vars.value }}" class="hidden" 
                                 onchange="toggleKeywordButton(this)">
-                            <label for="{{ keyword.vars.id }}" class="px-4 py-2  bg-slate-200 dark:bg-slate-800 text-3xl rounded-full cursor-pointer select-none">
+                            <label for="{{ keyword.vars.id }}" class="px-4 py-2  bg-slate-200 dark:bg-slate-800 whitespace-nowrap text-2xl sm:text-3xl rounded-full cursor-pointer select-none">
                                 {{ keyword.vars.label }}
                                 {{ form_widget(keyword, {'attr': {'class': 'hidden-keyword'}}) }}
                             </label>

@@ -101,7 +101,7 @@
                 <div class="flex justify-center flex-wrap">
                     {% for keyword in form.keywords %}
                         <div class="mx-1 my-3">
-                            <label for="{{ keyword.vars.id }}" class="px-4 py-2 bg-slate-200 dark:bg-slate-800 text-3xl rounded-full cursor-pointer select-none">
+                            <label for="{{ keyword.vars.id }}" class="px-4 py-2 bg-slate-200 dark:bg-slate-800 text-2xl sm:text-3xl rounded-full cursor-pointer select-none whitespace-nowrap">
                                 {{ keyword.vars.label }}
                                 {{ form_widget(keyword, {'attr': {'class': 'hidden-keyword'}}) }}
                             </label>
