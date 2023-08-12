@@ -18,12 +18,12 @@ class SpecificSubjectOpinionFormType extends AbstractType
             ->add('comment', TextareaType::class, ['required' => false])
             ->add('keywords', ChoiceType::class, [
                 'choices' => [
-                    'Mucha teoría' => 'mucha_teoria',
-                    'Prácticas útiles' => 'practicas_utiles',
-                    'Prácticas fáciles' => 'practicas_faciles',
-                    'Prácticas difíciles' => 'practicas_dificiles',
+                    'Mucha teoría' => 'mucha_teoría',
+                    'Prácticas útiles' => 'prácticas_útiles',
+                    'Prácticas fáciles' => 'prácticas_fáciles',
+                    'Prácticas difíciles' => 'prácticas_difíciles',
                     'Necesario conocimientos previos' => 'necesario_conocimientos_previos',
-                    'Evaluación continua' => 'evaluacion_continua',
+                    'Evaluación continua' => 'evaluación_continua',
                     'Examen final' => 'examen_final',
                     'Parciales' => 'parciales'
                 ],

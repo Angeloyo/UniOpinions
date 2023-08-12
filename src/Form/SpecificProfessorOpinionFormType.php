@@ -18,14 +18,14 @@ class SpecificProfessorOpinionFormType extends AbstractType
             ->add('comment', TextareaType::class, ['required' => false])
             ->add('keywords', ChoiceType::class, [
                 'choices' => [
-                    'Lección estimulante' => 'leccion_estimulante',
-                    'Lección pesada' => 'leccion_pesada',
+                    'Lección estimulante' => 'lección_estimulante',
+                    'Lección pesada' => 'lección_pesada',
                     'Disponible' => 'disponible',
                     'Apreciado' => 'apreciado',
                     'Trabajo en grupo' => 'trabajo_en_grupo',
                     'Muchas tareas' => 'muchas_tareas',
                     'Estricto' => 'estricto',
-                    'Corrección exigente' => 'correccion_exigente'
+                    'Corrección exigente' => 'corrección_exigente'
                 ],
                 'required' => false,
                 'expanded' => true,  // Render as checkboxes
