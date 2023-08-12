@@ -392,7 +392,39 @@ class CreateGenericOpinionController extends AbstractController
                     }
                 }
 
-                // asignar opinion con asignatura o con profesor
+                // comprobar que el usuario no tenga una opinion existente de ese profesor/asignatura
+                // opinion de asignatura
+                $userId = $user->getId();
+                if($finalProfessor === null){
+                    $existingOpinion = $finalSubject->getOpinions()->filter(function($opinion) use ($userId) {
+                        return $opinion->getOwner()->getId() == $userId && $opinion->getProfessor() === null;
+                    })->first();
+                    
+                    if ($existingOpinion) {
+                        $this->addFlash('error', 'Ya tienes una opinión sobre eso.');
+                        if ($referer) {
+                            return $this->redirect($referer);
+                        } else {
+                            return $this->redirectToRoute('app_home');
+                        }
+                    }
+                }
+                //opinion de profesor
+                else{
+                    $existingOpinion = $finalProfessor->getOpinions()->filter(function($opinion) use ($userId, $finalSubject) {
+                        return $opinion->getOwner()->getId() == $userId && $opinion->getSubject() === $finalSubject;
+                    })->first();
+        
+                    if ($existingOpinion) {
+                        $this->addFlash('error', 'Ya tienes una opinión sobre eso.');
+                        if ($referer) {
+                            return $this->redirect($referer);
+                        } else {
+                            return $this->redirectToRoute('app_home');
+                        }
+                    }
+                }
+
 
                 $opinion = new Opinion();
                 $opinion->setOwner($user);
