@@ -154,23 +154,23 @@ class CreateGenericOpinionController extends AbstractController
 
             $errors = [];
 
-            if ($checkUniversity == null) {
+            if (empty($checkUniversity)) {
                 $errors['university'] = 'El campo "universidad" es obligatorio';
             }
 
-            if ($checkDegree == null) {
+            if (empty($checkDegree)) {
                 $errors['degree'] = 'El campo "grado" es obligatorio';
             }
 
-            if ($checkSubject == null) {
+            if (empty($checkSubject)) {
                 $errors['subject'] = 'El campo "asignatura" es obligatorio';
             }
 
-            if ($checkYear == null) {
+            if (empty($checkYear)) {
                 $errors['year'] = 'El campo "año" es obligatorio';
             }
 
-            if ($checkScore === null && $checkComment === null && $checkKeywords === null) {
+            if (empty($checkScore) && empty($checkComment) && empty($checkKeywords) ) {
                 $errors['input'] = 'Debes rellenar al menos uno de los campos: valoración general, comentario, palabras clave';
             }
 
