@@ -85,7 +85,7 @@ $(function() {
             // Revisar si estamos en el campo del profesor
             // Debido a problemas con el trigger de cambiar las keywords
             if (currentFieldBeingUsed === "generic_opinion_form[professor]") {
-                console.log("esto se ejecuta");
+                // console.log("esto se ejecuta");
                 $professorSelect.trigger({
                     type: 'select2:select',
                     params: {
@@ -138,7 +138,7 @@ $(function() {
     function toggleKeywords() {
         let keywords = document.querySelectorAll(".divKeyword");
         if(selectedProfessorId) {
-            console.log(selectedProfessorId);
+            // console.log(selectedProfessorId);
             // Si el campo "profesor" tiene valor, mostramos las primeras 8 keywords y ocultamos las 8 últimas.
             keywords.forEach((keyword, index) => {
                 if(index < 8) {
@@ -149,7 +149,7 @@ $(function() {
             });
         } else {
             // Si el campo "profesor" está vacío, ocultamos las primeras 8 keywords y mostramos las 8 últimas.
-            console.log("no hay profe");
+            // console.log("no hay profe");
             keywords.forEach((keyword, index) => {
                 if(index < 8) {
                     keyword.classList.add("hidden");
@@ -181,7 +181,7 @@ $(function() {
     });
 
     $professorSelect.on('select2:select', function (e) {
-        console.log('Evento select2:select disparado.', e.params.data);
+        // console.log('Evento select2:select disparado.', e.params.data);
         let data = e.params.data; 
         selectedProfessorId = data.id;
         // optionSelected = true;
@@ -189,7 +189,7 @@ $(function() {
     });
 
     $professorSelect.on('select2:unselect', function (e) {
-        console.log('Evento select2:unselect disparado.', e.params.data);
+        // console.log('Evento select2:unselect disparado.', e.params.data);
         selectedProfessorId = '';
         toggleKeywords();
     });

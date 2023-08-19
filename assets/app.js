@@ -28,7 +28,7 @@ if (dialogEl) {
         const target = event.detail.target
         const opener = target.closest('[data-a11y-dialog-show]')
 
-        console.log(container, target, opener)
+        // console.log(container, target, opener)
     })
 }
 
