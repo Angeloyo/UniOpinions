@@ -54,10 +54,28 @@ class SubjectsController extends AbstractController
             }
         }
 
+        if(!$university->isAccepted()){
+            $this->addFlash('error', 'Universidad no aceptada.');
+            if ($referer) {
+                return $this->redirect($referer);
+            } else {
+                return $this->redirectToRoute('app_home');
+            }
+        }
+
         $degree = $this->degreeRepository->findOneBySlugAndUniversity($degreeSlug, $university);
         
         if(!$degree){
             $this->addFlash('error', 'Grado no encontrado.');
+            if ($referer) {
+                return $this->redirect($referer);
+            } else {
+                return $this->redirectToRoute('app_home');
+            }
+        }
+
+        if(!$degree->isAccepted()){
+            $this->addFlash('error', 'Grado no aceptado.');
             if ($referer) {
                 return $this->redirect($referer);
             } else {
@@ -69,6 +87,15 @@ class SubjectsController extends AbstractController
         
         if(!$subject){
             $this->addFlash('error', 'Asignatura no encontrada.');
+            if ($referer) {
+                return $this->redirect($referer);
+            } else {
+                return $this->redirectToRoute('app_home');
+            }
+        }
+
+        if(!$subject->isAccepted()){
+            $this->addFlash('error', 'Asignatura no aceptada.');
             if ($referer) {
                 return $this->redirect($referer);
             } else {

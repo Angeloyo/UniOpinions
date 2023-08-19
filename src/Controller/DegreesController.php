@@ -49,10 +49,28 @@ class DegreesController extends AbstractController
             }
         }
 
+        if(!$university->isAccepted()){
+            $this->addFlash('error', 'Universidad no aceptada.');
+            if ($referer) {
+                return $this->redirect($referer);
+            } else {
+                return $this->redirectToRoute('app_home');
+            }
+        }
+
         $degree = $this->degreeRepository->findOneBySlugAndUniversity($degreeSlug, $university);
 
         if(!$degree){
             $this->addFlash('error', 'Grado no encontrado.');
+            if ($referer) {
+                return $this->redirect($referer);
+            } else {
+                return $this->redirectToRoute('app_home');
+            }
+        }
+
+        if(!$degree->isAccepted()){
+            $this->addFlash('error', 'Grado no aceptado.');
             if ($referer) {
                 return $this->redirect($referer);
             } else {

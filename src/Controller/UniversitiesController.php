@@ -58,6 +58,15 @@ class UniversitiesController extends AbstractController
             }
         }
 
+        if(!$university->isAccepted()){
+            $this->addFlash('error', 'Universidad no aceptada.');
+            if ($referer) {
+                return $this->redirect($referer);
+            } else {
+                return $this->redirectToRoute('app_home');
+            }
+        }
+
         $acceptedDegrees = $this->degreeRepository->findBy(['university' => $university, 'accepted' => true]);
 
         $referer = $request->getUri();
