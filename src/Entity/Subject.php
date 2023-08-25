@@ -233,6 +233,13 @@ class Subject
         return $this;
     }
 
+    public function setRelationsSubjectProfessor($relations): static
+    {
+        $this->relationsSubjectProfessor = $relations;
+
+        return $this;
+    }
+
     public function removeRelationSubjectProfessor(RelationSubjectProfessor $relationsSubjectProfessor): static
     {
         if ($this->relationsSubjectProfessor->removeElement($relationsSubjectProfessor)) {
