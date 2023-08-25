@@ -124,4 +124,10 @@ class University
         return $this;
     }
 
+    public function getAcceptedDegrees(): Collection
+    {
+        return $this->degrees->filter(function($degree) {
+            return $degree->isAccepted() === true;
+        });
+    }
 }

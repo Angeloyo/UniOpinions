@@ -125,4 +125,11 @@ class Degree
         return $this;
     }
 
+    public function getAcceptedSubjects()
+    {
+        return $this->subjects->filter(function($subject) {
+            return $subject->isAccepted() === true;
+        });
+    }
+
 }
