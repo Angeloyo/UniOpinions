@@ -1,6 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ university.name }}{% endblock %}
+{% block title %}{{ university.name }} en UniOpinions{% endblock %}
+
+{% block meta_description %}
+    <meta name="description" content="Consulta todos los grados disponibles en {{ university.name }}. Descubre qué dicen los estudiantes sobre sus experiencias en diferentes programas.">
+{% endblock %}
 
 {% block main %}
 

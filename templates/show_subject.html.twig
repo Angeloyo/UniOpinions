@@ -1,7 +1,11 @@
 {% extends 'base.html.twig' %}
 
 {# {% block title %}{{ subject.name }}{% endblock %} #}
-{% block title %}{{ subject.name }}{% endblock %}
+{% block title %}Opiniones sobre {{ subject.name }} en {{ university.name }}{% endblock %}
+
+{% block meta_description %}
+    <meta name="description" content="Explora las opiniones sobre {{ subject.name }} ({{ university.name }}) en UniOpinions y conoce los profesores que la imparten.">
+{% endblock %}
 
 {% block main %}
 

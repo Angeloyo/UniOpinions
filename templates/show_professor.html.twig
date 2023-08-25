@@ -1,6 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ professor.name }}{% endblock %}
+{% block title %}Opiniones sobre {{ professor.name }} ({{ university.name }}){% endblock %}
+
+{% block meta_description %}
+    <meta name="description" content="Explora las opiniones sobre {{ professor.name }} ({{ university.name }}) en UniOpinions.">
+{% endblock %}
 
 {% block main %}
 
@@ -8,7 +12,7 @@
         <h2 class="text-black dark:text-white text-xl">
             <a href="/universities">Universidades</a>
             <span class="mx-1">></span>
-            <a href="/u/{{ university.slug }}"> {{ university.getName() }}</a>
+            <a href="/u/{{ university.slug }}"> {{ university.name }}</a>
             <span class="mx-1">></span>
             <a href="/u/{{ university.slug }}/{{ degree.slug }}"> {{ degree.name }}</a>
             <span class="mx-1">></span>
