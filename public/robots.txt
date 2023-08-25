@@ -1,0 +1,13 @@
+User-agent: *
+Disallow: /admin/
+Disallow: /login/
+Disallow: /loginsuccess/
+Disallow: /logout/
+Disallow: /register/
+Disallow: /review/
+Disallow: /autocomplete/
+Disallow: /opinion/
+Disallow: /verify/
+Disallow: /verifywarning/
+
+Sitemap: https://www.uniopinions.com/sitemap.xml
