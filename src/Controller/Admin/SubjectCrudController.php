@@ -36,6 +36,7 @@ class SubjectCrudController extends AbstractCrudController
             IntegerField::new('year'),
             CollectionField::new('relationsSubjectProfessor')
                 // ->onlyOnDetail(),
+                ->setFormTypeOption('mapped', false)
                 ->setTemplatePath('admin/listprofessors.html.twig')
                 ,
             CollectionField::new('opinions')
