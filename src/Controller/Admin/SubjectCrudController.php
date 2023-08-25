@@ -29,7 +29,9 @@ class SubjectCrudController extends AbstractCrudController
             TextField::new('name'),
             TextField::new('slug')->onlyOnDetail(),
             ArrayField::new('scoreCount'),
-            TextField::new('keywordsCountDisplay', 'Keywords Count'),
+            TextField::new('keywordsCountDisplay', 'Keywords Count')
+            ->setFormTypeOption('mapped', false)
+            ,
             AssociationField::new('degree'),
             IntegerField::new('year'),
             CollectionField::new('relationsSubjectProfessor')
