@@ -189,19 +189,6 @@ class Subject
         return $this;
     }
 
-    // public function getAcceptedProfessors(): array
-    // {
-    //     $acceptedProfessors = [];
-
-    //     foreach ($this->professors as $professor) {
-    //         if ($professor->isAccepted() === true) {
-    //             $acceptedProfessors[] = $professor;
-    //         }
-    //     }
-
-    //     return $acceptedProfessors;
-    // }
-
     public function getAcceptedProfessors(): array
     {
         $acceptedProfessors = [];
