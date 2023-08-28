@@ -26,12 +26,15 @@ class OpinionListener
                 //opinion de un profesor
                 if ($subject !== null && $professor !== null) {
                     $relationSp = $professor->getRelationWithSubject($subject);
-                    
-                    //Decrementar valoracion
-                    $relationSp->decrementScoreCount($score);
 
-                    //Decrementar palabras clave
-                    $relationSp->decrementKeywordsCount($keywords);
+                    if($relationSp){
+                        //Decrementar valoracion
+                        $relationSp->decrementScoreCount($score);
+
+                        //Decrementar palabras clave
+                        $relationSp->decrementKeywordsCount($keywords);
+                    }
+                    
                 }
 
                 //opinion de una asignatura
