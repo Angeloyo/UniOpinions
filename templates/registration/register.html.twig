@@ -1,6 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Registro UniOpinions{% endblock %}
+{% block title %}Registro en UniOpinions{% endblock %}
+
+{% block meta_description %}
+    <meta name="description" content="Regístrate en UniOpinions y comienza a opinar sobre profesores y asignaturas de tu universidad.">
+{% endblock %}
 
 {% block main %}
     {% for flash_error in app.flashes('verify_email_error') %}
