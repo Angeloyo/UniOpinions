@@ -93,6 +93,14 @@ class DegreesController extends AbstractController
         // Ordena las asignaturas por año en orden ascendente
         ksort($subjectsByYear);
 
+        //hacer, que dentro de un mismo año, vayan ordenadas alfabeticamente
+        // Ordena las asignaturas alfabéticamente dentro de un mismo año
+        foreach ($subjectsByYear as &$subjectsInYear) {
+            usort($subjectsInYear, function ($a, $b) {
+                return strcasecmp($a->getName(), $b->getName());
+            });
+        }
+
         $referer = $request->getUri();
         $session->set('referer', $referer);
 
