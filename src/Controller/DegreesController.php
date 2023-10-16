@@ -79,7 +79,7 @@ class DegreesController extends AbstractController
         }
 
         $subjects = $this->subjectRepository->findBy(['degree' => $degree, 'accepted' => true]);
-        
+
         // Agrupa las asignaturas por año
         $subjectsByYear = [];
         foreach ($subjects as $subject) {
@@ -93,11 +93,11 @@ class DegreesController extends AbstractController
         // Ordena las asignaturas por año en orden ascendente
         ksort($subjectsByYear);
 
-        //hacer, que dentro de un mismo año, vayan ordenadas alfabeticamente
         // Ordena las asignaturas alfabéticamente dentro de un mismo año
         foreach ($subjectsByYear as &$subjectsInYear) {
             usort($subjectsInYear, function ($a, $b) {
-                return strcasecmp($a->getName(), $b->getName());
+                //comparar sin tildes!
+                return strcmp(iconv('UTF-8', 'ASCII//TRANSLIT', $a->getName()), iconv('UTF-8', 'ASCII//TRANSLIT', $b->getName()));
             });
         }
 
@@ -107,7 +107,6 @@ class DegreesController extends AbstractController
         return $this->render('show_degree.html.twig', [
             'university' => $university,
             'degree' => $degree,
-            // 'subjects' => $subjects,
             'subjects' => $subjectsByYear,
         ]);
     }
