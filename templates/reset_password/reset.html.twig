@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Reset your password{% endblock %}
+
+{% block main %}
+
+    <div class ="text-black dark:text-white flex flex-col justify-center items-center">
+    
+        <h1 class="text-4xl sm:text-6xl sm:mb-10">Restablecer contraseña</h1>
+
+        {{ form_start(resetForm) }}
+
+            <div class="flex flex-col items-center justify-center">
+            
+                <div class="text-center text-red-500 text-3xl mb-5">
+                    {{ form_errors(resetForm.plainPassword.first) }}
+                </div>
+                <div class="text-center text-red-500 text-3xl mb-5">
+                    {{ form_errors(resetForm.plainPassword.second) }}
+                </div>
+
+                {# {{ form_row(resetForm.plainPassword) }} #}
+
+                <div class="mb-7">
+                    <h2 class="sm:text-3xl text-2xl ">Nueva contraseña:</h2>
+
+                    {{ form_widget(resetForm.plainPassword.first ,{'attr': {'class': '
+                    bg-slate-200 dark:bg-slate-800 rounded-md h-11 
+                    sm:w-[30rem] w-[20rem] text-3xl p-3 mt-1'}}) }}
+                </div>
+
+                <div class="mb-7">
+                    <h2 class="sm:text-3xl text-2xl ">Repetir contraseña:</h2>
+
+                    {{ form_widget(resetForm.plainPassword.second ,{'attr': {'class': '
+                    bg-slate-200 dark:bg-slate-800 rounded-md h-11 
+                    sm:w-[30rem] w-[20rem] text-3xl p-3 mt-1'}}) }}
+                </div>
+
+                <button class="btn btn-primary bg-slate-200 dark:bg-slate-800
+                    rounded-md p-3 text-4xl mt-5">Reset password</button>
+                
+            </div>
+
+        {{ form_end(resetForm) }}
+
+    </div>
+
+    
+
+{% endblock %}

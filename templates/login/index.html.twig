@@ -33,15 +33,24 @@
             Iniciar sesión
         </button>
 
-        <div class="flex flex-row text-2xl sm:text-3xl m-7 text-center">
+        <div class="flex flex-row text-2xl sm:text-3xl mt-7 text-center">
             <h2>
                 ¿Todavía no tienes una cuenta? Regístrate 
                 <a href="{{ path('app_register') }}"
-            class="text-blue-500 ml-1">
-                aquí
-            </a>
+                class="dark:text-blue-300 text-blue-500 ml-1">
+                    aquí
+                </a>
             </h2>
-            
+        </div>
+
+        <div class="flex flex-row text-2xl sm:text-3xl mt-3 text-center">
+            <h2>
+                ¿Has olvidado tu contraseña? Restablécela
+                <a href="{{ path('app_forgot_password_request') }}"
+                class="dark:text-blue-300 text-blue-500 ml-1">
+                    aquí
+                </a>
+            </h2>
         </div>
         
     </form>
