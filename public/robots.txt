@@ -9,5 +9,6 @@ Disallow: /autocomplete/
 Disallow: /opinion/
 Disallow: /verify/
 Disallow: /verifywarning/
+Disallow: /reset-password/
 
 Sitemap: https://www.uniopinions.com/sitemap.xml
