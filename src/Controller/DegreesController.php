@@ -97,7 +97,7 @@ class DegreesController extends AbstractController
         foreach ($subjectsByYear as &$subjectsInYear) {
             usort($subjectsInYear, function ($a, $b) {
                 //comparar sin tildes!
-                return strcmp(iconv('UTF-8', 'ASCII//TRANSLIT', $a->getName()), iconv('UTF-8', 'ASCII//TRANSLIT', $b->getName()));
+                return strcasecmp(iconv('UTF-8', 'ASCII//TRANSLIT', $a->getName()), iconv('UTF-8', 'ASCII//TRANSLIT', $b->getName()));
             });
         }
 
