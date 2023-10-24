@@ -22,8 +22,9 @@ class UserCrudController extends AbstractCrudController
     {
         return [
             IdField::new('id')
-            // ->onlyOnDetail()
-            ,
+                ->hideWhenCreating()
+                ->hideWhenUpdating()
+                ,
             BooleanField::new('isVerified'),
             EmailField::new('email'),
             TextField::new('password'),

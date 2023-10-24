@@ -30,7 +30,10 @@ class OpinionCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            IdField::new('id'),
+            IdField::new('id')
+                ->hideWhenUpdating()
+                ->hideWhenCreating()
+                ,
             TextField::new('comment'),
             ChoiceField::new('givenScore')
                 ->setChoices([

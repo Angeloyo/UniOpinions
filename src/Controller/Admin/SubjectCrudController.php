@@ -22,20 +22,29 @@ class SubjectCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            IdField::new('id'),
-            BooleanField::new('accepted'),
+            IdField::new('id')
+                ->hideWhenCreating()
+                ->hideWhenUpdating()
+                ,
+            BooleanField::new('accepted')
+                ->hideWhenUpdating()
+                ,
             // BooleanField::new('reviewed'),
             // IdField::new('id'),
             TextField::new('name'),
             TextField::new('slug')->onlyOnDetail(),
-            ArrayField::new('scoreCount'),
+            ArrayField::new('scoreCount')
+                ->hideWhenUpdating()
+                ,
             TextField::new('keywordsCountDisplay', 'Keywords Count')
-            ->setFormTypeOption('mapped', false)
-            ,
+                ->hideWhenUpdating()
+                ->setFormTypeOption('mapped', false)
+                ,
             AssociationField::new('degree'),
             IntegerField::new('year'),
             CollectionField::new('relationsSubjectProfessor')
                 // ->onlyOnDetail(),
+                ->hideWhenUpdating()
                 ->setFormTypeOption('mapped', false)
                 ->setTemplatePath('admin/listprofessors.html.twig')
                 ,

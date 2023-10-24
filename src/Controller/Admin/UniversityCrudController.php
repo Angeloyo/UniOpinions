@@ -32,15 +32,21 @@ class UniversityCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            IdField::new('id'),
-            BooleanField::new('accepted'),
+            IdField::new('id')
+                ->hideWhenCreating()
+                ->hideWhenUpdating()
+                ,
+            BooleanField::new('accepted')
+                ->hideWhenUpdating()
+                ,
             // BooleanField::new('reviewed'),
             // IdField::new('id'),
             TextField::new('name'),
             ArrayField::new('aliases'),
             TextField::new('slug')->onlyOnDetail(),
             CollectionField::new('degrees')
-                ->onlyOnDetail()
+                // ->onlyOnDetail()
+                ->hideWhenUpdating()
                 // ->setTemplatePath('custom_template.html.twig')
                 ->setTemplatePath('admin/listdegrees.html.twig')
         ];

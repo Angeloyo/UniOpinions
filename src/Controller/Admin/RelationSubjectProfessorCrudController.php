@@ -20,10 +20,21 @@ class RelationSubjectProfessorCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            IdField::new('id')->onlyOnDetail(),
-            BooleanField::new('accepted'),
-            ArrayField::new('scoreCount'),
-            TextField::new('keywordsCountDisplay', 'Keywords Count'),
+            IdField::new('id')                
+                ->hideWhenUpdating()
+                ->hideWhenCreating()
+                ,
+            BooleanField::new('accepted')
+                ->hideWhenUpdating()
+                ,
+            ArrayField::new('scoreCount')
+                ->hideWhenCreating()
+                ->hideWhenUpdating()
+                ,
+            TextField::new('keywordsCountDisplay', 'Keywords Count')
+                ->hideWhenCreating()
+                ->hideWhenUpdating()
+                ,
             AssociationField::new('professor'),
             AssociationField::new('subject')
         ];

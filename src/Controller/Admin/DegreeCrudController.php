@@ -36,8 +36,13 @@ class DegreeCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         $fields = [
-            IdField::new('id'),
-            BooleanField::new('accepted'),
+            IdField::new('id')
+                ->hideWhenUpdating()
+                ->hideWhenCreating()
+                ,
+            BooleanField::new('accepted')
+                ->hideWhenUpdating()
+                ,
             // BooleanField::new('reviewed'),
             TextField::new('name'),
             TextField::new('slug')->onlyOnDetail(),

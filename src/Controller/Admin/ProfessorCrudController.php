@@ -22,17 +22,27 @@ class ProfessorCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            IdField::new('id'),
-            BooleanField::new('accepted'),
+            IdField::new('id')
+                ->hideWhenUpdating()                
+                ->hideWhenCreating()
+                ,
+            BooleanField::new('accepted')
+                ->hideWhenUpdating()
+                ,
             // BooleanField::new('reviewed'),
             TextField::new('name'),            
-            TextField::new('slug')->onlyOnDetail(),
+            TextField::new('slug')
+                ->onlyOnDetail()
+                ,
             // ArrayField::new('scoreCount'),
             AssociationField::new('relationsSubjectProfessor')
-                // ->onlyOnDetail(),
-                ->setTemplatePath('admin/listsubjects.html.twig'),
+                // ->onlyOnDetail()
+                ->hideWhenUpdating()
+                ->setTemplatePath('admin/listsubjects.html.twig')
+                ,
             CollectionField::new('opinions')
-                ->onlyOnDetail()
+                ->hideWhenUpdating()
+                // ->onlyOnDetail()
                 //listar id de opiniones
                 ->setTemplatePath('admin/listopinions.html.twig'),
         ];
