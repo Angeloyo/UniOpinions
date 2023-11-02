@@ -69,6 +69,15 @@ class UniversitiesController extends AbstractController
 
         $acceptedDegrees = $this->degreeRepository->findBy(['university' => $university, 'accepted' => true]);
 
+        // Ordena los grados alfabéticamente 
+        usort($acceptedDegrees, function ($a, $b) {
+            //comparar sin tildes!
+            return strcasecmp(
+                iconv('UTF-8', 'ASCII//TRANSLIT', $a->getName()), 
+                iconv('UTF-8', 'ASCII//TRANSLIT', $b->getName())
+            );
+        });
+        
         $referer = $request->getUri();
         $session->set('referer', $referer);
 
