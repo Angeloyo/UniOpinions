@@ -17,6 +17,9 @@ use App\Entity\Subject;
 use App\Entity\Degree;
 use App\Entity\Professor;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\Mime\Address;
 
 class CreateGenericOpinionController extends AbstractController
 {
@@ -25,6 +28,7 @@ class CreateGenericOpinionController extends AbstractController
     private $degreeRepository;
     private $subjectRepository;
     private $professorRepository;
+    private $mailer;
     private $entityManager;
 
     public function __construct(
@@ -32,7 +36,8 @@ class CreateGenericOpinionController extends AbstractController
         DegreeRepository $degreeRepository,
         SubjectRepository $subjectRepository,
         ProfessorRepository $professorRepository,
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,
+        MailerInterface $mailer
         )
     {
         $this->universityRepository = $universityRepository;
@@ -40,6 +45,7 @@ class CreateGenericOpinionController extends AbstractController
         $this->subjectRepository = $subjectRepository;
         $this->professorRepository = $professorRepository;
         $this->entityManager = $entityManager;
+        $this->mailer = $mailer;
     }
 
     #[Route('/opinion/new-generic/{universityId?}/{degreeId?}/{subjectId?}', 
@@ -462,6 +468,19 @@ class CreateGenericOpinionController extends AbstractController
                 // $this->entityManager->persist($f);
 
                 $this->entityManager->flush();
+
+                //send alert email to admin 
+                $email = (new TemplatedEmail())
+                    ->from(new Address('noreply@uniopinions.com', 'UniOpinions Bot'))
+                    ->to('uniopinionsdotcom@gmail.com')
+                    ->subject('New opinion to be reviewed.')
+                    ->htmlTemplate('opinion/email_newopinion_admin.html.twig')
+                    ->context([
+                        'info' => "generic opinion",
+                    ])
+                ;
+
+                $this->mailer->send($email);
 
                 if ($referer) {
                     return $this->redirect($referer);

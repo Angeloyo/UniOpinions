@@ -12,6 +12,9 @@ use App\Entity\Subject;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\ProfessorRepository;
 use App\Repository\SubjectRepository;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\Mime\Address;
 
 class CreateSpecificOpinionController extends AbstractController
 {
@@ -19,15 +22,18 @@ class CreateSpecificOpinionController extends AbstractController
     private $professorRepository;
     private $subjectRepository;
     private $entityManager;
+    private $mailer;
     public function __construct(
         ProfessorRepository $professorRepository,
         SubjectRepository $subjectRepository,
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,
+        MailerInterface $mailer
         )
     {
         $this->professorRepository = $professorRepository;
         $this->subjectRepository = $subjectRepository;
         $this->entityManager = $entityManager;
+        $this->mailer = $mailer;
     }
 
     #[Route('/opinion/new-specific/{subjectId}/{professorId?}', name: 'app_create_specific_opinion')]
@@ -187,6 +193,20 @@ class CreateSpecificOpinionController extends AbstractController
                 if($opinion->getComment() == null){
                     $opinion->setAccepted(true);
                     $opinion->setReviewed(true);
+                }
+                else{
+                    //send alert email to admin 
+                    $email = (new TemplatedEmail())
+                        ->from(new Address('noreply@uniopinions.com', 'UniOpinions Bot'))
+                        ->to('uniopinionsdotcom@gmail.com')
+                        ->subject('New opinion to be reviewed.')
+                        ->htmlTemplate('opinion/email_newopinion_admin.html.twig')
+                        ->context([
+                            'info' => "specific opinion",
+                        ])
+                    ;
+
+                    $this->mailer->send($email);
                 }
                 //it wont display because the query that brings the
                 // opinions to frontend filters by comment not null

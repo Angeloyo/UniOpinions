@@ -10,19 +10,26 @@ use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Professor;
 use App\Entity\Subject;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\Mime\Address;
 
 class EditOpinionController extends AbstractController
 {
 
     private $entityManager;
     private $opinionRepository;
+    private $mailer;
+
     public function __construct(
         EntityManagerInterface $entityManager,
         OpinionRepository $opinionRepository,
+        MailerInterface $mailer
         )
     {
         $this->entityManager = $entityManager;
         $this->opinionRepository = $opinionRepository;
+        $this->mailer = $mailer;
     }
 
     #[Route('/opinion/edit/{id}', name: 'app_edit_opinion')]
@@ -109,6 +116,19 @@ class EditOpinionController extends AbstractController
                         //hacer: avisar al usuario de que el comentario ha sido enviado a revision
                         $opinion->setAccepted(false);
                         $opinion->setReviewed(false);
+
+                        //send alert email to admin 
+                        $email = (new TemplatedEmail())
+                            ->from(new Address('noreply@uniopinions.com', 'UniOpinions Bot'))
+                            ->to('uniopinionsdotcom@gmail.com')
+                            ->subject('New opinion to be reviewed.')
+                            ->htmlTemplate('opinion/email_newopinion_admin.html.twig')
+                            ->context([
+                                'info' => "edited opinion",
+                            ])
+                        ;
+
+                        $this->mailer->send($email);
                     }
                 }
 
