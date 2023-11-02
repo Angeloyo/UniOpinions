@@ -89,35 +89,45 @@
                 Comentarios de la asignatura
             </h2>
             <ul class="text-center text-xl  dark:text-white text-black ">
-                {% for opinion in opinions %}
-                    <li class="rounded-2xl p-3 my-4 bg-slate-200 dark:bg-slate-800 flex flex-row
-                        justify-center items-center">
+                {% if opinions is empty %}
+                    <p 
+                    class="rounded-2xl p-3 my-6 flex flex-row 
+                        mx-auto  justify-center">
+                        Todavía no hay comentarios.
+                    </p>
+                {% else %}
+                    {% for opinion in opinions %}
+                        <li class="rounded-2xl p-3 my-4 bg-slate-200 dark:bg-slate-800 flex flex-row
+                            justify-center items-center">
 
-                        <style>
-                            .icon-fill { fill: currentColor; }
-                        </style>
+                            <style>
+                                .icon-fill { fill: currentColor; }
+                            </style>
 
-                        <div class="flex flex-col items-center justify-center">
-                            <div class="w-12 flex-shrink-0 flex items-center justify-center mx-5">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"
-                                    class="icon-fill text-gray-800 dark:text-white w-full h-full">
-                                    <path d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm0 96c48.6 0 88 39.4 88 88s-39.4 88-88 88-88-39.4-88-88 39.4-88 88-88zm0 344c-58.7 0-111.3-26.6-146.5-68.2 18.8-35.4 55.6-59.8 98.5-59.8 2.4 0 4.8.4 7.1 1.1 13 4.2 26.6 6.9 40.9 6.9 14.3 0 28-2.7 40.9-6.9 2.3-.7 4.7-1.1 7.1-1.1 42.9 0 79.7 24.4 98.5 59.8C359.3 421.4 306.7 448 248 448z"/>
-                                </svg>
-                                {# <p class="text-sm">Anónimo</p> #}
+                            <div class="flex flex-col items-center justify-center">
+                                <div class="w-12 flex-shrink-0 flex items-center justify-center mx-5">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"
+                                        class="icon-fill text-gray-800 dark:text-white w-full h-full">
+                                        <path d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm0 96c48.6 0 88 39.4 88 88s-39.4 88-88 88-88-39.4-88-88 39.4-88 88-88zm0 344c-58.7 0-111.3-26.6-146.5-68.2 18.8-35.4 55.6-59.8 98.5-59.8 2.4 0 4.8.4 7.1 1.1 13 4.2 26.6 6.9 40.9 6.9 14.3 0 28-2.7 40.9-6.9 2.3-.7 4.7-1.1 7.1-1.1 42.9 0 79.7 24.4 98.5 59.8C359.3 421.4 306.7 448 248 448z"/>
+                                    </svg>
+                                    {# <p class="text-sm">Anónimo</p> #}
+                                </div>
+
+                                <div class="text-sm mt-2">
+                                    {{ opinion.getCreationDate()|date('d/m/Y') }} 
+                                </div>
                             </div>
 
-                            <div class="text-sm mt-2">
-                                {{ opinion.getCreationDate()|date('d/m/Y') }} 
+                            <div class="flex-grow justify-center md:m-5 m-1">
+                                <p class="text-left">
+                                    {{ opinion.getComment() }}
+                                </p>
                             </div>
-                        </div>
+                        </li>
+                    {% endfor %}
+                {% endif %}
 
-                        <div class="flex-grow justify-center md:m-5 m-1">
-                            <p class="text-left">
-                                {{ opinion.getComment() }}
-                            </p>
-                        </div>
-                    </li>
-                {% endfor %}
+                
             </ul>
         </div>
 
@@ -127,16 +137,25 @@
                 Profesores
             </h1>
             <ul class="text-center text-xl  dark:text-white text-black  mx-0 ">
-                {% for professor in professors %}
-                    <li class="">
-                        <a href="{{ path('app_professor', { universitySlug: university.getSlug(), degreeSlug: degree.getSlug(), subjectSlug: subject.getSlug(), professorSlug: professor.getSlug() }) }}" 
-                        class="rounded-2xl p-3 my-4 bg-slate-200 dark:bg-slate-800 flex flex-row 
-                            mx-auto sm:hover:bg-slate-300 sm:dark:hover:bg-slate-900 justify-center">
-                            {{ professor.getName() }}
-                        </a>
-                        
-                    </li>
-                {% endfor %}
+                {% if professors is empty %}
+                    <p 
+                    class="rounded-2xl p-3 my-6 flex flex-row 
+                        mx-auto  justify-center">
+                        Todavía no hay profesores.
+                    </p>
+                {% else %}
+                    {% for professor in professors %}
+                        <li class="">
+                            <a href="{{ path('app_professor', { universitySlug: university.getSlug(), degreeSlug: degree.getSlug(), subjectSlug: subject.getSlug(), professorSlug: professor.getSlug() }) }}" 
+                            class="rounded-2xl p-3 my-4 bg-slate-200 dark:bg-slate-800 flex flex-row 
+                                mx-auto sm:hover:bg-slate-300 sm:dark:hover:bg-slate-900 justify-center">
+                                {{ professor.getName() }}
+                            </a>
+                            
+                        </li>
+                    {% endfor %}
+                {% endif %}
+                
                 <a href="{{ path('app_create_generic_opinion', { universityId: university.id, degreeId: degree.id, subjectId: subject.id }) }}" 
                 {# <a href=""  #}
                 class="rounded-2xl p-3 my-6 bg-slate-200 dark:bg-slate-800 flex flex-row 
