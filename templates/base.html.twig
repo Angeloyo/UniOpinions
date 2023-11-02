@@ -16,16 +16,26 @@
 
         {% block meta_description %}{% endblock %}
 
-        <!-- Google tag (gtag.js) -->
-            <script async src="https://www.googletagmanager.com/gtag/js?id=G-ME0D4YZ9K5"></script>
-            <script>
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            
-            gtag('config', 'G-ME0D4YZ9K5');
+        <!-- Cookie Consent by FreePrivacyPolicy.com https://www.FreePrivacyPolicy.com -->
+        <script type="text/javascript" src="//www.freeprivacypolicy.com/public/cookie-consent/4.1.0/cookie-consent.js" charset="UTF-8"></script>
+        <script type="text/javascript" charset="UTF-8">
+        document.addEventListener('DOMContentLoaded', function () {
+        cookieconsent.run({"notice_banner_type":"simple","consent_type":"express","palette":"dark","language":"es","page_load_consent_levels":["strictly-necessary"],"notice_banner_reject_button_hide":false,"preferences_center_close_button_hide":false,"page_refresh_confirmation_buttons":false,"website_privacy_policy_url":"https://uniopinions.com/legal/cookies-policy","website_name":"UniOpinions"});
+        });
         </script>
-        {# end google tag #}
+
+        <!-- Google Analytics -->
+        <script type="text/plain" data-cookie-consent="tracking" async src="https://www.googletagmanager.com/gtag/js?id=G-ME0D4YZ9K5"></script>
+                <script type="text/plain" data-cookie-consent="tracking">
+                    window.dataLayer = window.dataLayer || [];
+                    function gtag(){dataLayer.push(arguments);}
+                    gtag('js', new Date());
+                    
+                    gtag('config', 'G-ME0D4YZ9K5');
+                </script>
+        <!-- end of Google Analytics-->
+
+        <!-- End Cookie Consent by FreePrivacyPolicy.com https://www.FreePrivacyPolicy.com -->
 
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
@@ -120,6 +130,7 @@
                 
                 <div class="m-5 flex flex-col">
                     <h3 class="text-xl">Help & Support</h3>
+                    <a href="#" id="open_preferences_center">Update cookies preferences</a>
                     <a href="mailto:contact@uniopinions.com">Contact Us</a>
                     <a target="_blank" href="https://github.com/angeloyo/uniopinions">GitHub</a>
                     <a href="https://uniopinions.com/about">About</a>
