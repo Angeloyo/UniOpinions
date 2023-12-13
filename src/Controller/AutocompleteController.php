@@ -129,21 +129,38 @@ class AutocompleteController extends AbstractController
         }
         elseif ($type === 'professor') {
 
-            $professors = $this->professorRepository->findByNameLike($term);
+            // que se muestren profesores de la universidad seleccionada
+            if(is_numeric($universityId) ){
 
-            if($professors){
+                $university = $this->universityRepository->findOneBy(['id' => $universityId]);
 
-                //devolver lista ordenada alfabeticamente
-                usort($professors, function($professor1, $professor2) {
-                    //comparar sin tildes!
-                    return strcasecmp(iconv('UTF-8', 'ASCII//TRANSLIT', $professor1->getName()), iconv('UTF-8', 'ASCII//TRANSLIT', $professor2->getName()));
-                });
+                if($university){
 
-                $results = array_map(function ($professor) {
-                    return ['id' => $professor->getId(), 'text' => $professor->getName()];
-                }, $professors);
+                    // obtener los profesores vinculados con dicha universidad
+                    // mal rendimiento con base de datos muy grande?
+                    $professors = $this->professorRepository->findByNameLikeAndUniversity($term, $university);
 
-            } else {
+                    if($professors){
+                        
+                        //devolver lista ordenada alfabeticamente
+                        usort($professors, function($professor1, $professor2) {
+                            //comparar sin tildes!
+                            return strcasecmp(iconv('UTF-8', 'ASCII//TRANSLIT', $professor1->getName()), iconv('UTF-8', 'ASCII//TRANSLIT', $professor2->getName()));
+                        });
+                        
+                        $results = array_map(function ($professor) {
+                            return ['id' => $professor->getId(), 'text' => $professor->getName()];
+                        }, $professors);
+
+                    } else {
+                        $results = [];
+                    }
+
+                } else {
+                    $results = [];
+                }
+
+            }else {
                 $results = [];
             }
             

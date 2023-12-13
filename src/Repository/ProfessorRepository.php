@@ -52,4 +52,23 @@ class ProfessorRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function findByNameLikeAndUniversity($term, $university){
+        return $this->createQueryBuilder('p')
+            ->join('p.relationsSubjectProfessor', 'rsp') // Relación con RelationSubjectProfessor
+            ->join('rsp.subject', 's') // Relación con Subject
+            ->join('s.degree', 'd') // Asume que 'degree' es el campo en la entidad Subject que se relaciona con Degree
+            ->where('LOWER(UNACCENT(p.name)) LIKE LOWER(UNACCENT(:term))')
+            ->andWhere('d.university = :university') // Ahora usamos 'd.university' en lugar de 's.university'
+            ->andWhere('p.accepted = :accepted')
+            ->setParameters([
+                'term' => '%' . $term . '%',
+                'university' => $university,
+                'accepted' => true,
+            ])
+            ->getQuery()
+            ->getResult();
+    }
+
+        
 }

@@ -116,7 +116,9 @@ $(function() {
                     //     + "&subject=" + selectedSubjectId
                     //     + "&year=" + selectedYear;
                     case 'generic_opinion_form[professor]':
-                        return "/autocomplete?type=professor";
+                        // return "/autocomplete?type=professor"
+                        return "/autocomplete?type=professor&university=" + selectedUniversityId
+                        ;
                 }
             },
             dataType: 'json',
