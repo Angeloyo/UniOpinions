@@ -40,8 +40,15 @@ class ProfessorCrudController extends AbstractCrudController
                 ->hideWhenUpdating()
                 ->setTemplatePath('admin/listsubjects.html.twig')
                 ,
+            TextField::new('universityName', 'University')
+                // ->onlyOnIndex()
+                ->hideWhenUpdating()                
+                ->hideWhenCreating()
+                // ->setTemplatePath('admin/universityFromProfessor.html.twig')
+                ,
             CollectionField::new('opinions')
                 ->hideWhenUpdating()
+                ->hideWhenCreating()
                 // ->onlyOnDetail()
                 //listar id de opiniones
                 ->setTemplatePath('admin/listopinions.html.twig'),

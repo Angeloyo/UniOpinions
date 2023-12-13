@@ -150,4 +150,21 @@ class Professor
         }
         return null;  // si no se encuentra la relación
     }
+
+    // returns only the first university or none.
+    // is it possible for a professor to teach at different universities?
+    // what is easier/better ? 
+    public function getUniversityName(): ?string
+    {
+        foreach ($this->relationsSubjectProfessor as $relation) {
+            $subject = $relation->getSubject();
+            if ($subject) {
+                $degree = $subject->getDegree();
+                if ($degree && $degree->getUniversity()) {
+                    return $degree->getUniversity()->getName();
+                }
+            }
+        }
+        return null;
+    }
 }
