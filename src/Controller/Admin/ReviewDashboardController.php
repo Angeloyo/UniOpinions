@@ -307,6 +307,7 @@ class ReviewDashboardController extends AbstractDashboardController
         yield MenuItem::linkToRoute('Unreviewed Subjects', 'fas fa-book', 'admin_unreviewed_subjects');
         yield MenuItem::linkToRoute('Unreviewed Professors', 'fas fa-chalkboard-user', 'admin_unreviewed_professors');
         yield MenuItem::linkToRoute('Unreviewed relations subject-professor', 'fas fa-key ', 'admin_unreviewed_relations_sp');
+        yield MenuItem::linkToUrl('/admin', 'fa fa-star', 'admin');
     }
 
     public function configureActions(): Actions

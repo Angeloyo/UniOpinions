@@ -59,6 +59,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Opinions', 'fa fa-comment', Opinion::class);
         yield MenuItem::linkToCrud('Users', 'fa fa-user', User::class);
         yield MenuItem::linkToCrud('Relations Subject-Professor', 'fa fa-key', RelationSubjectProfessor::class);
+        yield MenuItem::linkToUrl('/review', 'fa fa-star', 'review');
     }
 
     public function configureActions(): Actions
