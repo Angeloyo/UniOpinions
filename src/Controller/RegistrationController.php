@@ -16,14 +16,20 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
+use Symfony\Component\Mailer\MailerInterface;
 
 class RegistrationController extends AbstractController
 {
     private EmailVerifier $emailVerifier;
+    private $mailer;
 
-    public function __construct(EmailVerifier $emailVerifier)
+    public function __construct(
+        EmailVerifier $emailVerifier,
+        MailerInterface $mailer
+    )
     {
         $this->emailVerifier = $emailVerifier;
+        $this->mailer = $mailer;
     }
 
     #[Route('/register', name: 'app_register')]
@@ -46,14 +52,36 @@ class RegistrationController extends AbstractController
             $entityManager->flush();
 
             // generate a signed url and email it to the user
-            $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
-                (new TemplatedEmail())
+            // $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
+            //     (new TemplatedEmail())
+            //         ->from(new Address('noreply@uniopinions.com', 'UniOpinions Bot'))
+            //         ->to($user->getEmail())
+            //         ->subject('Por favor confirma tu email')
+            //         ->htmlTemplate('registration/confirmation_email.html.twig')
+            // );
+
+            if (str_ends_with($user->getEmail(), '@correo.ugr.es')) {
+
+                $user->setIsVerified(true);
+                $entityManager->flush();
+
+                $email = (new TemplatedEmail())
                     ->from(new Address('noreply@uniopinions.com', 'UniOpinions Bot'))
                     ->to($user->getEmail())
-                    ->subject('Por favor confirma tu email')
-                    ->htmlTemplate('registration/confirmation_email.html.twig')
-            );
-            // do anything else you need here, like send an email
+                    ->subject('Cuenta verificada')
+                    ->htmlTemplate('registration/auto_confirmation_email.html.twig'); // Crea esta plantilla Twig con tu mensaje
+
+                $this->mailer->send($email);
+
+            } else {
+                $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
+                    (new TemplatedEmail())
+                        ->from(new Address('noreply@uniopinions.com', 'UniOpinions Bot'))
+                        ->to($user->getEmail())
+                        ->subject('Por favor confirma tu email')
+                        ->htmlTemplate('registration/confirmation_email.html.twig')
+                );
+            }
 
             // return $this->redirectToRoute('app_home');
             // $session = $request->getSession();
