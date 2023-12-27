@@ -18,29 +18,19 @@
 
         {% block meta_description %}{% endblock %}
 
-        <!-- Cookie Consent by FreePrivacyPolicy.com https://www.FreePrivacyPolicy.com -->
-        <script type="text/javascript" src="//www.freeprivacypolicy.com/public/cookie-consent/4.1.0/cookie-consent.js" charset="UTF-8"></script>
-        <script type="text/javascript" charset="UTF-8">
-        document.addEventListener('DOMContentLoaded', function () {
-        cookieconsent.run({"notice_banner_type":"simple","consent_type":"express","palette":"dark","language":"es","page_load_consent_levels":["strictly-necessary"],"notice_banner_reject_button_hide":false,"preferences_center_close_button_hide":false,"page_refresh_confirmation_buttons":false,"website_privacy_policy_url":"https://uniopinions.com/legal/cookies-policy","website_name":"UniOpinions"});
-        });
+        <!-- Google tag (gtag.js) for GAnalytics-->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-ME0D4YZ9K5"></script>
+        <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-ME0D4YZ9K5');
         </script>
 
-        <!-- Google Analytics -->
-        <script type="text/plain" data-cookie-consent="tracking" async src="https://www.googletagmanager.com/gtag/js?id=G-ME0D4YZ9K5"></script>
-                <script type="text/plain" data-cookie-consent="tracking">
-                    window.dataLayer = window.dataLayer || [];
-                    function gtag(){dataLayer.push(arguments);}
-                    gtag('js', new Date());
-                    
-                    gtag('config', 'G-ME0D4YZ9K5');
-                </script>
-        <!-- end of Google Analytics-->
-        <!-- End Cookie Consent by FreePrivacyPolicy.com https://www.FreePrivacyPolicy.com -->
-
         {# G Ads #}
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8118791978946983"
-        crossorigin="anonymous"></script>
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1989419019901636"
+            crossorigin="anonymous"></script>
 
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
@@ -54,7 +44,7 @@
     <body class="bg-slate-50 dark:bg-slate-700 min-h-[100vh] flex flex-col">
         <header class="bg-slate-200 dark:bg-slate-800 drop-shadow-lg ">
             <nav class="flex flex-row items-center justify-between  text-black md:h-20">
-                <a href="/" class="flex items-center justify-center m-5">
+                <a href="/" class="flex items-center justify-center m-5 mr-3">
                     <img src="/img/blogo4.png" alt="logo" id="logoBlack"
                     class="sm:w-14 sm:h-14 w-10 h-10 mr-2">
                     <img src="/img/wlogo4.png" alt="logo" id="logoWhite"
@@ -66,7 +56,7 @@
                     class="m-5 h-10"> #}
                 </a>
 
-                <div class="flex flex-row items-center justify-center">
+                <div class="flex flex-row items-center justify-center whitespace-nowrap">
                     {% if app.user %}
                         <form method="POST" action="{{ path('app_logout') }}">
                             <button type="submit"
@@ -135,7 +125,7 @@
                 
                 <div class="m-5 flex flex-col">
                     <h3 class="text-xl">Ayuda y Soporte</h3>
-                    <a href="#" id="open_preferences_center">Actualizar preferencias de cookies</a>
+                    {# <a href="#" id="open_preferences_center">Actualizar preferencias de cookies</a> #}
                     <a href="mailto:contact@uniopinions.com">Contáctanos</a>
                     <a target="_blank" href="https://github.com/angeloyo/uniopinions">GitHub</a>
                     <a href="https://uniopinions.com/about">Sobre UniOpinions</a>
