@@ -482,6 +482,8 @@ class CreateGenericOpinionController extends AbstractController
 
                 $this->mailer->send($email);
 
+                $this->addFlash('success', 'Tu opinión ha sido enviada correctamente.');
+
                 if ($referer) {
                     return $this->redirect($referer);
                 } else {

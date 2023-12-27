@@ -135,6 +135,8 @@ class EditOpinionController extends AbstractController
                 $this->entityManager->persist($opinion);
                 $this->entityManager->flush();
 
+                $this->addFlash('success', 'Tu opinión ha sido enviada correctamente.');
+
                 if ($referer) {
                     return $this->redirect($referer);
                 } else {
