@@ -119,7 +119,7 @@ class EditOpinionController extends AbstractController
 
                         //send alert email to admin 
                         $email = (new TemplatedEmail())
-                            ->from(new Address('noreply@uniopinions.com', 'UniOpinions Bot'))
+                            ->from(new Address('noreply@uniopinions.com', 'UniOpinions'))
                             ->to('uniopinionsdotcom@gmail.com')
                             ->subject('New opinion to be reviewed.')
                             ->htmlTemplate('opinion/email_newopinion_admin.html.twig')
