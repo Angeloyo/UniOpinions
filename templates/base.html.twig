@@ -54,7 +54,7 @@
     <body class="bg-slate-50 dark:bg-slate-700 min-h-[100vh] flex flex-col">
         <header class="bg-slate-200 dark:bg-slate-800 drop-shadow-lg ">
             <nav class="flex flex-row items-center justify-between  text-black md:h-20">
-                <a href="/" class="flex items-center justify-center m-5">
+                <a href="/" class="flex items-center justify-center m-5 mr-3">
                     <img src="/img/blogo4.png" alt="logo" id="logoBlack"
                     class="sm:w-14 sm:h-14 w-10 h-10 mr-2">
                     <img src="/img/wlogo4.png" alt="logo" id="logoWhite"
@@ -66,7 +66,7 @@
                     class="m-5 h-10"> #}
                 </a>
 
-                <div class="flex flex-row items-center justify-center">
+                <div class="flex flex-row items-center justify-center whitespace-nowrap">
                     {% if app.user %}
                         <form method="POST" action="{{ path('app_logout') }}">
                             <button type="submit"
