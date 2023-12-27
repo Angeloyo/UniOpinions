@@ -17,7 +17,11 @@ use App\Repository\ProfessorRepository;
 use App\Repository\RelationSubjectProfessorRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use Symfony\Component\Mime\Address;
+use Symfony\Component\HttpFoundation\Request;
 
 class ReviewDashboardController extends AbstractDashboardController
 {
@@ -33,7 +37,9 @@ class ReviewDashboardController extends AbstractDashboardController
     private $subjectRepository;
     private $professorRepository;
     private $relationSubjectProfessorRepository;
+    private $mailer;
     private $entityManager;
+
     public function __construct(
         OpinionRepository $opinionRepository,
         UniversityRepository $universityRepository,
@@ -41,7 +47,8 @@ class ReviewDashboardController extends AbstractDashboardController
         SubjectRepository $subjectRepository,
         ProfessorRepository $professorRepository,
         RelationSubjectProfessorRepository $relationSubjectProfessorRepository,
-        EntityManagerInterface $entityManager
+        MailerInterface $mailer,
+        EntityManagerInterface $entityManager,
         )
     {
         $this->opinionRepository = $opinionRepository;
@@ -50,6 +57,7 @@ class ReviewDashboardController extends AbstractDashboardController
         $this->subjectRepository = $subjectRepository;
         $this->professorRepository = $professorRepository;
         $this->relationSubjectProfessorRepository = $relationSubjectProfessorRepository;
+        $this->mailer = $mailer;
         $this->entityManager = $entityManager;
     }
     
@@ -120,9 +128,36 @@ class ReviewDashboardController extends AbstractDashboardController
     {
         $opinion = $this->opinionRepository->find($id);
         if ($opinion) {
+
             $opinion->setAccepted(true);
             $opinion->setReviewed(true);
 
+            $acceptedEntity = null;
+
+            if($opinion->getProfessor() == null){
+                //opinion de asignatura
+                $acceptedEntity = $opinion->getSubject()->getName();
+            }
+            else{
+                //opinion de profesor
+                $acceptedEntity = $opinion->getProfessor()->getName();
+            }
+
+            // enviar correo
+            if($acceptedEntity){
+                $email = (new TemplatedEmail())
+                    ->from(new Address('noreply@uniopinions.com', 'UniOpinions'))
+                    ->to($opinion->getOwner()->getEmail())
+                    ->subject('Tu comentario ha sido aprobado.')
+                    ->htmlTemplate('opinion/email_accepted_opinion.html.twig')
+                    ->context([
+                        'acceptedEntity' => $acceptedEntity,
+                    ])
+                ;
+
+                $this->mailer->send($email);
+            }
+
             $this->entityManager->persist($opinion);
             $this->entityManager->flush();
         }
@@ -130,15 +165,42 @@ class ReviewDashboardController extends AbstractDashboardController
         return $this->redirectToRoute('admin_unreviewed_opinions');
     }
 
-    #[Route('/review/reject/opinion/{id}', name: 'admin_reject_opinion')]
-    public function rejectOpinion(int $id): RedirectResponse
+    #[Route('/review/reject/opinion/{id}', name: 'admin_reject_opinion', methods: ['POST'])]
+    public function rejectOpinion(Request $request, int $id): RedirectResponse
     {
         $opinion = $this->opinionRepository->find($id);
+
         if ($opinion) {
+            
             $opinion->setAccepted(false);
             $opinion->setReviewed(true);
-            // no se elimina opinion para que cuente el emoticono
-            // y palabras clave
+
+            // Obtener el motivo del rechazo desde el formulario
+            $reason = $request->request->get('rejectReason');
+
+            $rejectedEntity = null;
+
+            if($opinion->getProfessor() == null){
+                // Opinión de asignatura
+                $rejectedEntity = $opinion->getSubject()->getName();
+            } else {
+                // Opinión de profesor
+                $rejectedEntity = $opinion->getProfessor()->getName();
+            }
+
+            // Enviar correo
+            if($rejectedEntity){
+                $email = (new TemplatedEmail())
+                    ->from(new Address('noreply@uniopinions.com', 'UniOpinions'))
+                    ->to($opinion->getOwner()->getEmail())
+                    ->subject('Tu comentario ha sido rechazado.')
+                    ->htmlTemplate('opinion/email_rejected_opinion.html.twig')
+                    ->context([
+                        'rejectedEntity' => $rejectedEntity,
+                        'reason' => $reason,
+                    ]);
+                $this->mailer->send($email);
+            }
 
             $this->entityManager->persist($opinion);
             $this->entityManager->flush();
@@ -146,6 +208,7 @@ class ReviewDashboardController extends AbstractDashboardController
 
         return $this->redirectToRoute('admin_unreviewed_opinions');
     }
+
 
     // UNIVERSITIES
 

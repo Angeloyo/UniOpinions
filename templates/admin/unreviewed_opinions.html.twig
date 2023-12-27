@@ -23,7 +23,7 @@
                     <td >{{ opinion.comment }}</td>
                     <td >{{ opinion.professor }}</td>
                     <td>
-                    {% if opinion.subject %}
+                    {% if opinion.professor == null %}
                         {{ opinion.subject }} --
                         {{ opinion.subject.getDegree() }} --
                         {{ opinion.subject.getDegree().getUniversity() }}
@@ -32,14 +32,21 @@
                             {{ relation.subject.getName() }} -- 
                             {{ relation.subject.getDegree() }} -- 
                             {{ relation.subject.getDegree().getUniversity() }}
-                            {% if not loop.last %}, {% endif %}
+                            <br>
                         {% endfor %}
                     {% endif %}
-                    </td>
+
                     <td class="text-right">
+                        <!-- Botón Aceptar -->
                         <a href="{{ path('admin_accept_opinion', {id: opinion.id}) }}" class="btn btn-success">Aceptar</a>
-                        <a href="{{ path('admin_reject_opinion', {id: opinion.id}) }}" class="btn btn-danger">Rechazar</a>
+
+                        <!-- Formulario de Rechazo -->
+                        <form action="{{ path('admin_reject_opinion', {id: opinion.id}) }}" method="post" class="inline-block">
+                            <input type="text" name="rejectReason" placeholder="Motivo del rechazo" required>
+                            <button type="submit" class="btn btn-danger">Rechazar</button>
+                        </form>
                     </td>
+                    
                 </tr>
             {% endfor %}
         </tbody>
