@@ -52,36 +52,13 @@ class RegistrationController extends AbstractController
             $entityManager->flush();
 
             // generate a signed url and email it to the user
-            // $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
-            //     (new TemplatedEmail())
-            //         ->from(new Address('noreply@uniopinions.com', 'UniOpinions Bot'))
-            //         ->to($user->getEmail())
-            //         ->subject('Por favor confirma tu email')
-            //         ->htmlTemplate('registration/confirmation_email.html.twig')
-            // );
-
-            if (str_ends_with($user->getEmail(), '@correo.ugr.es')) {
-
-                $user->setIsVerified(true);
-                $entityManager->flush();
-
-                $email = (new TemplatedEmail())
+            $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
+                (new TemplatedEmail())
                     ->from(new Address('noreply@uniopinions.com', 'UniOpinions Bot'))
                     ->to($user->getEmail())
-                    ->subject('Cuenta verificada')
-                    ->htmlTemplate('registration/auto_confirmation_email.html.twig'); // Crea esta plantilla Twig con tu mensaje
-
-                $this->mailer->send($email);
-
-            } else {
-                $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
-                    (new TemplatedEmail())
-                        ->from(new Address('noreply@uniopinions.com', 'UniOpinions Bot'))
-                        ->to($user->getEmail())
-                        ->subject('Por favor confirma tu email')
-                        ->htmlTemplate('registration/confirmation_email.html.twig')
-                );
-            }
+                    ->subject('Por favor confirma tu email')
+                    ->htmlTemplate('registration/confirmation_email.html.twig')
+            );
 
             // return $this->redirectToRoute('app_home');
             // $session = $request->getSession();

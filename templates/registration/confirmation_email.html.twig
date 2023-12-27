@@ -1,9 +1,11 @@
 <h1>¡Hola! Completa tu registro en UniOpinions.</h1>
 
 <p>
-    Por favor confirma tu dirección de correo electrónico haciendo click en el siguiente enlace: <br><br>
-    <a href="{{ signedUrl|raw }}">Confirmar mi correo</a>.
-    Este enlace va a caducar en {{ expiresAtMessageKey|trans(expiresAtMessageData, 'VerifyEmailBundle') }}.
+    Confirma tu dirección de correo electrónico usando el siguiente enlace:
+    <br><br>
+    <span style="word-break: break-all;">{{ signedUrl|raw }}</span>
+    <br><br>
+    Si no puedes hacer clic en el enlace, cópialo y pégalo en la barra de direcciones de tu navegador. Este enlace caducará en {{ expiresAtMessageKey|trans(expiresAtMessageData, 'VerifyEmailBundle') }}.
 </p>
 
 <p>
